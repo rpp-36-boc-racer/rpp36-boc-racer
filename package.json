@@ -1,0 +1,19 @@
+{
+  "name": "rpp36-boc-racer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpp-36-boc-racer/rpp36-boc-racer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rpp-36-boc-racer/rpp36-boc-racer/issues"
+  },
+  "homepage": "https://github.com/rpp-36-boc-racer/rpp36-boc-racer#readme"
+}
