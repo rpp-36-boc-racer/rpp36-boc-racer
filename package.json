@@ -8,11 +8,6 @@
     "build": "webpack -w",
     "start": "nodemon server/server.js"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rpp-36-boc-racer/rpp36-boc-racer.git"
