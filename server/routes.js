@@ -1,11 +1,12 @@
-const db = require('./db');
-const auth = require('./auth');
+// const db = require("./db");
+// const auth = require("./auth");
 
-console.log('ROUTES');
-exports.postPhoto = (req, res) => {
+// eslint-disable-next-line no-console
+console.log("ROUTES");
+exports.postMessage = (req, res) => {
   res.sendStatus(201);
-}
+};
 
-exports.getPhoto = (req, res) => {
+exports.getMessages = (req, res) => {
   res.sendStatus(200);
-}
+};

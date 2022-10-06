@@ -1,9 +1,9 @@
-const db = require('./mongo');
+// const db = require("./mongo");
 
 exports.addUser = () => {
-
+  // addUser
 };
 
 exports.addMessage = () => {
-
+  // addMessage
 };
