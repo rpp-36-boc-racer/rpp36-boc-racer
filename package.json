@@ -34,6 +34,7 @@
     "passport": "^0.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2",
     "style-loader": "^3.3.1"
