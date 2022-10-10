@@ -1,30 +1,25 @@
 const express = require("express");
 const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 const path = require("path");
 require("dotenv").config();
 const app = require("express")();
-const server = require("http").createServer(app);
+const auth = require("./auth");
+const routes = require("./routes");
+// const server = require("http").createServer(app);
 // const io = require("socket.io")(server);
-// const routes = require("./routes");
 
 const PORT = process.env.PORT || 3000;
 app.use(morgan("tiny"));
+app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-// io.on("connection", (socket) => {
-//   // eslint-disable-next-line no-console
-//   console.log(socket.id);
-//   socket.on("send-message", (data) => {
-//     // eslint-disable-next-line no-console
-//     console.log(data);
-//   });
-// });
+app.post("/login", auth.login);
+app.post("/signup", auth.signup);
 
-server.listen(PORT, () => {
+// routes that require authentication use auth.requireAuth middleware
+app.get("/sample-route", auth.requireAuth, routes.sampleRoute);
+
+app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening on port ${PORT}`);
 });
