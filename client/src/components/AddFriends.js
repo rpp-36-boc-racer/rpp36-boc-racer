@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 import UserContext from "./UserContext";
 
-function Friends() {
+function AddFriends() {
   const { user } = useContext(UserContext);
 
   return (
     <>
-      <h4>Friends</h4>
+      <h4>Add A Friend</h4>
       <div>{user}</div>
-      <Link to="add-friends">Add A Friend</Link>
-      <Outlet />
+      <Button variant="contained">Add</Button>
     </>
   );
 }
 
-export default Friends;
+export default AddFriends;

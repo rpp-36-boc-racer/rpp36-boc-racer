@@ -5,13 +5,15 @@ import UserContext from "./UserContext";
 import Chat from "./Chat";
 import Friends from "./Friends";
 import Login from "./Login";
+import AddFriends from "./AddFriends";
 
 function Menu() {
   const [user, setUser] = useState("user1");
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
-    <BrowserRouter>
+    // <BrowserRouter>
+    <>
       <ul>
         <li>
           <Link to="/chat">Chat</Link>
@@ -31,7 +33,8 @@ function Menu() {
           <Route path="login" element={<Login />} />
         </Routes>
       </UserContext.Provider>
-    </BrowserRouter>
+    </>
+    // </BrowserRouter>
   );
 }
 
