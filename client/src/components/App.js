@@ -1,15 +1,27 @@
-import React from "react";
-import Button from "@mui/material/Button";
-
-import Menu from "./Menu";
+import React, { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import LandingPage from "./LandingPage";
+import Login from "./login/Login";
+import Signup from "./login/Signup";
+import Temporary from "./Temporary";
+import useAuthContext from "../hooks/useAuthContext";
 
 function App() {
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
   return (
-    <>
-      <h1>PawPrints</h1>
-      <Button variant="contained">Hello World</Button>
-      <Menu />
-    </>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/dashboard" element={<Temporary />} />
+    </Routes>
   );
 }
 

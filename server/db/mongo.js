@@ -6,7 +6,10 @@ mongoose.connect("mongodb://localhost:27017/paw-print", () => {
 });
 
 const userSchema = new mongoose.Schema({
-  userName: String,
+  username: { type: String, required: true, index: true, unique: true },
+  profileImage: { type: String, default: null },
+  email: { type: String, required: true, index: true, unique: true },
+  password: { type: String, require: true },
 });
 
 const messageSchema = new mongoose.Schema({

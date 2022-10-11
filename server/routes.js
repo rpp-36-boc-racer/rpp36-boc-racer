@@ -1,8 +1,6 @@
-// const db = require("./db");
-// const auth = require("./auth");
 const path = require("path");
 
-exports.getMessages = (req, res) => {
+exports.sampleRoute = (req, res) => {
   res.sendStatus(200);
 };
 
