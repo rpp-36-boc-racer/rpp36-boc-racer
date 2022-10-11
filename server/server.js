@@ -9,11 +9,15 @@ const server = require("http").createServer(app);
 // const io = require("socket.io")(server);
 // const routes = require("./routes");
 
+const { catchAll } = require("./routes");
+
 const PORT = process.env.PORT || 3000;
 app.use(morgan("tiny"));
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("*", catchAll);
 
 // io.on("connection", (socket) => {
 //   // eslint-disable-next-line no-console
