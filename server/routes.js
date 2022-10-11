@@ -1,6 +1,3 @@
-// const db = require("./db");
-// const auth = require("./auth");
-
-exports.getMessages = (req, res) => {
+exports.sampleRoute = (req, res) => {
   res.sendStatus(200);
 };
