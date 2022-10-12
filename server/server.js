@@ -19,6 +19,8 @@ app.post("/signup", auth.signup);
 // routes that require authentication use auth.requireAuth middleware
 app.get("/sample-route", auth.requireAuth, routes.sampleRoute);
 
+app.get("*", routes.catchAll);
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening on port ${PORT}`);
