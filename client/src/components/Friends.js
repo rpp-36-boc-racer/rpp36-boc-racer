@@ -1,19 +1,14 @@
-import React, { useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import React from "react";
+import useAuthContext from "../hooks/useAuthContext";
+import WithNavBar from "./withNavBar";
 
-import UserContext from "./UserContext";
-
-function Friends() {
-  const { user } = useContext(UserContext);
+export default function Friends() {
+  const { user } = useAuthContext();
 
   return (
-    <>
-      <h4>Friends</h4>
-      <div>{user}</div>
-      <Link to="add-friends">Add A Friend</Link>
-      <Outlet />
-    </>
+    <WithNavBar>
+      <h4>Sample Friends Page</h4>
+      <div>Friend list of {user.username}</div>
+    </WithNavBar>
   );
 }
-
-export default Friends;

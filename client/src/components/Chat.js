@@ -1,16 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
+import useAuthContext from "../hooks/useAuthContext";
+import WithNavBar from "./withNavBar";
 
-import UserContext from "./UserContext";
-
-function Chat() {
-  const { user } = useContext(UserContext);
+export default function Chat() {
+  const { user } = useAuthContext();
 
   return (
-    <>
-      <h4>Chat</h4>
-      <div>{user}</div>
-    </>
+    <WithNavBar>
+      <h4>Sample Chat Page</h4>
+      <div>Message list of {user.username}</div>
+    </WithNavBar>
   );
 }
-
-export default Chat;
