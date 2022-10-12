@@ -1,26 +1,16 @@
-import React, { useEffect } from "react";
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
+import React from "react";
 import useAuthContext from "../hooks/useAuthContext";
 
-export default function Temporary() {
-  const { logout } = useLogout();
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
+import WithNavBar from "./withNavBar";
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user]);
+export default function Temporary() {
+  const { user } = useAuthContext();
 
   return (
     <div>
-      {user && <h2>logged in as {user.username}</h2>}
-      <Button variant="contained" onClick={() => logout()}>
-        Logout
-      </Button>
+      <WithNavBar>
+        <h2>logged in as {user.username}</h2>
+      </WithNavBar>
     </div>
   );
 }
