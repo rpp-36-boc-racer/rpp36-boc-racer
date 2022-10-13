@@ -8,6 +8,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import Temporary from "./Temporary";
 import Chat from "./Chat";
 import Friends from "./Friends";
+import UploadImage from "./UploadImage";
 
 function App() {
   const { user } = useAuthContext();
@@ -28,6 +29,7 @@ function App() {
         <Route path="/dashboard" element={<Temporary />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
+        <Route path="/upload-image" element={<UploadImage />} />
       </Route>
     </Routes>
   );
