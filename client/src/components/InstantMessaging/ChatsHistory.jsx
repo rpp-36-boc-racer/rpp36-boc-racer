@@ -19,7 +19,6 @@ import FriendMessage from "./FriendMessage.jsx";
 import OwnerMessage from "./OwnerMessage.jsx";
 
 import useAuthContext from "../../hooks/useAuthContext";
-// const scrollRef = useRef();
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -39,17 +38,18 @@ function ChatsHistory() {
 
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const scrollRef = useRef();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/");
-  //   }
-  // }, [user]);
-  const friendUserID = window.location.href.split("=")[1];
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
+  const friendUserID = window.location.href.split("friend=")[1];
   useEffect(() => {
     const updateFriendUserId = async () => {
       try {
-        const friendUserID = window.location.href.split("=")[1];
+        // const friendUserID = window.location.href.split("friend=")[1];
         setFriendUserId(friendUserID);
       } catch (err) {
         console.log(err);
@@ -57,21 +57,6 @@ function ChatsHistory() {
     };
     updateFriendUserId();
   }, [friendUserId]);
-
-  useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const response = await axios.get(
-          `/instmsg-api/conversations/${user?._id}/${friendUserId}`
-        );
-        console.log("this is the conv data:", response.data);
-        setConversations(response?.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getConversations();
-  }, [user?._id]);
 
   useEffect(() => {
     const getFriend = async () => {
@@ -84,7 +69,22 @@ function ChatsHistory() {
       }
     };
     getFriend();
-  }, [conversations]);
+  }, [friendUserId]);
+
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const response = await axios.get(
+          `/instmsg-api/conversations/${user?._id}/${friend?._id}`
+        );
+        console.log("this is the conv data:", response.data);
+        setConversations(response?.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getConversations();
+  }, [user?._id, friend]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -99,12 +99,12 @@ function ChatsHistory() {
       }
     };
     getMessages();
-  }, [friend]);
+  }, [friend, conversations]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const textMessage = {
-      conversationID: conversations._id,
+      conversationID: conversations?._id,
       senderID: user?._id,
       text: newMessageText,
     };
@@ -121,9 +121,17 @@ function ChatsHistory() {
     }
   };
 
-  const testSwitchUser = (e) => {
-    window.location.href = "/instmsgchats?friend=6347254a2a632c5c0c673043";
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const backToMessageList = (e) => {
+    navigate(`/chat-test`);
   };
+
+  // const testSwitchUser = (e) => {
+  //   window.location.href = "/instmsgchats?friend=6347254a2a632c5c0c673043";
+  // };
 
   return (
     <div className="chats">
@@ -140,6 +148,9 @@ function ChatsHistory() {
           aria-label="back-to-messagelist"
           component="label"
           sx={{ "&:hover": { backgroundColor: blue[100] } }}
+          onClick={(e) => {
+            backToMessageList(e);
+          }}
         >
           <ArrowBackOutlinedIcon
             sx={{
@@ -186,6 +197,7 @@ function ChatsHistory() {
             </div>
           ))}
         </>
+        <span ref={scrollRef}></span>
       </Box>
 
       <Box
@@ -234,13 +246,13 @@ function ChatsHistory() {
           />
         </IconButton>
       </Box>
-      <IconButton
+      {/* <IconButton
         onClick={(e) => {
           testSwitchUser(e);
         }}
       >
         test to switch another friend
-      </IconButton>
+      </IconButton> */}
     </div>
   );
 }
