@@ -17,7 +17,7 @@ exports.newConversation = async (req, res) => {
 };
 
 // get conversation of an user:
-// endpoint: "/instmsg/conversations/:userID"
+// endpoint: "/instmsg-api/conversations/:userID"
 exports.getConversationByUser = async (req, res) => {
   try {
     const conversation = await messagingModels.Conversation.find({
@@ -34,7 +34,7 @@ exports.getConversationByUser = async (req, res) => {
 };
 
 // get conversation between user and a friend:
-// endpoint: "/instmsg/conversations/:userID/:friendID"
+// endpoint: "/instmsg-api/conversations/:userID/:friendID"
 exports.getChats = async (req, res) => {
   try {
     const chats = await messagingModels.Conversation.findOne({
@@ -47,7 +47,7 @@ exports.getChats = async (req, res) => {
 };
 
 // post new message:
-// endpoint: "/instmsg/messages/addmsg"
+// endpoint: "/instmsg-api/messages/addmsg"
 
 exports.addMessage = async (req, res) => {
   const newMessage = new messagingModels.TextMessage({
@@ -65,11 +65,11 @@ exports.addMessage = async (req, res) => {
 };
 
 // get message by conversation id:
-// endpoint: "/instmsg/messages/:conversationId"
+// endpoint: "/instmsg-api/messages/:conversationId"
 exports.getMessages = async (req, res) => {
   try {
     const messages = await messagingModels.TextMessage.find({
-      conversationId: req.params.conversationId,
+      conversationID: req.params.conversationId,
     });
     res.status(200).send(messages);
   } catch (err) {
