@@ -1,16 +1,14 @@
 import React from "react";
 import useAuthContext from "../hooks/useAuthContext";
-
 import WithNavBar from "./withNavBar";
 
-export default function Temporary() {
+export default function Chat() {
   const { user } = useAuthContext();
 
   return (
-    <div>
-      <WithNavBar>
-        <h2>logged in as {user.username}</h2>
-      </WithNavBar>
-    </div>
+    <WithNavBar>
+      <h4>Sample Chat Page</h4>
+      <div>Message list of {user.username}</div>
+    </WithNavBar>
   );
 }
