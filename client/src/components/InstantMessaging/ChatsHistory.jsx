@@ -19,6 +19,7 @@ import FriendMessage from "./FriendMessage.jsx";
 import OwnerMessage from "./OwnerMessage.jsx";
 
 import useAuthContext from "../../hooks/useAuthContext";
+// const scrollRef = useRef();
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -29,24 +30,42 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function ChatsHistory() {
+  const [friendUserId, setFriendUserId] = useState("");
   const [conversations, setConversations] = useState([]);
+
   const [friend, setFriend] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessageText, setNewMessageText] = useState("");
 
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/");
+  //   }
+  // }, [user]);
+  const friendUserID = window.location.href.split("=")[1];
   useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user]);
+    const updateFriendUserId = async () => {
+      try {
+        const friendUserID = window.location.href.split("=")[1];
+        setFriendUserId(friendUserID);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    updateFriendUserId();
+  }, [friendUserId]);
 
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const response = await axios.get(`/instmsg/conversations/${user?._id}`);
+        const response = await axios.get(
+          `/instmsg-api/conversations/${user?._id}/${friendUserId}`
+        );
         console.log("this is the conv data:", response.data);
-        setConversations(response.data);
+        setConversations(response?.data);
       } catch (err) {
         console.log(err);
       }
@@ -55,12 +74,9 @@ function ChatsHistory() {
   }, [user?._id]);
 
   useEffect(() => {
-    const friendID = conversations[0]?.members.filter(
-      (m) => m !== user?._id
-    )[0];
     const getFriend = async () => {
       try {
-        const response = await axios.get("/users/" + friendID);
+        const response = await axios.get("/users-api/" + friendUserID);
         console.log("this is friend res:", response.data);
         setFriend(response.data);
       } catch (err) {
@@ -70,17 +86,44 @@ function ChatsHistory() {
     getFriend();
   }, [conversations]);
 
-  // useEffect(() => {
-  //   const getMessages = async () => {
-  //     try {
-  //       const res = await axios.get("/messages/" + currentChat?._id);
-  //       setMessages(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getMessages();
-  // }, [currentChat]);
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const response = await axios.get(
+          "/instmsg-api/messages/" + conversations?._id
+        );
+        console.log("this is message data:", response.data);
+        setMessages(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessages();
+  }, [friend]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const textMessage = {
+      conversationID: conversations._id,
+      senderID: user?._id,
+      text: newMessageText,
+    };
+
+    try {
+      const response = await axios.post(
+        "/instmsg-api/messages/addmsg",
+        textMessage
+      );
+      setMessages([...messages, response.data]);
+      setNewMessageText("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const testSwitchUser = (e) => {
+    window.location.href = "/instmsgchats?friend=6347254a2a632c5c0c673043";
+  };
 
   return (
     <div className="chats">
@@ -105,7 +148,14 @@ function ChatsHistory() {
           />
         </IconButton>
 
-        <div>{user && <h3> DM with Racer as {user.username} </h3>}</div>
+        <div>
+          {user && friend && (
+            <h3>
+              {" "}
+              DM with {friend.username} as {user.username}{" "}
+            </h3>
+          )}
+        </div>
       </Box>
 
       <Box
@@ -117,14 +167,25 @@ function ChatsHistory() {
           px: 3,
         }}
       >
-        <FriendMessage friendname={friend?.username} />
-        <OwnerMessage ownername={user?.username} />
-        <FriendMessage friendname={friend?.username} />
-        <OwnerMessage ownername={user?.username} />
-        <OwnerMessage ownername={user?.username} />
-        <FriendMessage friendname={friend?.username} />
-        <FriendMessage friendname={friend?.username} />
-        <OwnerMessage ownername={user?.username} />
+        <>
+          {messages?.map((m) => (
+            <div>
+              {m.senderID === user?._id ? (
+                <OwnerMessage
+                  ownername={user?.username}
+                  avatarImg={user?.profileImage}
+                  message={m.text}
+                />
+              ) : (
+                <FriendMessage
+                  friendname={friend?.username}
+                  avatarImg={friend?.profileImage}
+                  message={m.text}
+                />
+              )}
+            </div>
+          ))}
+        </>
       </Box>
 
       <Box
@@ -154,6 +215,8 @@ function ChatsHistory() {
           sx={{
             width: 400,
           }}
+          onChange={(e) => setNewMessageText(e.target.value)}
+          value={newMessageText}
         />
         <IconButton
           color="primary"
@@ -165,9 +228,19 @@ function ChatsHistory() {
             sx={{
               fontSize: 60,
             }}
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
           />
         </IconButton>
       </Box>
+      <IconButton
+        onClick={(e) => {
+          testSwitchUser(e);
+        }}
+      >
+        test to switch another friend
+      </IconButton>
     </div>
   );
 }
