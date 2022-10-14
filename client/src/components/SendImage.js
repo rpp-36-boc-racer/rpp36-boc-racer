@@ -11,7 +11,7 @@ const config = {
 
 export default function SendImage() {
   const { user } = useAuthContext();
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -88,7 +88,11 @@ export default function SendImage() {
         {error && <p>Error: {error}</p>}
         {isLoading && <p>loading...</p>}
       </div>
-      <button type="button" onClick={() => handleUpload(selectedFile)}>
+      <button
+        type="button"
+        disabled={!selectedFile}
+        onClick={() => handleUpload(selectedFile)}
+      >
         Upload and send
       </button>
     </>
