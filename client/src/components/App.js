@@ -6,7 +6,7 @@ import Signup from "./login/Signup";
 import useAuthContext from "../hooks/useAuthContext";
 import PrivateRoutes from "./PrivateRoutes";
 import Temporary from "./Temporary";
-import Chat from "./Chat";
+import Chat from "./MessageList/Chat";
 import Friends from "./Friends";
 
 function App() {

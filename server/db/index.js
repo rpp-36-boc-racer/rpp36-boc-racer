@@ -30,3 +30,9 @@ exports.checkUserId = async (_id) => {
 exports.addMessage = () => {
   // addMessage
 };
+
+exports.getUserImage = async (_id) => {
+  const userImage = await db.User.findOne({ _id }).select('profileImage');
+  return userImage;
+};
+
