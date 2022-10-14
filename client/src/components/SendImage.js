@@ -9,7 +9,7 @@ const config = {
   secretAccessKey: process.env.SECRET_ACCESS_KEY,
 };
 
-export default function UploadImage() {
+export default function SendImage() {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
@@ -58,7 +58,12 @@ export default function UploadImage() {
             />
           </div>
         ) : (
-          <input accept="image/*" type="file" onChange={handleFileInput} />
+          <input
+            data-testid="select-img"
+            accept="image/*"
+            type="file"
+            onChange={handleFileInput}
+          />
         )}
       </div>
       <button type="button" onClick={() => handleUpload(selectedFile)}>
