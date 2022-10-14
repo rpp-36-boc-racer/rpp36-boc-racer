@@ -23,6 +23,11 @@ export default function withNavBar({ children }) {
           </Link>
         </li>
         <li>
+          <Link to="/chat-test">
+            <Button variant="contained">*******chat test page*****</Button>
+          </Link>
+        </li>
+        <li>
           <Button variant="contained" onClick={() => logout()}>
             Logout
           </Button>
