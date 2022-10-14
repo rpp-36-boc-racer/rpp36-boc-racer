@@ -14,6 +14,7 @@ const textMessageSchema = new mongoose.Schema(
     conversationID: { type: String },
     senderID: { type: String },
     text: { type: String },
+    photoUrl: { type: String },
   },
   { timestamps: true }
 );
