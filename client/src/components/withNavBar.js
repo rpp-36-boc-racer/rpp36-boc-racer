@@ -23,6 +23,11 @@ export default function withNavBar({ children }) {
           </Link>
         </li>
         <li>
+          <Link to="/upload-image">
+            <Button variant="contained">Upload Image</Button>
+          </Link>
+        </li>
+        <li>
           <Button variant="contained" onClick={() => logout()}>
             Logout
           </Button>
