@@ -1,15 +1,8 @@
 /* eslint-disable no-undef */
 import "@testing-library/jest-dom";
-import React, { useEffect } from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import SendImage from "../SendImage";
-
-import { BrowserRouter } from "react-router-dom";
-import { act } from "react-dom/test-utils";
-import PropTypes from "prop-types";
-import { AuthProvider } from "../../contexts/AuthContext";
-import App from "../App";
-import useAuthContext from "../../hooks/useAuthContext";
 
 describe("upload image component", () => {
   window.URL.createObjectURL = jest.fn();
