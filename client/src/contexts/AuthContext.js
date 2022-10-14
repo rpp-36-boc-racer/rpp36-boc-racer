@@ -20,13 +20,18 @@ export function AuthProvider({ children }) {
   });
 
   useEffect(() => {
-    const json = JSON.parse(localStorage.getItem("user"));
-    if (json) {
-      json.user.token = json.token;
-      dispatch({
-        type: "LOGIN",
-        payload: json.user,
-      });
+    try {
+      const json = JSON.parse(localStorage.getItem("user"));
+      if (json) {
+        json.user.token = json.token;
+        dispatch({
+          type: "LOGIN",
+          payload: json.user,
+        });
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err.message);
     }
   }, []);
 
