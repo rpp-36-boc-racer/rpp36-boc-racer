@@ -20,6 +20,8 @@ app.post("/signup", auth.signup);
 app.post("/photo", auth.requireAuth, upload.single("image"), routes.photo);
 app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
+app.post("/send-img", auth.requireAuth, routes.sendImage);
+
 app.get("*", routes.catchAll);
 
 app.listen(PORT, () => {

@@ -13,6 +13,8 @@ export default function SendImage() {
   const { user } = useAuthContext();
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -32,18 +34,27 @@ export default function SendImage() {
   };
 
   const handleUpload = async (file) => {
+    setIsLoading(true);
+
     uploadFile(file, config)
       .then(async (data) => {
-        console.log(data.location);
-        // send data.location to server
         const response = await fetch("send-img", {
           method: "POST",
-          header: {
-            Authorization: user.token,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `bearer ${user.token}`,
           },
-          body: data.location,
+          body: JSON.stringify({ user, imageURL: data.location }),
         });
 
+        const json = await response.json();
+        if (response.ok) {
+          // update some state?
+        } else {
+          setError(json.error);
+        }
+
+        setIsLoading(false);
       })
       .catch((err) => console.error(err));
   };
@@ -74,6 +85,8 @@ export default function SendImage() {
             onChange={handleFileInput}
           />
         )}
+        {error && <p>Error: {error}</p>}
+        {isLoading && <p>loading...</p>}
       </div>
       <button type="button" onClick={() => handleUpload(selectedFile)}>
         Upload and send
