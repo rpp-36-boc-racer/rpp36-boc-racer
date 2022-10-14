@@ -10,6 +10,7 @@ const config = {
 };
 
 export default function SendImage() {
+  const { user } = useAuthContext();
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
@@ -32,9 +33,17 @@ export default function SendImage() {
 
   const handleUpload = async (file) => {
     uploadFile(file, config)
-      .then((data) => {
+      .then(async (data) => {
         console.log(data.location);
         // send data.location to server
+        const response = await fetch("send-img", {
+          method: "POST",
+          header: {
+            Authorization: user.token,
+          },
+          body: data.location,
+        });
+
       })
       .catch((err) => console.error(err));
   };
