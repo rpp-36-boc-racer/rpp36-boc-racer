@@ -14,7 +14,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-function OwnerMessage({ message, ownername, avatarImg }) {
+function OwnerMessage({ message, ownername, avatarImg, photo }) {
   return (
     <StyledPaper
       sx={{
@@ -28,9 +28,17 @@ function OwnerMessage({ message, ownername, avatarImg }) {
           <Avatar alt={ownername} src="xxx.jpg" />
           <span>{ownername}</span>
         </Grid>
-        <Grid item xs>
-          <Typography>{message}</Typography>
-        </Grid>
+
+        {message ? (
+          <Grid item xs>
+            <Typography>{message}</Typography>
+          </Grid>
+        ) : null}
+        {photo ? (
+          <Grid>
+            <img src={photo} alt="test-img" />
+          </Grid>
+        ) : null}
       </Grid>
     </StyledPaper>
   );

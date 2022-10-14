@@ -219,12 +219,14 @@ function ChatsHistory() {
                   ownername={user?.username}
                   avatarImg={user?.profileImage}
                   message={m.text}
+                  photo={m.photoUrl}
                 />
               ) : (
                 <FriendMessage
                   friendname={friend?.username}
                   avatarImg={friend?.profileImage}
                   message={m.text}
+                  photo={m.photoUrl}
                 />
               )}
             </div>
