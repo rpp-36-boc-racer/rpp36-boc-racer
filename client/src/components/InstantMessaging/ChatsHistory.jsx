@@ -30,7 +30,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 function ChatsHistory() {
   const [friendUserId, setFriendUserId] = useState("");
-  const [conversations, setConversations] = useState([]);
+  const [curConversation, setCurConversation] = useState(null);
 
   const [friend, setFriend] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -72,25 +72,25 @@ function ChatsHistory() {
   }, [friendUserId]);
 
   useEffect(() => {
-    const getConversations = async () => {
+    const getCurConversation = async () => {
       try {
         const response = await axios.get(
           `/instmsg-api/conversations/${user?._id}/${friend?._id}`
         );
         console.log("this is the conv data:", response.data);
-        setConversations(response?.data);
+        setCurConversation(response?.data);
       } catch (err) {
         console.log(err);
       }
     };
-    getConversations();
+    getCurConversation();
   }, [user?._id, friend]);
 
   useEffect(() => {
     const getMessages = async () => {
       try {
         const response = await axios.get(
-          "/instmsg-api/messages/" + conversations?._id
+          "/instmsg-api/messages/" + curConversation?._id
         );
         console.log("this is message data:", response.data);
         setMessages(response.data);
@@ -99,12 +99,12 @@ function ChatsHistory() {
       }
     };
     getMessages();
-  }, [friend, conversations]);
+  }, [friend, curConversation]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const textMessage = {
-      conversationID: conversations?._id,
+      conversationID: curConversation?._id,
       senderID: user?._id,
       text: newMessageText,
     };
