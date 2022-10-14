@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
@@ -35,7 +36,8 @@ function ChatsHistory() {
   const [friend, setFriend] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
-
+  const [newArrivalMsg, setNewArrivalMsg] = useState(null);
+  const socket = useRef();
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const scrollRef = useRef();
@@ -45,6 +47,30 @@ function ChatsHistory() {
       navigate("/");
     }
   }, [user]);
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8080");
+    socket.current.on("get-msg", (data) => {
+      console.log("get msg at client side:", msg);
+      setNewArrivalMsg({
+        senderID: data.senderId,
+        text: data.message,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("this is newArrival:", newArrivalMsg);
+    newArrivalMsg &&
+      friend?._id === newArrivalMsg.senderID &&
+      setMessages((prev) => [...prev, newArrivalMsg]);
+  }, [newArrivalMsg, friend]);
+
+  useEffect(() => {
+    socket.current.emit("add-user", user?._id);
+  }, [user]);
+
   const friendUserID = window.location.href.split("friend=")[1];
   useEffect(() => {
     const updateFriendUserId = async () => {
@@ -99,7 +125,7 @@ function ChatsHistory() {
       }
     };
     getMessages();
-  }, [friend, curConversation]);
+  }, [curConversation]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,6 +134,12 @@ function ChatsHistory() {
       senderID: user?._id,
       text: newMessageText,
     };
+
+    socket.current.emit("send-msg", {
+      senderId: user?._id,
+      receiverId: friend?._id,
+      message: newMessageText,
+    });
 
     try {
       const response = await axios.post(
@@ -129,9 +161,10 @@ function ChatsHistory() {
     navigate(`/chat-test`);
   };
 
-  // const testSwitchUser = (e) => {
-  //   window.location.href = "/instmsgchats?friend=6347254a2a632c5c0c673043";
-  // };
+  const refresh = (e) => {
+    navigate("/chat-test");
+    navigate("/instmsgchats?friend=" + friendUserId);
+  };
 
   return (
     <div className="chats">
@@ -235,24 +268,24 @@ function ChatsHistory() {
           aria-label="send message"
           component="label"
           sx={{ "&:hover": { backgroundColor: blue[100] } }}
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
         >
           <SendIcon
             sx={{
               fontSize: 60,
             }}
-            onClick={(e) => {
-              handleSubmit(e);
-            }}
           />
         </IconButton>
       </Box>
-      {/* <IconButton
+      <IconButton
         onClick={(e) => {
-          testSwitchUser(e);
+          refresh(e);
         }}
       >
-        test to switch another friend
-      </IconButton> */}
+        temp refresh
+      </IconButton>
     </div>
   );
 }
