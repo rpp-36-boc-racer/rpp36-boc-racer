@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
@@ -11,7 +9,7 @@ import SendIcon from "@mui/icons-material/Send";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 import { uploadFile } from "react-s3";
-import useAuthContext from "../hooks/useAuthContext";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const config = {
   bucketName: process.env.S3_BUCKET,
@@ -22,10 +20,12 @@ const config = {
 
 export default function SendImage() {
   const { user } = useAuthContext();
+  const { friendUserId, conversationId } = useParams();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!selectedFile) {
@@ -49,18 +49,23 @@ export default function SendImage() {
 
     uploadFile(file, config)
       .then(async (data) => {
-        const response = await fetch("send-img", {
+        const response = await fetch("/send-img", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `bearer ${user.token}`,
           },
-          body: JSON.stringify({ user, imageURL: data.location }),
+          body: JSON.stringify({
+            userId: user.id,
+            conversationId,
+            imageURL: data.location,
+          }),
         });
 
         const json = await response.json();
         if (response.ok) {
-          // update some state?
+          // navigate to previous page
+          navigate(-1);
         } else {
           setError(json.error);
         }

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, Outlet } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import Avatar from "@mui/material/Avatar";
@@ -30,7 +30,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function ChatsHistory() {
-  const { friendUserId } = useParams();
+  const { friendUserId, conversationId } = useParams();
   // const [friendUserId, setFriendUserId] = useState("");
   const [curConversation, setCurConversation] = useState(null);
 
@@ -248,7 +248,7 @@ function ChatsHistory() {
         bottom="0px"
         left="10px"
       >
-        <Link to="/send-image">
+        <Link to="send-image">
           <IconButton
             color="primary"
             aria-label="upload picture"
@@ -294,6 +294,7 @@ function ChatsHistory() {
       >
         temp refresh
       </IconButton> */}
+
     </div>
   );
 }

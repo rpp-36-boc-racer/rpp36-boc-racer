@@ -45,6 +45,7 @@ app.get("/instmsg-api/messages/:conversationId", instmsgRoutes.getMessages);
 app.get("/users-api/:userID", instmsgRoutes.getUser);
 
 app.get("*", routes.catchAll);
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening on port ${PORT}`);
