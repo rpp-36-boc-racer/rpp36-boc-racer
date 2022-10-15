@@ -8,9 +8,9 @@ import useAuthContext from "../hooks/useAuthContext";
 import PrivateRoutes from "./PrivateRoutes";
 import Temporary from "./Temporary";
 import Chat from "./MessageList/Chat";
-import ChatTest from "./ChatTest";
+// import ChatTest from "./ChatTest";
 import Friends from "./Friends";
-import SendImage from "./SendImage";
+import SendImage from "./InstantMessaging/SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
         <Route path="/dashboard" element={<Temporary />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
-        <Route path="/chat-test" element={<ChatTest />} />
+        {/* <Route path="/chat-test" element={<ChatTest />} /> */}
         {/* <Route path="/instmsgChats" element={<ChatsHistory />} /> */}
         <Route
           path="/instmsgchats/messages/:curConversation/:friendUserId"
