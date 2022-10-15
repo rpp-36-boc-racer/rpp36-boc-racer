@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import Avatar from "@mui/material/Avatar";
@@ -30,7 +30,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function ChatsHistory() {
-  const [friendUserId, setFriendUserId] = useState("");
+  const { friendUserId } = useParams();
+  // const [friendUserId, setFriendUserId] = useState("");
   const [curConversation, setCurConversation] = useState(null);
 
   const [friend, setFriend] = useState(null);
@@ -71,23 +72,24 @@ function ChatsHistory() {
     socket.current.emit("add-user", user?._id);
   }, [user]);
 
-  const friendUserID = window.location.href.split("friend=")[1];
-  useEffect(() => {
-    const updateFriendUserId = async () => {
-      try {
-        // const friendUserID = window.location.href.split("friend=")[1];
-        setFriendUserId(friendUserID);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    updateFriendUserId();
-  }, [friendUserId]);
+  // const friendUserID = window.location.href.split("friend=")[1];
+  // useEffect(() => {
+  //   const updateFriendUserId = async () => {
+  //     try {
+  //       // const friendUserID = window.location.href.split("friend=")[1];
+  //       setFriendUserId(friendUserID);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   updateFriendUserId();
+  // }, [friendUserId]);
 
   useEffect(() => {
     const getFriend = async () => {
       try {
-        const response = await axios.get("/users-api/" + friendUserID);
+        console.log(friendUserId)
+        const response = await axios.get("/users-api/" + friendUserId);
         console.log("this is friend res:", response.data);
         setFriend(response.data);
       } catch (err) {
@@ -176,21 +178,23 @@ function ChatsHistory() {
           justifyContent: "space-between",
         }}
       >
-        <IconButton
-          color="primary"
-          aria-label="back-to-messagelist"
-          component="label"
-          sx={{ "&:hover": { backgroundColor: blue[100] } }}
-          onClick={(e) => {
-            backToMessageList(e);
-          }}
-        >
-          <ArrowBackOutlinedIcon
-            sx={{
-              fontSize: 40,
+        <Link to="/chat">
+          <IconButton
+            color="primary"
+            aria-label="back-to-messagelist"
+            component="label"
+            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            onClick={(e) => {
+              backToMessageList(e);
             }}
-          />
-        </IconButton>
+          >
+            <ArrowBackOutlinedIcon
+              sx={{
+                fontSize: 40,
+              }}
+            />
+          </IconButton>
+        </Link>
 
         <div>
           {user && friend && (
@@ -244,19 +248,21 @@ function ChatsHistory() {
         bottom="0px"
         left="10px"
       >
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="label"
-          sx={{ "&:hover": { backgroundColor: blue[100] } }}
-        >
-          <input hidden accept="image/*" type="file" />
-          <AddPhotoAlternateIcon
-            sx={{
-              fontSize: 60,
-            }}
-          />
-        </IconButton>
+        <Link to="/send-image">
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+          >
+            <input hidden accept="image/*" type="file" />
+            <AddPhotoAlternateIcon
+              sx={{
+                fontSize: 60,
+              }}
+            />
+          </IconButton>
+        </Link>
 
         <TextField
           sx={{
@@ -281,13 +287,13 @@ function ChatsHistory() {
           />
         </IconButton>
       </Box>
-      <IconButton
+      {/* <IconButton
         onClick={(e) => {
           refresh(e);
         }}
       >
         temp refresh
-      </IconButton>
+      </IconButton> */}
     </div>
   );
 }

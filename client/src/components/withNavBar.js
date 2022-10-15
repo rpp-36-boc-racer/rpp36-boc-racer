@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -30,16 +30,16 @@ export default function withNavBar({ children }) {
 
       {children}
 
-      <ul>
+      {/* <ul>
         <li>
           <Link to="/chat-test">
             <Button variant="contained">*******chat test page*****</Button>
           </Link>
-          <Link to="/upload-image">
+          <Link to="/send-image">
             <Button variant="contained">Upload Image</Button>
           </Link>
         </li>
-      </ul>
+      </ul> */}
 
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
@@ -64,12 +64,12 @@ export default function withNavBar({ children }) {
             label="Friends"
             icon={<GroupsIcon />}
           />
-          <BottomNavigationAction
+          {/* <BottomNavigationAction
             component={Link}
             to="/upload-image"
             label="Image"
             icon={<AddPhotoAlternateIcon />}
-          />
+          /> */}
         </BottomNavigation>
       </Paper>
     </>
