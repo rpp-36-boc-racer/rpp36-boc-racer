@@ -49,28 +49,28 @@ function ChatsHistory() {
     }
   }, [user]);
 
-  useEffect(() => {
-    socket.current = io("ws://localhost:8080");
-    socket.current.on("get-msg", (data) => {
-      console.log("get msg at client side:", msg);
-      setNewArrivalMsg({
-        senderID: data.senderId,
-        text: data.message,
-        createdAt: Date.now(),
-      });
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.current = io("ws://localhost:8080");
+  //   socket.current.on("get-msg", (data) => {
+  //     console.log("get msg at client side:", msg);
+  //     setNewArrivalMsg({
+  //       senderID: data.senderId,
+  //       text: data.message,
+  //       createdAt: Date.now(),
+  //     });
+  //   });
+  // }, [socket]);
 
-  useEffect(() => {
-    console.log("this is newArrival:", newArrivalMsg);
-    newArrivalMsg &&
-      friend?._id === newArrivalMsg.senderID &&
-      setMessages((prev) => [...prev, newArrivalMsg]);
-  }, [newArrivalMsg, friend]);
+  // useEffect(() => {
+  //   console.log("this is newArrival:", newArrivalMsg);
+  //   newArrivalMsg &&
+  //     friend?._id === newArrivalMsg.senderID &&
+  //     setMessages((prev) => [...prev, newArrivalMsg]);
+  // }, [newArrivalMsg, friend]);
 
-  useEffect(() => {
-    socket.current.emit("add-user", user?._id);
-  }, [user]);
+  // useEffect(() => {
+  //   socket.current.emit("add-user", user?._id);
+  // }, [user]);
 
   // const friendUserID = window.location.href.split("friend=")[1];
   // useEffect(() => {
@@ -88,7 +88,7 @@ function ChatsHistory() {
   useEffect(() => {
     const getFriend = async () => {
       try {
-        console.log(friendUserId)
+        console.log(friendUserId);
         const response = await axios.get("/users-api/" + friendUserId);
         console.log("this is friend res:", response.data);
         setFriend(response.data);
@@ -137,11 +137,11 @@ function ChatsHistory() {
       text: newMessageText,
     };
 
-    socket.current.emit("send-msg", {
-      senderId: user?._id,
-      receiverId: friend?._id,
-      message: newMessageText,
-    });
+    // socket.current.emit("send-msg", {
+    //   senderId: user?._id,
+    //   receiverId: friend?._id,
+    //   message: newMessageText,
+    // });
 
     try {
       const response = await axios.post(
@@ -294,7 +294,6 @@ function ChatsHistory() {
       >
         temp refresh
       </IconButton> */}
-
     </div>
   );
 }
