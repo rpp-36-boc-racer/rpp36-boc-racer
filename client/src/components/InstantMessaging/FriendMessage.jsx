@@ -38,7 +38,7 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
 
         {photo ? (
           <Grid>
-            <img src={photo} alt="test-img" />
+            <img src={photo} alt="test-img" style={{ height: 200, width: 200, objectFit: "contain" }}/>
           </Grid>
         ) : null}
       </Grid>

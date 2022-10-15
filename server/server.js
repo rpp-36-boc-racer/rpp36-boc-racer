@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 // routes that require authentication use auth.requireAuth middleware
-app.get("/sample-route", auth.requireAuth, routes.sampleRoute);
+// app.get("/sample-route", auth.requireAuth, routes.sampleRoute);
 
 app.post("/login", auth.login);
 app.post("/signup", auth.signup);
@@ -41,8 +41,11 @@ app.get(
   "/instmsg-api/conversations/:userID",
   instmsgRoutes.getConversationByUser
 );
-app.delete("/instmsg-api/conversations/:convoId",
-instmsgRoutes.deleteConversationById)
+app.delete(
+  "/instmsg-api/conversations/:convoId",
+  instmsgRoutes.deleteConversationById
+);
+
 app.get("/instmsg-api/conversations/:userID/:friendID", instmsgRoutes.getChats);
 app.post("/instmsg-api/messages/addmsg", instmsgRoutes.addMessage);
 app.get("/instmsg-api/messages/:conversationId", instmsgRoutes.getMessages);
