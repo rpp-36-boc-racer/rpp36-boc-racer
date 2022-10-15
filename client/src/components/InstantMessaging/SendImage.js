@@ -49,6 +49,7 @@ export default function SendImage() {
 
     uploadFile(file, config)
       .then(async (data) => {
+        console.log(user);
         const response = await fetch("/send-img", {
           method: "POST",
           headers: {
@@ -56,7 +57,7 @@ export default function SendImage() {
             Authorization: `bearer ${user.token}`,
           },
           body: JSON.stringify({
-            userId: user.id,
+            userId: user._id,
             conversationId,
             imageURL: data.location,
           }),

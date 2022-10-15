@@ -29,7 +29,7 @@ exports.setProfileImage = async (req, res) => {
 exports.sendImage = async (req, res) => {
   console.log(req.body);
   const newMessage = new messagingModels.TextMessage({
-    conversationID: req.body.conversationID,
+    conversationID: req.body.conversationId,
     senderID: req.body.userId,
     text: req.body.text,
     photoUrl: req.body.imageURL,
