@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import { blue } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,6 +17,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function FriendMessage({ message, friendname, avatarImg, photo }) {
+  const [popView, setPopView] = useState(false);
   return (
     <StyledPaper
       sx={{
@@ -36,13 +39,27 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
           </Grid>
         ) : null}
 
-        {photo ? (
-          <Grid>
+        {photo && !popView ? (
+          <Grid onClick={(e) => setPopView(!popView)}>
             <img
               src={photo}
               alt="test-img"
               style={{ width: "80px", height: "80px" }}
             />
+          </Grid>
+        ) : null}
+        {popView ? (
+          <Grid>
+            <IconButton>
+              <DownloadIcon
+                sx={{
+                  fontSize: 50,
+                }}
+              />
+            </IconButton>
+            <Grid onClick={(e) => setPopView(!popView)}>
+              <img src={photo} alt="test-img-zoom" />
+            </Grid>
           </Grid>
         ) : null}
       </Grid>
