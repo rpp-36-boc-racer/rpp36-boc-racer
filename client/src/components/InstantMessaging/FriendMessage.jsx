@@ -14,7 +14,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-function FriendMessage({ message, friendname, avatarImg }) {
+function FriendMessage({ message, friendname, avatarImg, photo }) {
   return (
     <StyledPaper
       sx={{
@@ -30,9 +30,17 @@ function FriendMessage({ message, friendname, avatarImg }) {
           <Avatar alt={friendname} src="xxx.jpg" />
           <span>{friendname}</span>
         </Grid>
-        <Grid item xs>
-          <Typography>{message}</Typography>
-        </Grid>
+        {message ? (
+          <Grid item xs>
+            <Typography>{message}</Typography>
+          </Grid>
+        ) : null}
+
+        {photo ? (
+          <Grid>
+            <img src={photo} alt="test-img" />
+          </Grid>
+        ) : null}
       </Grid>
     </StyledPaper>
   );

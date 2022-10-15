@@ -95,6 +95,7 @@ exports.addMessage = async (req, res) => {
     conversationID: req.body.conversationID,
     senderID: req.body.senderID,
     text: req.body.text,
+    photoUrl: req.body.photoUrl,
   });
 
   try {

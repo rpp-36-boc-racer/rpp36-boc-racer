@@ -22,6 +22,10 @@ function App() {
       navigate("/profilePic");
       return;
     }
+    // if (user && !user.profileImage) {
+    //   navigate("/profilePic");
+    //   return;
+    // }
     if (user) {
       navigate("/dashboard");
     }
