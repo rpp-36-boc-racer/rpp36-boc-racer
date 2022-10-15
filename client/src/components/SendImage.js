@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import SendIcon from "@mui/icons-material/Send";
+import CancelIcon from "@mui/icons-material/Cancel";
+
 import { uploadFile } from "react-s3";
 import useAuthContext from "../hooks/useAuthContext";
 
@@ -63,15 +73,42 @@ export default function SendImage() {
   return (
     <>
       {selectedFile ? (
-        <button type="button" onClick={() => setSelectedFile(null)}>
-          Remove
-        </button>
+        <IconButton
+          color="primary"
+          component="label"
+          sx={{ position: "fixed", top: 0, left: 0 }}
+          size="large"
+          onClick={() => setSelectedFile(null)}
+        >
+          <CancelIcon fontSize="inherit" />
+        </IconButton>
       ) : (
         <Link to="/dashboard">
-          <button type="button">Go back to message</button>
+          <IconButton
+            color="primary"
+            component="label"
+            sx={{ position: "fixed", top: 0, left: 0 }}
+            size="large"
+          >
+            <ArrowCircleLeftIcon fontSize="inherit" />
+          </IconButton>
         </Link>
       )}
-      <div className="image">
+      <Paper
+        sx={{
+          minHeight: "80vh",
+          width: "90%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "fixed",
+          top: "7%",
+          left: "5%",
+          border: "1px dashed grey",
+          borderRadius: "2%",
+        }}
+        elevation={2}
+      >
         {selectedFile ? (
           <div>
             <img
@@ -81,23 +118,36 @@ export default function SendImage() {
             />
           </div>
         ) : (
-          <input
-            data-testid="select-img"
-            accept="image/*"
-            type="file"
-            onChange={handleFileInput}
-          />
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+            size="large"
+          >
+            <input
+              hidden
+              data-testid="select-img"
+              accept="image/*"
+              type="file"
+              onChange={handleFileInput}
+            />
+            <CloudUploadIcon fontSize="large" />
+          </IconButton>
         )}
         {error && <p>Error: {error}</p>}
         {isLoading && <p>loading...</p>}
-      </div>
-      <button
-        type="button"
-        disabled={!selectedFile}
-        onClick={() => handleUpload(selectedFile)}
-      >
-        Upload and send
-      </button>
+      </Paper>
+      <Box>
+        <IconButton
+          disabled={!selectedFile}
+          color="primary"
+          component="label"
+          sx={{ position: "fixed", bottom: 0, left: "45%" }}
+          onClick={() => handleUpload(selectedFile)}
+        >
+          <SendIcon fontSize="large" />
+        </IconButton>
+      </Box>
     </>
   );
 }

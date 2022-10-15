@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import IconButton from '@mui/material/IconButton';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import GroupsIcon from '@mui/icons-material/Groups';
-import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import LogoutIcon from '@mui/icons-material/Logout';
+// import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import IconButton from "@mui/material/IconButton";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import GroupsIcon from "@mui/icons-material/Groups";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import useLogout from "../hooks/useLogout";
 
@@ -56,7 +55,7 @@ export default function withNavBar({ children }) {
             component={Link}
             to="/upload-image"
             label="Image"
-            icon={<PhotoSizeSelectActualIcon />}
+            icon={<AddPhotoAlternateIcon />}
           />
         </BottomNavigation>
       </Paper>
