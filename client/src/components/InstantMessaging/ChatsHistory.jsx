@@ -31,17 +31,9 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 function ChatsHistory() {
   const location = useLocation();
-  // const { conversationId, friendId } = location.state;
   const conversationID = location.state.conversationId;
-  // const friendUserID = location.state.friendId;
   const friend = { _id: location.state.friendId, profileImage: location.state.profileImage, username: location.state.username };
-  // console.log(conversationID, friend)
 
-  // const { friendUserId, conversationId } = useParams();
-  // const [friendUserId, setFriendUserId] = useState("");
-  // const [curConversation, setCurConversation] = useState(null);
-
-  // const [friend, setFriend] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [newArrivalMsg, setNewArrivalMsg] = useState(null);
@@ -79,54 +71,11 @@ function ChatsHistory() {
     socket.current.emit("add-user", user?._id);
   }, [user]);
 
-  // const friendUserID = window.location.href.split("friend=")[1];
-  // useEffect(() => {
-  //   const updateFriendUserId = async () => {
-  //     try {
-  //       // const friendUserID = window.location.href.split("friend=")[1];
-  //       setFriendUserId(friendUserID);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   updateFriendUserId();
-  // }, [friendUserId]);
-
-  // useEffect(() => {
-  //   const getFriend = async () => {
-  //     try {
-  //       console.log(friendUserId)
-  //       const response = await axios.get("/users-api/" + friendUserId);
-  //       console.log("this is friend res:", response.data);
-  //       setFriend(response.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getFriend();
-  // }, [friendUserId]);
-
-  // useEffect(() => {
-  //   const getCurConversation = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `/instmsg-api/conversations/${user?._id}/${friend?._id}`
-  //       );
-  //       console.log("this is the conv data:", response.data);
-  //       setCurConversation(response?.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getCurConversation();
-  // }, [user?._id, friend]);
-
   useEffect(() => {
     const getMessages = async () => {
       try {
         const response = await axios.get(
           "/instmsg-api/messages/" + conversationID
-          // "/instmsg-api/messages/" + curConversation?._id
         );
         console.log("this is message data:", response.data);
         setMessages(response.data);
@@ -136,13 +85,11 @@ function ChatsHistory() {
     };
     getMessages();
   }, [conversationID]);
-  // }, [curConversation]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const textMessage = {
       conversationID,
-      // conversationID: curConversation?._id,
       senderID: user?._id,
       text: newMessageText,
     };
@@ -173,10 +120,10 @@ function ChatsHistory() {
     navigate(`/chat-test`);
   };
 
-  const refresh = (e) => {
-    navigate("/chat-test");
-    navigate("/instmsgchats?friend=" + friendUserId);
-  };
+  // const refresh = (e) => {
+  //   navigate("/chat-test");
+  //   navigate("/instmsgchats?friend=" + friendUserId);
+  // };
 
   return (
     <div className="chats">
