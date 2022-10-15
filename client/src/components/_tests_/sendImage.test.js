@@ -2,8 +2,9 @@
 import "@testing-library/jest-dom";
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "../../contexts/AuthContext";
-import SendImage from "../SendImage";
+import SendImage from "../InstantMessaging/SendImage";
 
 describe("upload image component", () => {
   window.URL.createObjectURL = jest.fn();
@@ -43,9 +44,11 @@ describe("upload image component", () => {
 
   test("image preview", async () => {
     render(
-      <AuthProvider>
-        <SendImage />
-      </AuthProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <SendImage />
+        </AuthProvider>
+      </BrowserRouter>
     );
     const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
     const inputEl = screen.getByTestId("select-img");
@@ -60,9 +63,11 @@ describe("upload image component", () => {
 
   test("upload and send image", async () => {
     render(
-      <AuthProvider>
-        <SendImage />
-      </AuthProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <SendImage />
+        </AuthProvider>
+      </BrowserRouter>
     );
     const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
     const inputEl = screen.getByTestId("select-img");

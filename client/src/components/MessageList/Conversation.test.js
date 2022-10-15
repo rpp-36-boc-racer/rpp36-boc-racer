@@ -4,6 +4,7 @@ import { act } from 'react-dom/test-utils';
 import Conversation from './Conversation';
 import {render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from "react-router-dom";
 
 describe('Conversation', () => {
   let temporarySandBox;
@@ -24,7 +25,11 @@ describe('Conversation', () => {
     }
 
     it('should render header "Chat"', async () => {
-      render(<Conversation convo={convo} />);
+      render(
+        <BrowserRouter>
+          <Conversation convo={convo} />
+        </BrowserRouter>
+      );
       expect(screen.getByRole('delete')).toBeInTheDocument();
     });
   });

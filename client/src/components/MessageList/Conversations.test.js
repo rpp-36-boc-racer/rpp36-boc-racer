@@ -4,6 +4,7 @@ import { act } from 'react-dom/test-utils';
 import Conversations from './Conversations';
 import {render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from "react-router-dom";
 
 describe('Conversations', () => {
   let temporarySandBox;
@@ -35,7 +36,11 @@ describe('Conversations', () => {
       },
     ]
     it('should render header "Chat"', async () => {
-      render(<Conversations data={data} />);
+      render(
+        <BrowserRouter>
+          <Conversations data={convos} />
+        </BrowserRouter>
+      );
       const renderedConvos = screen.queryByTestId('convo');
       expect(renderedConvos.length).toEqual(convos.length);
     });

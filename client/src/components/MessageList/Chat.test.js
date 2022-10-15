@@ -4,6 +4,8 @@ import { act } from 'react-dom/test-utils';
 import Chat from './Chat';
 import {render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "../../contexts/AuthContext";
 
 describe('Chat', () => {
   let temporarySandBox;
@@ -18,7 +20,13 @@ describe('Chat', () => {
 
   describe('Chat Component', ()=>{
     it('should render header "Chat"', async () => {
-      render(<Chat />);
+      render(
+        <BrowserRouter>
+          <AuthProvider>
+            <Chat />
+          </AuthProvider>
+        </BrowserRouter>
+      );
       expect(screen.getByText('Chat')).toBeInTheDocument();
     });
   });

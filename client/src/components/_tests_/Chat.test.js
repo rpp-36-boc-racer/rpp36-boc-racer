@@ -4,7 +4,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import Chat from "../Chat";
+import Chat from "../MessageList/Chat";
 import "@testing-library/jest-dom";
 
 describe("Friends list", () => {

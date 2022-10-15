@@ -20,7 +20,7 @@ const config = {
 
 export default function SendImage() {
   const { user } = useAuthContext();
-  const { friendUserId, conversationId } = useParams();
+  const { conversationId } = useParams();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,6 @@ export default function SendImage() {
 
     uploadFile(file, config)
       .then(async (data) => {
-        console.log(user);
         const response = await fetch("/send-img", {
           method: "POST",
           headers: {
