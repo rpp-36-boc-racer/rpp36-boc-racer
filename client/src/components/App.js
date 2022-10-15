@@ -8,6 +8,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import Temporary from "./Temporary";
 import Chat from "./Chat";
 import Friends from "./Friends";
+import SendImage from "./SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/dashboard" element={<Temporary />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
+        <Route path="/upload-image" element={<SendImage />} />
       </Route>
     </Routes>
   );

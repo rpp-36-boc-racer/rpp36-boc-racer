@@ -24,6 +24,14 @@ exports.setProfileImage = async (req, res) => {
   }
 };
 
+exports.sendImage = async (req, res) => {
+  console.log(req.body);
+  // add image url to db
+
+  // temperarily setting as below
+  res.status(200).json(req.body);
+};
+
 exports.catchAll = (req, res) => {
   res.sendFile(path.join(__dirname, "../client/src/index.html"));
 };

@@ -5,4 +5,5 @@ module.exports = {
       lines: 60,
     },
   },
+  transformIgnorePatterns: ["node_modules/(?!(react-s3)/)"],
 };
