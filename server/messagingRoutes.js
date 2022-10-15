@@ -49,6 +49,7 @@ exports.getConversationByUser = async (req, res) => {
 
       return {
         conversationId,
+        friendId,
         username,
         profileImage,
         // eslint-disable-next-line no-nested-ternary
@@ -58,7 +59,7 @@ exports.getConversationByUser = async (req, res) => {
             : lastMessage.text
           : "",
         time: lastMessage ? lastMessage.updatedAt : convo.updatedAt,
-        epochTime: Date.parse(lastMessage.updatedAt),
+        epochTime: Date.parse(lastMessage && lastMessage.updatedAt),
       };
     });
 
