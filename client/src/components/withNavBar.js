@@ -25,6 +25,8 @@ export default function withNavBar({ children }) {
         <li>
           <Link to="/chat-test">
             <Button variant="contained">*******chat test page*****</Button>
+          <Link to="/upload-image">
+            <Button variant="contained">Upload Image</Button>
           </Link>
         </li>
         <li>
