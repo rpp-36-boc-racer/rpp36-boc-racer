@@ -31,8 +31,8 @@ exports.addMessage = () => {
   // addMessage
 };
 
-exports.getUserImage = async (_id) => {
-  const userImage = await db.User.findOne({ _id }).select('profileImage');
-  return userImage;
+exports.getUserInfo = async (_id) => {
+  const userInfo = await db.User.findOne({ _id });
+  return userInfo;
 };
 

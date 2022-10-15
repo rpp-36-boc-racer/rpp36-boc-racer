@@ -8,10 +8,10 @@ export default () => {
 
   const getConversations = async () => {
     setError(null);
-    const response = await fetch('conversations', {
+    const response = await fetch(`instmsg-api/conversations/${user._id}`, {
       method: 'GET',
       headers: {Authentication: 'Bearer ' + user.token},
-      body: JSON.stringify({_id: user._id})
+      // body: JSON.stringify({_id: user._id})
 
     });
 

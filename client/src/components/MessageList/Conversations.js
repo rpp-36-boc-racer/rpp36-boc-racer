@@ -5,7 +5,12 @@ function Conversations(props) {
   return (
     <>
       {props.data.map((convo) => {
-        return <Conversation convo={convo}/>
+        return <Conversation
+        convo={convo}
+        deleteConvoFunc={props.deleteConvoFunc}
+        key={convo.conversationId}
+        hasBeenReadFunc={props.hasBeenReadFunc}
+        />
       })}
     </>
   );

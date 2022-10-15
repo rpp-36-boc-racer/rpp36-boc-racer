@@ -1,6 +1,6 @@
 const messagingModels = require("./db/instantMessagingModels");
 const userModel = require("./db/mongo");
-
+const { getUserInfo } = require("./db/index.js")
 // post new conversation:
 // endpoint: "/instmsg/conversations"
 exports.newConversation = async (req, res) => {
@@ -19,16 +19,57 @@ exports.newConversation = async (req, res) => {
 // get conversation of an user:
 // endpoint: "/instmsg-api/conversations/:userID"
 exports.getConversationByUser = async (req, res) => {
+  const { userID } = req.params;
+
   try {
-    const conversation = await messagingModels.Conversation.find({
-      members: { $in: [req.params.userID] },
-    });
-    console.log(
-      `this is conversation involving ${req.params.userID}`,
-      conversation
+    const conversation = await messagingModels.Conversation.find(
+      {
+        members: { $in: [userID] },
+      }
     );
-    res.status(200).send(conversation);
+    // console.log(`this is conversation involving ${userID}`, conversation);
+    console.log('conversations', conversation)
+    const results = conversation.map(async convo => {
+      const conversationId = convo.id;
+
+      const friendId =
+        userID === convo.members[0] ? convo.members[1] : convo.members[0];
+      const userInfo = await getUserInfo(friendId);
+
+      const { username, profileImage } = userInfo;
+      const lastMessage = await messagingModels.TextMessage.findOne(
+        {
+          conversationID: conversationId,
+        },
+        [],
+        {
+          sort: { updatedAt: -1 },
+        }
+      );
+
+      return {
+        conversationId,
+        username,
+        profileImage,
+        // eslint-disable-next-line no-nested-ternary
+        text: lastMessage
+          ? lastMessage.photoUrl
+            ? "image"
+            : lastMessage.text
+          : "",
+        time: lastMessage ? lastMessage.updatedAt : convo.updatedAt,
+        epochTime: Date.parse(lastMessage.updatedAt),
+      };
+    });
+
+    const unsortedConvos = await Promise.all(results);
+    const sortedConvos = unsortedConvos.sort((a, b) => {
+      return b.epochTime - a.epochTime;
+    })
+    console.log('sortedconvos', sortedConvos)
+    res.status(200).send(sortedConvos);
   } catch (err) {
+    console.log('err', err)
     res.status(500).send(err);
   }
 };
@@ -90,6 +131,17 @@ exports.getUser = async (req, res) => {
       profileImage: user.profileImage,
     };
     res.status(200).send(userData);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+exports.deleteConversationById = async (req, res) => {
+  const { convoId } = req.params;
+  console.log('conversationid', convoId)
+  try {
+    await messagingModels.Conversation.findOneAndDelete({id: convoId});
+    res.status(200).send('successfully deleted conversation');
   } catch (err) {
     res.status(500).send(err);
   }

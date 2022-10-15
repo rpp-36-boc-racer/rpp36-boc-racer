@@ -20,9 +20,8 @@ app.post("/signup", auth.signup);
 // routes that require authentication use auth.requireAuth middleware
 app.get("/sample-route", auth.requireAuth, routes.sampleRoute);
 
-app.get("/conversations", routes.getConversations);
+// app.get("/conversations", routes.getConversations);
 
-app.get("*", routes.catchAll);
 /** ************************************************
  *          routes of instant messaging
  * ********************************************** */
@@ -31,6 +30,8 @@ app.get(
   "/instmsg-api/conversations/:userID",
   instmsgRoutes.getConversationByUser
 );
+app.delete("/instmsg-api/conversations/:convoId",
+instmsgRoutes.deleteConversationById)
 app.get("/instmsg-api/conversations/:userID/:friendID", instmsgRoutes.getChats);
 app.post("/instmsg-api/messages/addmsg", instmsgRoutes.addMessage);
 app.get("/instmsg-api/messages/:conversationId", instmsgRoutes.getMessages);
