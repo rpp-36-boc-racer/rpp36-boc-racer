@@ -12,11 +12,11 @@ const userSchema = new mongoose.Schema({
   password: { type: String, require: true },
 });
 
-const messageSchema = new mongoose.Schema({
-  message: String,
-  photoUrl: String,
-  expireAt: { type: Date, index: true, expireAfterSeconds: 0 },
-});
+// const messageSchema = new mongoose.Schema({
+//   message: String,
+//   photoUrl: String,
+//   expireAt: { type: Date, index: true, expireAfterSeconds: 0 },
+// });
 
 exports.User = mongoose.model("User", userSchema);
-exports.Message = mongoose.model("Message", messageSchema);
+// exports.Message = mongoose.model("Message", messageSchema);

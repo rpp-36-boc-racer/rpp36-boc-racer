@@ -3,10 +3,12 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Login from "./login/Login";
 import Signup from "./login/Signup";
+import ChatsHistory from "./InstantMessaging/ChatsHistory.jsx";
 import useAuthContext from "../hooks/useAuthContext";
 import PrivateRoutes from "./PrivateRoutes";
 import Temporary from "./Temporary";
-import Chat from "./Chat";
+import Chat from "./MessageList/Chat";
+import ChatTest from "./ChatTest";
 import Friends from "./Friends";
 import SendImage from "./SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
@@ -20,6 +22,10 @@ function App() {
       navigate("/profilePic");
       return;
     }
+    // if (user && !user.profileImage) {
+    //   navigate("/profilePic");
+    //   return;
+    // }
     if (user) {
       navigate("/dashboard");
     }
@@ -35,6 +41,8 @@ function App() {
         <Route path="/dashboard" element={<Temporary />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/friends" element={<Friends />} />
+        <Route path="/chat-test" element={<ChatTest />} />
+        <Route path="/instmsgChats" element={<ChatsHistory />} />
         <Route path="/upload-image" element={<SendImage />} />
       </Route>
     </Routes>

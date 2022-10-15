@@ -27,7 +27,20 @@ export default function withNavBar({ children }) {
       >
         <LogoutIcon />
       </IconButton>
+
       {children}
+
+      <ul>
+        <li>
+          <Link to="/chat-test">
+            <Button variant="contained">*******chat test page*****</Button>
+          </Link>
+          <Link to="/upload-image">
+            <Button variant="contained">Upload Image</Button>
+          </Link>
+        </li>
+      </ul>
+
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}
