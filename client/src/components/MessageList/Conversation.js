@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const profileImageStyle = {
   borderRadius: '50%',
@@ -26,10 +26,15 @@ const getConvoTime = (convoTime) => {
 //
 function Conversation(props) {
   const { profileImage, friendId, username, text, time, conversationId } = props.convo;
+  const navigate = useNavigate();
+  const handleConversationClick = () => {
+    navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
+  };
+
   return (
     <div style={sameLineStyle}>
-      <Link to={`/instmsgchats/messages/${conversationId}/${friendId}`}>
-        <div data-testid="convo">
+      {/* <Link to={`/instmsgchats/messages/${conversationId}/${friendId}`}> */}
+        <div data-testid="convo" onClick={handleConversationClick}>
           <div id="profileImage">
             <img src={profileImage} style={profileImageStyle}></img>
           </div>
@@ -40,7 +45,7 @@ function Conversation(props) {
             <div>{text}</div>
 
         </div>
-      </Link>
+      {/* </Link> */}
       <button data-testid="delete" onClick={() => {
         props.deleteConvoFunc(conversationId);
       }}>Delete</button>

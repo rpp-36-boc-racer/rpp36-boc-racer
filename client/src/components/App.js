@@ -27,36 +27,31 @@ function App() {
     //   return;
     // }
     if (user) {
-      navigate("/dashboard");
+      navigate("/chat");
     }
   }, [user]);
 
   return (
-    <div>
     <Routes>
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="/" element={<LandingPage />} />
       <Route element={<PrivateRoutes />}>
         <Route path="profilePic" element={<ProfileImageSelect />} />
-        <Route path="dashboard" element={<Temporary />} />
+        {/* <Route path="dashboard" element={<Temporary />} /> */}
         <Route path="chat" element={<Chat />} />
         <Route path="friends" element={<Friends />} />
-        {/* <Route path="/chat-test" element={<ChatTest />} /> */}
-        {/* <Route path="/instmsgChats" element={<ChatsHistory />} /> */}
         <Route
-          path="instmsgchats/messages/:curConversation/:friendUserId"
+          // path="instmsgchats/messages/:curConversation/:friendUserId"
+          path="messaging"
           element={<ChatsHistory />}
         />
         <Route
           path="instmsgchats/messages/:conversationId/:friendUserId/send-image"
           element={<SendImage />}
         />
-        {/* <Route path="/send-image" element={<SendImage />} /> */}
       </Route>
     </Routes>
-
-    </div>
   );
 }
 

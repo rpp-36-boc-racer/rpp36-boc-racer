@@ -30,17 +30,6 @@ export default function withNavBar({ children }) {
 
       {children}
 
-      {/* <ul>
-        <li>
-          <Link to="/chat-test">
-            <Button variant="contained">*******chat test page*****</Button>
-          </Link>
-          <Link to="/send-image">
-            <Button variant="contained">Upload Image</Button>
-          </Link>
-        </li>
-      </ul> */}
-
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}

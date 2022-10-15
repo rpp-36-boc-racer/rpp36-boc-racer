@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useParams, Outlet } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation, Outlet } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import Avatar from "@mui/material/Avatar";
@@ -30,11 +30,18 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function ChatsHistory() {
-  const { friendUserId, conversationId } = useParams();
+  const location = useLocation();
+  // const { conversationId, friendId } = location.state;
+  const conversationID = location.state.conversationId;
+  const friendUserID = location.state.friendId;
+  const friend = { profileImage: location.state.profileImage, username: location.state.username };
+  // console.log(conversationID, friend)
+
+  // const { friendUserId, conversationId } = useParams();
   // const [friendUserId, setFriendUserId] = useState("");
   const [curConversation, setCurConversation] = useState(null);
 
-  const [friend, setFriend] = useState(null);
+  // const [friend, setFriend] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [newArrivalMsg, setNewArrivalMsg] = useState(null);
@@ -85,40 +92,41 @@ function ChatsHistory() {
   //   updateFriendUserId();
   // }, [friendUserId]);
 
-  useEffect(() => {
-    const getFriend = async () => {
-      try {
-        console.log(friendUserId)
-        const response = await axios.get("/users-api/" + friendUserId);
-        console.log("this is friend res:", response.data);
-        setFriend(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFriend();
-  }, [friendUserId]);
+  // useEffect(() => {
+  //   const getFriend = async () => {
+  //     try {
+  //       console.log(friendUserId)
+  //       const response = await axios.get("/users-api/" + friendUserId);
+  //       console.log("this is friend res:", response.data);
+  //       setFriend(response.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getFriend();
+  // }, [friendUserId]);
 
-  useEffect(() => {
-    const getCurConversation = async () => {
-      try {
-        const response = await axios.get(
-          `/instmsg-api/conversations/${user?._id}/${friend?._id}`
-        );
-        console.log("this is the conv data:", response.data);
-        setCurConversation(response?.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getCurConversation();
-  }, [user?._id, friend]);
+  // useEffect(() => {
+  //   const getCurConversation = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `/instmsg-api/conversations/${user?._id}/${friend?._id}`
+  //       );
+  //       console.log("this is the conv data:", response.data);
+  //       setCurConversation(response?.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getCurConversation();
+  // }, [user?._id, friend]);
 
   useEffect(() => {
     const getMessages = async () => {
       try {
         const response = await axios.get(
-          "/instmsg-api/messages/" + curConversation?._id
+          "/instmsg-api/messages/" + conversationID
+          // "/instmsg-api/messages/" + curConversation?._id
         );
         console.log("this is message data:", response.data);
         setMessages(response.data);
@@ -127,7 +135,8 @@ function ChatsHistory() {
       }
     };
     getMessages();
-  }, [curConversation]);
+  }, [conversationID]);
+  // }, [curConversation]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
