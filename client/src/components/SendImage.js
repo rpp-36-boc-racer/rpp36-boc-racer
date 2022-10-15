@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { uploadFile } from "react-s3";
 import useAuthContext from "../hooks/useAuthContext";
 
@@ -66,7 +67,9 @@ export default function SendImage() {
           Remove
         </button>
       ) : (
-        <button type="button">Go back to message</button>
+        <Link to="/dashboard">
+          <button type="button">Go back to message</button>
+        </Link>
       )}
       <div className="image">
         {selectedFile ? (
