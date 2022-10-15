@@ -36,7 +36,11 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
         ) : null}
         {photo ? (
           <Grid>
-            <img src={photo} alt="test-img" />
+            <img
+              src={photo}
+              alt="test-img"
+              style={{ width: "80px", height: "80px" }}
+            />
           </Grid>
         ) : null}
       </Grid>
