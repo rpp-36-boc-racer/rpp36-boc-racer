@@ -58,7 +58,7 @@ function ChatsHistory() {
         createdAt: Date.now(),
       });
     });
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     console.log("this is newArrival:", newArrivalMsg);

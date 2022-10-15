@@ -62,8 +62,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-msg", (data) => {
-    console.log("send msg!", data);
-    const sendUserSocket = socketHelper.getUser(data?.receiverID);
+    console.log("send msg!", data.senderId, data.receiverId);
+    const sendUserSocket = socketHelper.getUser("63459dfbed755a985aad36fb");
     console.log("sendUserSocket:", sendUserSocket);
     io.to(sendUserSocket).emit("get-msg", data.senderId, data.message);
   });
