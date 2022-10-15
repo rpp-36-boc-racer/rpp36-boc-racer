@@ -18,16 +18,13 @@ const userSchema = new mongoose.Schema({
 //   expireAt: { type: Date, index: true, expireAfterSeconds: 0 },
 // });
 
-<<<<<<< HEAD
 exports.User = mongoose.model("User", userSchema);
 // exports.Message = mongoose.model("Message", messageSchema);
-=======
 const friendSchema = new mongoose.Schema({
   username: { type: String, required: true, index: true, unique: true },
   friends: [{ type: String }],
 });
 
 exports.User = mongoose.model("users", userSchema);
-exports.Message = mongoose.model("messages", messageSchema);
+// exports.Message = mongoose.model("messages", messageSchema);
 exports.Friend = mongoose.model("friends", friendSchema);
->>>>>>> 55b34e423c9d24f7160cc99d40784a32563051e7
