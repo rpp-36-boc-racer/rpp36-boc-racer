@@ -10,6 +10,7 @@ import Chat from "./Chat";
 import Friends from "./Friends";
 import SendImage from "./SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
+import Messaging from "./Messaging";
 
 function App() {
   const { user } = useAuthContext();
@@ -34,6 +35,7 @@ function App() {
         <Route path="/profilePic" element={<ProfileImageSelect />} />
         <Route path="/dashboard" element={<Temporary />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/messaging" element={<Messaging />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/upload-image" element={<SendImage />} />
       </Route>
