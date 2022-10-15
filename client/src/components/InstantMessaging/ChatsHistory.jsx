@@ -33,13 +33,13 @@ function ChatsHistory() {
   const location = useLocation();
   // const { conversationId, friendId } = location.state;
   const conversationID = location.state.conversationId;
-  const friendUserID = location.state.friendId;
-  const friend = { profileImage: location.state.profileImage, username: location.state.username };
+  // const friendUserID = location.state.friendId;
+  const friend = { _id: location.state.friendId, profileImage: location.state.profileImage, username: location.state.username };
   // console.log(conversationID, friend)
 
   // const { friendUserId, conversationId } = useParams();
   // const [friendUserId, setFriendUserId] = useState("");
-  const [curConversation, setCurConversation] = useState(null);
+  // const [curConversation, setCurConversation] = useState(null);
 
   // const [friend, setFriend] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -141,7 +141,8 @@ function ChatsHistory() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const textMessage = {
-      conversationID: curConversation?._id,
+      conversationID,
+      // conversationID: curConversation?._id,
       senderID: user?._id,
       text: newMessageText,
     };
