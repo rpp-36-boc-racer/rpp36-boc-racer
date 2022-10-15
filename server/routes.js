@@ -1,5 +1,5 @@
 const path = require("path");
-const db = require('./db/index.js');
+// const db = require('./db/index.js');
 const { uploadFile } = require("../s3");
 const db = require("./db");
 
