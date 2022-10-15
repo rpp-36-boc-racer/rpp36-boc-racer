@@ -27,6 +27,27 @@ exports.checkUserId = async (_id) => {
   return userId;
 };
 
+exports.getUsers = async (info) => {
+  const usersinfo = await db.User.find({
+    username: { $regex: info },
+  });
+
+  if (!usersinfo) {
+    throw Error("Can't find any user");
+  }
+  const users = usersinfo.map((user) => [user.username, user.profileImage]);
+  return users;
+};
+
+exports.addFriend = async (username, newfriend) => {
+
+  const friends = await db.Friend.findOneAndUpdate(
+    { username },
+    { $addToSet: { friends: newfriend } },
+    { upsert: true }
+  );
+};
+
 exports.addMessage = () => {
   // addMessage
 };

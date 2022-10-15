@@ -20,6 +20,7 @@ function App() {
   }, [user]);
 
   return (
+    <div>
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
@@ -30,6 +31,8 @@ function App() {
         <Route path="/friends" element={<Friends />} />
       </Route>
     </Routes>
+
+    </div>
   );
 }
 
