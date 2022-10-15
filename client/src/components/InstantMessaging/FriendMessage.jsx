@@ -27,7 +27,7 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
     >
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt={friendname} src="xxx.jpg" />
+          <Avatar alt={friendname} src={avatarImg} />
           <span>{friendname}</span>
         </Grid>
         {message ? (

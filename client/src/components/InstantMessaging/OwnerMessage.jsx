@@ -25,7 +25,7 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
     >
       <Grid container wrap="nowrap" spacing={2} direction="row-reverse">
         <Grid item>
-          <Avatar alt={ownername} src="xxx.jpg" />
+          <Avatar alt={ownername} src={avatarImg} />
           <span>{ownername}</span>
         </Grid>
 

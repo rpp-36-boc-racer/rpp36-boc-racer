@@ -2,7 +2,7 @@ const messagingModels = require("./db/instantMessagingModels");
 const userModel = require("./db/mongo");
 
 // post new conversation:
-// endpoint: "/instmsg/conversations"
+// endpoint: "/instmsg-api/conversations"
 exports.newConversation = async (req, res) => {
   const newConversation = new messagingModels.Conversation({
     members: [req.body.senderID, req.body.receiverID],
