@@ -27,12 +27,34 @@ exports.checkUserId = async (_id) => {
   return userId;
 };
 
+<<<<<<< HEAD
 exports.setProfileImage = async (_id, url) => {
   const user = await db.User.findOne({ _id });
   user.profileImage = url;
   await user.save();
   user.password = undefined;
   return user;
+=======
+exports.getUsers = async (info) => {
+  const usersinfo = await db.User.find({
+    username: { $regex: info },
+  });
+
+  if (!usersinfo) {
+    throw Error("Can't find any user");
+  }
+  const users = usersinfo.map((user) => [user.username, user.profileImage]);
+  return users;
+};
+
+exports.addFriend = async (username, newfriend) => {
+
+  const friends = await db.Friend.findOneAndUpdate(
+    { username },
+    { $addToSet: { friends: newfriend } },
+    { upsert: true }
+  );
+>>>>>>> 55b34e423c9d24f7160cc99d40784a32563051e7
 };
 
 exports.addMessage = () => {
