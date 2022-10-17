@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useParams, useLocation, Outlet } from "react-router-dom";
+import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import Avatar from "@mui/material/Avatar";
