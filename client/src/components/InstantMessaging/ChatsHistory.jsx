@@ -236,16 +236,6 @@ function ChatsHistory() {
           />
         </IconButton>
       </Box>
-<<<<<<< HEAD
-      {/* <IconButton
-        onClick={(e) => {
-          refresh(e);
-        }}
-      >
-        temp refresh
-      </IconButton> */}
-=======
->>>>>>> compile
     </div>
   );
 }
