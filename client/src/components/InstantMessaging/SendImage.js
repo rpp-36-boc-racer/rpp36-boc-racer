@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
@@ -20,7 +20,6 @@ const config = {
 
 export default function SendImage() {
   const { user } = useAuthContext();
-  // const { conversationId } = useParams();
   const location = useLocation();
   const { conversationId } = location.state;
   const [selectedFile, setSelectedFile] = useState(null);
@@ -94,7 +93,6 @@ export default function SendImage() {
           <CancelIcon fontSize="inherit" />
         </IconButton>
       ) : (
-        // <Link to="/dashboard">
         <IconButton
           color="primary"
           component="label"
@@ -104,7 +102,6 @@ export default function SendImage() {
         >
           <ArrowCircleLeftIcon fontSize="inherit" />
         </IconButton>
-        // </Link>
       )}
       <Paper
         sx={{
