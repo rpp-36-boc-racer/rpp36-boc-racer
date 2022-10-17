@@ -101,7 +101,10 @@ describe("add friends functionality", () => {
             username: "somebody",
             email: "somebody@email.com",
             profileImage: "someimage",
-            friends: ['joe', 'joseph']
+            users: [
+              ["joe", null],
+              ["joseph", null],
+            ],
           }),
       })
     );

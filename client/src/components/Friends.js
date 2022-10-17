@@ -7,6 +7,7 @@ import useAuthContext from "../hooks/useAuthContext";
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
+  console.log(name)
   const { error, isLoading, users, getUsers } = useGetUsers(name);
   const { addFriend } = useAddFriends(user);
 
@@ -20,7 +21,7 @@ export default function Friends() {
     const newfriend = e.target.innerHTML;
     addFriend({ user, newfriend });
   };
-  console.log(users);
+
   if (users && users.length > 0) {
     let usersEntries;
     usersEntries = users.map((person) => (
