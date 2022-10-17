@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 // import { blue } from "@mui/material/colors";
@@ -15,6 +15,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function OwnerMessage({ message, ownername, avatarImg, photo }) {
+  const [popView, setPopView] = useState(false);
   return (
     <StyledPaper
       sx={{
@@ -25,7 +26,7 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
     >
       <Grid container wrap="nowrap" spacing={2} direction="row-reverse">
         <Grid item>
-          <Avatar alt={ownername} src="xxx.jpg" />
+          <Avatar alt={ownername} src={avatarImg} />
           <span>{ownername}</span>
         </Grid>
 
@@ -34,9 +35,20 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
             <Typography>{message}</Typography>
           </Grid>
         ) : null}
-        {photo ? (
+        {photo && !popView ? (
+          <Grid onClick={(e) => setPopView(!popView)}>
+            <img
+              src={photo}
+              alt="test-img"
+              style={{ width: "80px", height: "80px" }}
+            />
+          </Grid>
+        ) : null}
+        {popView ? (
           <Grid>
-            <img src={photo} alt="test-img" style={{ height: 200, width: 200, objectFit: "contain" }}/>
+            <Grid onClick={(e) => setPopView(!popView)}>
+              <img src={photo} alt="test-img-zoom" />
+            </Grid>
           </Grid>
         ) : null}
       </Grid>
