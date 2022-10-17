@@ -5,7 +5,8 @@ import { BrowserRouter } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import PropTypes from "prop-types";
 import { AuthProvider } from "../../contexts/AuthContext";
-import App from "../App";
+// import App from "../App";
+import TestApp from "./TestApp";
 import ProfileImageSelect from "../ProfileImageSelect";
 import "@testing-library/jest-dom";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -47,7 +48,19 @@ describe("Profile image select page", () => {
     expect(screen.getByText("Upload")).toBeInTheDocument();
   });
   let profileImage = null;
+
   test("Allows file select", async () => {
+    // const data = [
+    //   {
+    //     conversationId: '634b0e57bc98b1af5386701b',
+    //     friendId: '6348e1502fb8aecbc5ebc30f',
+    //     username: 'ai',
+    //     profileImage: 'https://boc-racer-images.s3.amazonaws.com/1665720671365.jpeg',
+    //     text: 'image',
+    //     time: "2022-10-17T18:10:50.563Z",
+    //     epochTime: 1666030250000,
+    //   },
+    // ];
     function TestComponent({ children }) {
       const { user } = useAuthContext();
       useEffect(() => {
@@ -64,7 +77,7 @@ describe("Profile image select page", () => {
       <BrowserRouter>
         <AuthProvider>
           <TestComponent>
-            <App />
+            <TestApp />
           </TestComponent>
         </AuthProvider>
       </BrowserRouter>
