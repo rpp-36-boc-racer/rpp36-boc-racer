@@ -47,7 +47,8 @@ function App() {
           element={<ChatsHistory />}
         />
         <Route
-          path="instmsgchats/messages/:conversationId/:friendUserId/send-image"
+          // path="instmsgchats/messages/:conversationId/:friendUserId/send-image"
+          path="send-image"
           element={<SendImage />}
         />
       </Route>
