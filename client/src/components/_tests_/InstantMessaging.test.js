@@ -83,56 +83,6 @@ describe("Instant message page", () => {
     },
   ];
 
-  test("Renders the chat history page", async () => {
-    // jest does not implement useRef by default. Needs to add scrollIntoView fn into the jest-dom window
-    window.HTMLElement.prototype.scrollIntoView = () => {};
-
-    const mockUseLocationValue = {
-      pathname: "/messaging",
-      state: {
-        conversationId: curConversation._id,
-        friendId: friend._id,
-        profileImage: friend.profileImage,
-        username: friend.username,
-      },
-    };
-
-    const mockMessageData = [
-      {
-        text: "hello from member1",
-        senderID: "member1",
-      },
-      {
-        text: "hello from member2",
-        senderID: "member2",
-      },
-      {
-        photoUrl: "photoMessage1.jpg",
-        senderID: "member2",
-      },
-      {
-        photoUrl: "photoMessage2.jpg",
-        senderID: "member1",
-      },
-    ];
-
-    axios.get.mockResolvedValue({ data: mockMessageData });
-    await act(() => {
-      render(
-        <AuthContext.Provider value={{ user }}>
-          <MemoryRouter initialEntries={[mockUseLocationValue]}>
-            <ChatsHistory />
-          </MemoryRouter>
-        </AuthContext.Provider>
-      );
-    });
-    expect(
-      screen.getByText("DM with someFriend as somebody")
-    ).toBeInTheDocument();
-    expect(screen.getByText("hello from member1")).toBeInTheDocument();
-    expect(screen.getByText("hello from member2")).toBeInTheDocument();
-  });
-
   test("Renders test and photo messages sent by user", async () => {
 
     const { getByAltText } = await render(
@@ -180,4 +130,58 @@ describe("Instant message page", () => {
     expect(screen.getByText("hello from member2")).toBeInTheDocument();
     expect(image.src).toContain("photoMessage1.jpg");
   });
+});
+
+test("Renders the chat history page", async () => {
+  // jest does not implement useRef by default. Needs to add scrollIntoView fn into the jest-dom window
+  window.HTMLElement.prototype.scrollIntoView = () => {};
+
+  const mockUseLocationValue = {
+    pathname: "/messaging",
+    state: {
+      conversationId: curConversation._id,
+      friendId: friend._id,
+      profileImage: friend.profileImage,
+      username: friend.username,
+    },
+  };
+
+  const mockMessageData = [
+    {
+      text: "hello from member1",
+      senderID: "member1",
+    },
+    {
+      text: "hello from member2",
+      senderID: "member2",
+    },
+    {
+      photoUrl: "photoMessage1.jpg",
+      senderID: "member2",
+    },
+    {
+      photoUrl: "photoMessage2.jpg",
+      senderID: "member1",
+    },
+  ];
+
+  axios.get.mockResolvedValue({ data: mockMessageData });
+
+  await act(() => {
+    render(
+      <AuthContext.Provider value={{ user }}>
+        <MemoryRouter initialEntries={[mockUseLocationValue]}>
+          <ChatsHistory />
+        </MemoryRouter>
+      </AuthContext.Provider>
+    );
+  });
+  expect(
+    screen.getByText("DM with someFriend as somebody")
+  ).toBeInTheDocument();
+  expect(screen.getByText("hello from member1")).toBeInTheDocument();
+  expect(screen.getByText("hello from member2")).toBeInTheDocument();
+
+  // test submit text
+
 });

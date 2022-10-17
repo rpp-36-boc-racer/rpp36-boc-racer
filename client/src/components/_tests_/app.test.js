@@ -89,7 +89,7 @@ describe("Auth test", () => {
     render(
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <TestApp />
         </AuthProvider>
       </BrowserRouter>
     );
