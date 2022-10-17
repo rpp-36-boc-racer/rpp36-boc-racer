@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
@@ -20,7 +20,8 @@ const config = {
 
 export default function SendImage() {
   const { user } = useAuthContext();
-  const { conversationId } = useParams();
+  const location = useLocation();
+  const { conversationId } = location.state;
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +76,10 @@ export default function SendImage() {
       .catch((err) => console.error(err));
   };
 
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       {selectedFile ? (
@@ -88,16 +93,15 @@ export default function SendImage() {
           <CancelIcon fontSize="inherit" />
         </IconButton>
       ) : (
-        <Link to="/dashboard">
-          <IconButton
-            color="primary"
-            component="label"
-            sx={{ position: "fixed", top: 0, left: 0 }}
-            size="large"
-          >
-            <ArrowCircleLeftIcon fontSize="inherit" />
-          </IconButton>
-        </Link>
+        <IconButton
+          color="primary"
+          component="label"
+          sx={{ position: "fixed", top: 0, left: 0 }}
+          size="large"
+          onClick={handleBackButtonClick}
+        >
+          <ArrowCircleLeftIcon fontSize="inherit" />
+        </IconButton>
       )}
       <Paper
         sx={{
@@ -114,6 +118,8 @@ export default function SendImage() {
         }}
         elevation={2}
       >
+        {error && <p>Error: {error}</p>}
+        {isLoading && <p>loading...</p>}
         {selectedFile ? (
           <div>
             <img
@@ -139,8 +145,6 @@ export default function SendImage() {
             <CloudUploadIcon fontSize="large" />
           </IconButton>
         )}
-        {error && <p>Error: {error}</p>}
-        {isLoading && <p>loading...</p>}
       </Paper>
       <Box>
         <IconButton

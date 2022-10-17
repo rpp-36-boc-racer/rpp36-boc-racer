@@ -1,11 +1,16 @@
 /* eslint-disable no-undef */
 import React, { useEffect } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import PropTypes from "prop-types";
 import { AuthProvider } from "../../contexts/AuthContext";
 import App from "../App";
+import Login from "../login/Login";
+import Signup from "../login/Signup";
+import Temporary from "../Temporary";
+import PrivateRoutes from "../PrivateRoutes";
+import LandingPage from "../LandingPage";
 import "@testing-library/jest-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -28,6 +33,31 @@ describe("Auth test", () => {
 
   Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
+  function TestApp() {
+    const { user } = useAuthContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (user && !user.profileImage) {
+        navigate("/profilePic");
+        return;
+      }
+      if (user) {
+        navigate("/chat");
+      }
+    }, [user]);
+    return (
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="chat" element={<Temporary />} />
+        </Route>
+      </Routes>
+    );
+  }
+
   test("login", async () => {
     let testUser = null;
     function TestComponent({ children }) {
@@ -42,11 +72,12 @@ describe("Auth test", () => {
     TestComponent.propTypes = {
       children: PropTypes.node.isRequired,
     };
+
     render(
       <BrowserRouter>
         <AuthProvider>
           <TestComponent>
-            <App />
+            <TestApp />
           </TestComponent>
         </AuthProvider>
       </BrowserRouter>
@@ -114,7 +145,7 @@ describe("Auth test", () => {
       <BrowserRouter>
         <AuthProvider>
           <TestComponent>
-            <App />
+            <TestApp />
           </TestComponent>
         </AuthProvider>
       </BrowserRouter>

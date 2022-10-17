@@ -7,20 +7,21 @@ const axios = require('axios').default;
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const { getConversations, data, error } = useConversations();
+  const { getConversations, data } = useConversations();
 
   useEffect(() => {
     getConversations();
   }, []);
 
   function deleteConvoFunc(convoId) {
-    axios.delete(`/instmsg-api/conversations/${convoId}`)
-    .then(result => {
-      getConversations();
-    })
-    .catch(error => {
-      console.log('cannot delete conversation');
-    })
+    axios
+      .delete(`/instmsg-api/conversations/${convoId}`)
+      .then((result) => {
+        getConversations();
+      })
+      .catch((error) => {
+        console.log(`cannot delete conversation.\n ${error}`);
+      });
   }
 
   function hasBeenReadFunc(convoId) {
@@ -30,12 +31,14 @@ export default function Chat() {
   return (
     <WithNavBar>
       <h4> Chat </h4>
-      {data && <Conversations
-      data={data}
-      deleteConvoFunc={deleteConvoFunc.bind(this)}
-      hasBeenReadFunc={hasBeenReadFunc.bind(this)}
-      />}
-
+      <p>logged in as {user.username}</p>
+      {data && (
+        <Conversations
+          data={data}
+          deleteConvoFunc={deleteConvoFunc.bind(this)}
+          hasBeenReadFunc={hasBeenReadFunc.bind(this)}
+        />
+      )}
     </WithNavBar>
   );
 }

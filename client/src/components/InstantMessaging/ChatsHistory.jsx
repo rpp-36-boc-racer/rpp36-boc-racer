@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import Avatar from "@mui/material/Avatar";
@@ -116,14 +116,10 @@ function ChatsHistory() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const backToMessageList = (e) => {
-    navigate(`/chat-test`);
+  const handleSendImageButtonClick = (event) => {
+    event.preventDefault();
+    navigate("/send-image", { state: { conversationId: conversationID } });
   };
-
-  // const refresh = (e) => {
-  //   navigate("/chat-test");
-  //   navigate("/instmsgchats?friend=" + friendUserId);
-  // };
 
   return (
     <div className="chats">
@@ -141,9 +137,6 @@ function ChatsHistory() {
             aria-label="back-to-messagelist"
             component="label"
             sx={{ "&:hover": { backgroundColor: blue[100] } }}
-            onClick={(e) => {
-              backToMessageList(e);
-            }}
           >
             <ArrowBackOutlinedIcon
               sx={{
@@ -205,12 +198,12 @@ function ChatsHistory() {
         bottom="0px"
         left="10px"
       >
-        <Link to="send-image">
           <IconButton
             color="primary"
             aria-label="upload picture"
             component="label"
             sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            onClick={handleSendImageButtonClick}
           >
             <input hidden accept="image/*" type="file" />
             <AddPhotoAlternateIcon
@@ -219,7 +212,6 @@ function ChatsHistory() {
               }}
             />
           </IconButton>
-        </Link>
 
         <TextField
           sx={{
@@ -244,6 +236,7 @@ function ChatsHistory() {
           />
         </IconButton>
       </Box>
+<<<<<<< HEAD
       {/* <IconButton
         onClick={(e) => {
           refresh(e);
@@ -251,6 +244,8 @@ function ChatsHistory() {
       >
         temp refresh
       </IconButton> */}
+=======
+>>>>>>> compile
     </div>
   );
 }

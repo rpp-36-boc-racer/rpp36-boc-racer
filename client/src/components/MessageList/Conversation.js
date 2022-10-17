@@ -33,7 +33,6 @@ function Conversation(props) {
 
   return (
     <div style={sameLineStyle}>
-      {/* <Link to={`/instmsgchats/messages/${conversationId}/${friendId}`}> */}
         <div data-testid="convo" onClick={handleConversationClick}>
           <div id="profileImage">
             <img src={profileImage} style={profileImageStyle}></img>
@@ -45,10 +44,15 @@ function Conversation(props) {
             <div>{text}</div>
 
         </div>
-      {/* </Link> */}
-      <button data-testid="delete" onClick={() => {
-        props.deleteConvoFunc(conversationId);
-      }}>Delete</button>
+      <button
+        type="button"
+        data-testid="delete"
+        onClick={() => {
+          props.deleteConvoFunc(conversationId);
+        }}
+      >
+        Delete
+      </button>
     </div>
   );
 }

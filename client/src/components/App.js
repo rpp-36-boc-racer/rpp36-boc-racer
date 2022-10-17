@@ -6,7 +6,7 @@ import Signup from "./login/Signup";
 import ChatsHistory from "./InstantMessaging/ChatsHistory.jsx";
 import useAuthContext from "../hooks/useAuthContext";
 import PrivateRoutes from "./PrivateRoutes";
-import Temporary from "./Temporary";
+// import Temporary from "./Temporary";
 import Chat from "./MessageList/Chat";
 // import ChatTest from "./ChatTest";
 import Friends from "./Friends";
@@ -43,7 +43,8 @@ function App() {
           element={<ChatsHistory />}
         />
         <Route
-          path="instmsgchats/messages/:conversationId/:friendUserId/send-image"
+          // path="instmsgchats/messages/:conversationId/:friendUserId/send-image"
+          path="send-image"
           element={<SendImage />}
         />
       </Route>

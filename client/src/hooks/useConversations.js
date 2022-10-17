@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAuthContext from "./useAuthContext";
 
 export default () => {
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -10,7 +10,7 @@ export default () => {
     setError(null);
     const response = await fetch(`instmsg-api/conversations/${user._id}`, {
       method: 'GET',
-      headers: {Authentication: 'Bearer ' + user.token},
+      headers: { Authentication: 'Bearer ' + user.token },
       // body: JSON.stringify({_id: user._id})
 
     });
@@ -21,7 +21,7 @@ export default () => {
     } else {
       setError(json);
     }
-  }
+  };
 
-  return {getConversations, data, error};
-}
+  return { getConversations, data, error };
+};
