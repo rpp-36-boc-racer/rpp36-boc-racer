@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
@@ -7,25 +8,12 @@ import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SendIcon from "@mui/icons-material/Send";
 import CancelIcon from "@mui/icons-material/Cancel";
-
-import { uploadFile } from "react-s3";
-import useAuthContext from "../../hooks/useAuthContext";
-
-const config = {
-  bucketName: process.env.S3_BUCKET,
-  region: process.env.REGION,
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-};
+import useSendImage from "../../hooks/useSendImage";
 
 export default function SendImage() {
-  const { user } = useAuthContext();
-  const location = useLocation();
-  const { conversationId } = location.state;
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { isLoading, error, uploadAndSend } = useSendImage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,37 +31,6 @@ export default function SendImage() {
 
   const handleFileInput = (e) => {
     setSelectedFile(e.target.files[0]);
-  };
-
-  const handleUpload = async (file) => {
-    setIsLoading(true);
-
-    uploadFile(file, config)
-      .then(async (data) => {
-        const response = await fetch("/send-img", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `bearer ${user.token}`,
-          },
-          body: JSON.stringify({
-            userId: user._id,
-            conversationId,
-            imageURL: data.location,
-          }),
-        });
-
-        const json = await response.json();
-        if (response.ok) {
-          // navigate to previous page
-          navigate(-1);
-        } else {
-          setError(json.error);
-        }
-
-        setIsLoading(false);
-      })
-      .catch((err) => console.error(err));
   };
 
   const handleBackButtonClick = () => {
@@ -152,7 +109,7 @@ export default function SendImage() {
           color="primary"
           component="label"
           sx={{ position: "fixed", bottom: 0, left: "45%" }}
-          onClick={() => handleUpload(selectedFile)}
+          onClick={() => uploadAndSend(selectedFile)}
         >
           <SendIcon fontSize="large" />
         </IconButton>
