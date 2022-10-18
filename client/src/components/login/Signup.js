@@ -14,7 +14,7 @@ export default function Signup() {
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/profilePic");
     }
   }, [user]);
 
