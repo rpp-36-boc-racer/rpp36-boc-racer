@@ -83,22 +83,7 @@ function ChatsHistory() {
       }
     };
     getMessages();
-  }, [conversationID]);
-
-  useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await axios.get(
-          "/instmsg-api/messages/" + conversationID
-        );
-        console.log("this is message data:", response.data);
-        setMessages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getMessages();
-  }, [newArrivalMsg]);
+  }, [conversationID, newArrivalMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
