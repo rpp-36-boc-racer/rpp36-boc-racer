@@ -13,6 +13,13 @@ describe("Friends list", () => {
       username: "somebody",
     };
 
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(user),
+      })
+    );
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={{ user }}>
