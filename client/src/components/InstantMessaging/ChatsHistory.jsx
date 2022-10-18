@@ -165,27 +165,25 @@ function ChatsHistory() {
           px: 3,
         }}
       >
-        <>
-          {messages?.map((m) => (
-            <div>
-              {m.senderID === user?._id ? (
-                <OwnerMessage
-                  ownername={user?.username}
-                  avatarImg={user?.profileImage}
-                  message={m.text}
-                  photo={m.photoUrl}
-                />
-              ) : (
-                <FriendMessage
-                  friendname={friend?.username}
-                  avatarImg={friend?.profileImage}
-                  message={m.text}
-                  photo={m.photoUrl}
-                />
-              )}
-            </div>
-          ))}
-        </>
+        {messages?.map((m, index) => (
+          <div key={index}>
+            {m.senderID === user?._id ? (
+              <OwnerMessage
+                ownername={user?.username}
+                avatarImg={user?.profileImage}
+                message={m.text}
+                photo={m.photoUrl}
+              />
+            ) : (
+              <FriendMessage
+                friendname={friend?.username}
+                avatarImg={friend?.profileImage}
+                message={m.text}
+                photo={m.photoUrl}
+              />
+            )}
+          </div>
+        ))}
         <span ref={scrollRef}></span>
       </Box>
 
@@ -205,7 +203,6 @@ function ChatsHistory() {
             sx={{ "&:hover": { backgroundColor: blue[100] } }}
             onClick={handleSendImageButtonClick}
           >
-            <input hidden accept="image/*" type="file" />
             <AddPhotoAlternateIcon
               sx={{
                 fontSize: 60,
