@@ -10,6 +10,7 @@ import Chat from "./Chat";
 import Friends from "./Friends";
 import SendImage from "./SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
+import Messaging from "./Messaging";
 
 function App() {
   const { user } = useAuthContext();
@@ -27,19 +28,19 @@ function App() {
 
   return (
     <div>
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/" element={<LandingPage />} />
-      <Route element={<PrivateRoutes />}>
-        <Route path="/profilePic" element={<ProfileImageSelect />} />
-        <Route path="/dashboard" element={<Temporary />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/upload-image" element={<SendImage />} />
-      </Route>
-    </Routes>
-
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/profilePic" element={<ProfileImageSelect />} />
+          <Route path="/dashboard" element={<Temporary />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/messaging" element={<Messaging />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/upload-image" element={<SendImage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
