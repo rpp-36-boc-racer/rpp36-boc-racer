@@ -1,21 +1,25 @@
-import moment from 'moment';
-import React from 'react';
+import moment from "moment";
+import React from "react";
 
 const profileImageStyle = {
-  borderRadius: '50%',
-  padding: '5px',
-  height: '50px',
-  width: '50px'
+  borderRadius: "50%",
+  padding: "5px",
+  height: "50px",
+  width: "50px",
 };
 
 const sameLineStyleAndSpace = {
-  display: 'flex',
-  justifyContent: 'space-between'
+  display: "flex",
+  justifyContent: "space-between",
 };
 
 const sameLineStyle = {
-  display: 'flex'
+  display: "flex",
 };
+
+const boldFont = {
+  fontWeight: 'bold'
+}
 
 const getConvoTime = (convoTime) => {
   const timeElapsed = moment(convoTime).fromNow();
@@ -24,23 +28,28 @@ const getConvoTime = (convoTime) => {
 };
 //
 function Conversation(props) {
-  const { profileImage, username, text, time, conversationId } = props.convo;
+  console.log('props in convo', props)
+  const { profileImage, username, text, time, conversationId, hasBeenRead } = props.convo;
   return (
-    <div style={sameLineStyle}>
-      <div data-testid="convo">
-        <div id="profileImage">
-          <img src={profileImage} style={profileImageStyle}></img>
+    <div data-testid="convo" style={sameLineStyleAndSpace}>
+      <div style={sameLineStyle} onClick={() => { props.hasBeenReadFunc(textMessageId); }}>
+        <div>
+          <img src={profileImage} style={profileImageStyle} />
         </div>
-        <div style={sameLineStyle}>
-          <div>{username}</div>
-          <div>{getConvoTime(time)}</div>
+        <div>
+          <div style={sameLineStyleAndSpace}>
+            <div style={boldFont}>{username}</div>
+            <div style={{fontWeight: hasBeenRead? 'none' : 'bold'}}>{getConvoTime(time)}</div>
+          </div>
+          <div style={{fontWeight: hasBeenRead? 'none' : 'bold'}}>{text}</div>
         </div>
-          <div>{text}</div>
-
       </div>
-      <button data-testid="delete" onClick={() => {
-        props.deleteConvoFunc(conversationId);
-      }}>Delete</button>
+      <button
+        data-testid="delete"
+        onClick={() => { props.confirmDeleteFunc(username); }}
+      >
+        Delete
+      </button>
     </div>
   );
 }
