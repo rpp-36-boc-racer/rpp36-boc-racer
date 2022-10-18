@@ -10,6 +10,7 @@ function Conversations(props) {
         deleteConvoFunc={props.deleteConvoFunc}
         key={convo.conversationId}
         hasBeenReadFunc={props.hasBeenReadFunc}
+        confirmDeleteFunc={props.confirmDeleteFunc}
         />
       })}
     </>
