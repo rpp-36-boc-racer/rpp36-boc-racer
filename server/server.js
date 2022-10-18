@@ -31,7 +31,7 @@ app.post("/friends", friend.addFriend);
 app.post("/photo", auth.requireAuth, upload.single("image"), routes.photo);
 app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
-app.post("/send-img", auth.requireAuth, routes.sendImage);
+app.post("/send-img", auth.requireAuth, instmsgRoutes.addMessage);
 
 // app.get("/conversations", routes.getConversations);
 

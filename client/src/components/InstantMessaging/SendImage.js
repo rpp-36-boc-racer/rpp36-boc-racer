@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -109,7 +109,10 @@ export default function SendImage() {
           color="primary"
           component="label"
           sx={{ position: "fixed", bottom: 0, left: "45%" }}
-          onClick={() => uploadAndSend(selectedFile)}
+          onClick={(event) => {
+            event.preventDefault();
+            uploadAndSend(selectedFile);
+          }}
         >
           <SendIcon fontSize="large" />
         </IconButton>

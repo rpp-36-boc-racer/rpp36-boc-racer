@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
 import { uploadFile } from "react-s3";
 import useAuthContext from "./useAuthContext";
 
@@ -16,24 +17,34 @@ export default function useSendImage() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { conversationId } = location.state;
+  const { conversationId, friendId } = location.state;
+  const socket = useRef();
 
   const uploadAndSend = async (file) => {
     setIsLoading(true);
 
     uploadFile(file, config)
-      .then(async (data) => {
-        const response = await fetch("/send-img", {
+      .then(async (s3Response) => {
+        const data = {
+          senderID: user._id,
+          conversationID: conversationId,
+          photoUrl: s3Response.location,
+        };
+
+        socket.current = io("ws://localhost:4000");
+        socket.current.emit("send-msg", {
+          senderId: user._id,
+          receiverId: friendId,
+          message: data.photoUrl,
+        });
+
+        const response = await fetch("/instmsg-api/messages/addmsg", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `bearer ${user.token}`,
           },
-          body: JSON.stringify({
-            userId: user._id,
-            conversationId,
-            imageURL: data.location,
-          }),
+          body: JSON.stringify(data),
         });
 
         const json = await response.json();

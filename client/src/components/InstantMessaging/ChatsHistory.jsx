@@ -117,7 +117,7 @@ function ChatsHistory() {
 
   const handleSendImageButtonClick = (event) => {
     event.preventDefault();
-    navigate("/send-image", { state: { conversationId: conversationID } });
+    navigate("/send-image", { state: { conversationId: conversationID, friendId: friend._id } });
   };
 
   return (
