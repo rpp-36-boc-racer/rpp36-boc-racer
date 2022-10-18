@@ -6,6 +6,7 @@ import { act } from "react-dom/test-utils";
 import PropTypes from "prop-types";
 import { AuthProvider } from "../../contexts/AuthContext";
 import App from "../App";
+import TestApp from "./TestApp";
 import "@testing-library/jest-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -42,11 +43,12 @@ describe("Auth test", () => {
     TestComponent.propTypes = {
       children: PropTypes.node.isRequired,
     };
+
     render(
       <BrowserRouter>
         <AuthProvider>
           <TestComponent>
-            <App />
+            <TestApp />
           </TestComponent>
         </AuthProvider>
       </BrowserRouter>
@@ -87,7 +89,7 @@ describe("Auth test", () => {
     render(
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <TestApp />
         </AuthProvider>
       </BrowserRouter>
     );
@@ -114,7 +116,7 @@ describe("Auth test", () => {
       <BrowserRouter>
         <AuthProvider>
           <TestComponent>
-            <App />
+            <TestApp />
           </TestComponent>
         </AuthProvider>
       </BrowserRouter>

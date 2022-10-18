@@ -22,14 +22,12 @@ export default function Friends() {
   };
 
   if (users && users.length > 0) {
-    {
-      console.log(users);
-    }
-    let usersEntries;
-    usersEntries = users.map((person) => (
+    console.log(users);
+    const usersEntries = users.map((person) => (
       <div key={person[0]} data-testid="user-tobe-selected-list">
         <li>
           <button
+            type="button"
             data-testid="user-tobe-selected-button"
             onClick={() => handleAdd(person[0])}
           >

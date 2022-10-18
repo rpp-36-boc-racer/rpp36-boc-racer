@@ -2,8 +2,9 @@
 import "@testing-library/jest-dom";
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "../../contexts/AuthContext";
-import SendImage from "../SendImage";
+import SendImage from "../InstantMessaging/SendImage";
 
 describe("upload image component", () => {
   window.URL.createObjectURL = jest.fn();
@@ -35,6 +36,23 @@ describe("upload image component", () => {
   }))();
 
   Object.defineProperty(window, "localStorage", { value: localStorageMock });
+  const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
+
+  beforeEach(() => {
+    const mockUseLocationValue = {
+      pathname: "/send-image",
+      state: {
+        conversationId: "123",
+      },
+    };
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={[mockUseLocationValue]}>
+          <SendImage />
+        </MemoryRouter>
+      </AuthProvider>
+    );
+  });
 
   afterEach(() => {
     window.URL.createObjectURL.mockReset();
@@ -42,12 +60,6 @@ describe("upload image component", () => {
   });
 
   test("image preview", async () => {
-    render(
-      <AuthProvider>
-        <SendImage />
-      </AuthProvider>
-    );
-    const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
     const inputEl = screen.getByTestId("select-img");
 
     await fireEvent.change(inputEl, { target: { files: [file] } });
@@ -59,12 +71,6 @@ describe("upload image component", () => {
   });
 
   test("upload and send image", async () => {
-    render(
-      <AuthProvider>
-        <SendImage />
-      </AuthProvider>
-    );
-    const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
     const inputEl = screen.getByTestId("select-img");
     await fireEvent.change(inputEl, { target: { files: [file] } });
     const sendButton = screen.getAllByRole("button")[1];
