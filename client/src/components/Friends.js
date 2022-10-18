@@ -7,7 +7,6 @@ import useAuthContext from "../hooks/useAuthContext";
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
-  console.log(name)
   const { error, isLoading, users, getUsers } = useGetUsers(name);
   const { addFriend } = useAddFriends(user);
 
@@ -16,19 +15,25 @@ export default function Friends() {
     getUsers({ name });
   };
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    const newfriend = e.target.innerHTML;
+  const handleAdd = (person) => {
+    // e.preventDefault();
+    const newfriend = person;
     addFriend({ user, newfriend });
   };
 
   if (users && users.length > 0) {
+    {
+      console.log(users);
+    }
     let usersEntries;
     usersEntries = users.map((person) => (
-      <div data-testid="user-tobe-selected-list">
+      <div key={person[0]} data-testid="user-tobe-selected-list">
         <li>
-          <button data-testid="user-tobe-selected-button" onClick={handleAdd}>
-            {person}
+          <button
+            data-testid="user-tobe-selected-button"
+            onClick={() => handleAdd(person[0])}
+          >
+            {person[0]}
           </button>
         </li>
       </div>
