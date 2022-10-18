@@ -55,10 +55,6 @@ exports.addFriend = async (username, newfriend) => {
   );
 };
 
-exports.addMessage = () => {
-  // addMessage
-};
-
 exports.getUserInfo = async (_id) => {
   const userInfo = await db.User.findOne({ _id });
   return userInfo;
