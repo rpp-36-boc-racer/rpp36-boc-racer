@@ -28,7 +28,7 @@ export default function Friends() {
       <div data-testid="user-tobe-selected-list">
         <li>
           <button data-testid="user-tobe-selected-button" onClick={handleAdd}>
-            {person}
+            {person.username}
           </button>
         </li>
       </div>

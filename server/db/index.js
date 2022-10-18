@@ -35,12 +35,14 @@ exports.getUsers = async (info) => {
   if (!usersinfo) {
     throw Error("Can't find any user");
   }
-  const users = usersinfo.map((user) => [user.username, user.profileImage]);
+  const users = usersinfo.map((user) => ({
+    username: user.username,
+    profileImage: user.profileImage,
+  }));
   return users;
 };
 
 exports.addFriend = async (username, newfriend) => {
-
   const friends = await db.Friend.findOneAndUpdate(
     { username },
     { $addToSet: { friends: newfriend } },
