@@ -125,33 +125,3 @@ describe("add friends functionality", () => {
     fetch.mockClear();
   });
 });
-
-describe("Friend List", () => {
-  test("Renders friend list", async () => {
-    const user = {
-      user: "me",
-    };
-    const data = ["test1", "test2"];
-
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(data),
-      })
-    );
-
-    await act(() => {
-      render(
-        <BrowserRouter>
-          <AuthContext.Provider value={{ user }}>
-            <Friends />
-          </AuthContext.Provider>
-        </BrowserRouter>
-      );
-    });
-    expect(screen.getByText("test1")).toBeInTheDocument();
-    expect(screen.getByText("test2")).toBeInTheDocument();
-  });
-
-  it.todo("more test?");
-});

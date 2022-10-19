@@ -80,12 +80,12 @@ export default function Friends() {
           Submit
         </button>
         <div data-testid="userslist">{usersEntries}</div>
-        <div>Friend list of {user.username}</div>
+        <div>Friend list</div>
         {friendList && (
           <ul>
             {friendList.map((friend) => (
-              <div>
-                <li key={friend}>{friend}</li>
+              <div key={friend}>
+                <li>{friend}</li>
                 <Button onClick={() => chat(friend)}>Chat</Button>
               </div>
             ))}
@@ -110,12 +110,12 @@ export default function Friends() {
       >
         Submit
       </button>
-      <div>Friend list of {user.username}</div>
+      <div>Friend list</div>
       {friendList && (
         <ul>
           {friendList.map((friend) => (
-            <div>
-              <li key={friend}>{friend}</li>
+            <div key={friend}>
+              <li>{friend}</li>
               <Button onClick={() => chat(friend)}>Chat</Button>
             </div>
           ))}
