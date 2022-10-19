@@ -46,6 +46,26 @@ function ChatsHistory() {
   const navigate = useNavigate();
   const scrollRef = useRef();
 
+  const getMessages = async () => {
+    try {
+      const response = await axios.get(
+        "/instmsg-api/messages/" + conversationID
+      );
+      console.log("this is message data:", response.data);
+      setMessages(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const emitReadEvent = () => {
+    const emitData = {
+      conversationId: conversationID,
+      receiverId: user._id
+    }
+    socket.emit("read", emitData);
+  }
+
   useEffect(() => {
     if (!user) {
       navigate("/");
@@ -55,13 +75,30 @@ function ChatsHistory() {
   useEffect(() => {
     socket.emit("add-user", user?._id);
 
+    // const emitReadEvent = () => {
+    //   const emitData = {
+    //     conversationId: conversationID,
+    //     receiverId: user._id
+    //   }
+    //   socket.emit("read", emitData);
+    // }
+
+    emitReadEvent();
+
     socket.on("get-msg", (data) => {
       console.log("get msg at client side:", data);
-      setNewArrivalMsg({
-        senderID: data.senderId,
-        text: data.message,
-        createdAt: Date.now(),
-      });
+
+      if(data) {
+        setNewArrivalMsg({
+          senderID: data.senderId,
+          text: data.message,
+          createdAt: Date.now(),
+        });
+        emitReadEvent();
+      } else {
+        getMessages();
+      }
+
     });
 
     return () => {
@@ -74,17 +111,17 @@ function ChatsHistory() {
   // }, [user]);
 
   useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await axios.get(
-          "/instmsg-api/messages/" + conversationID
-        );
-        console.log("this is message data:", response.data);
-        setMessages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    // const getMessages = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       "/instmsg-api/messages/" + conversationID
+    //     );
+    //     console.log("this is message data:", response.data);
+    //     setMessages(response.data);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
     getMessages();
   }, [conversationID, newArrivalMsg]);
 

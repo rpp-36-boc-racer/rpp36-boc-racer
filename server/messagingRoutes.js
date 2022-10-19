@@ -101,6 +101,7 @@ exports.addMessage = async (req, res) => {
 
   try {
     const savedMessage = await newMessage.save();
+    console.log(savedMessage._id.toString());
     res.status(200).send(savedMessage);
   } catch (err) {
     res.status(500).send(err);

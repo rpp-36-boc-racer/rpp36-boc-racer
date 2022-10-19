@@ -8,6 +8,7 @@ const app = require("express")();
 const server = require("http").createServer(app);
 // const io = require("socket.io")(server);
 const socket = require("socket.io");
+const db = require("./db");
 const auth = require("./auth");
 const routes = require("./routes");
 const instmsgRoutes = require("./messagingRoutes");
@@ -103,6 +104,14 @@ io.on("connection", (socket) => {
       senderId: data.senderId,
       message: data.message,
     });
+  });
+
+  socket.on("read", async (data) => {
+    console.log("read event data", data);
+    const { conversationId, receiverId } = data;
+    await db.expireImage(conversationId, receiverId);
+
+    // force refresh page for receiver if still in instant message page
   });
 
   socket.on("disconnect", () => {
