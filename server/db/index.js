@@ -27,6 +27,14 @@ exports.checkUserId = async (_id) => {
   return userId;
 };
 
+exports.setProfileImage = async (_id, url) => {
+  const user = await db.User.findOne({ _id });
+  user.profileImage = url;
+  await user.save();
+  user.password = undefined;
+  return user;
+};
+
 exports.getUsers = async (info) => {
   const usersinfo = await db.User.find({
     username: { $regex: info },

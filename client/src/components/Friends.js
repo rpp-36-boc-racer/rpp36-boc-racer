@@ -22,8 +22,9 @@ export default function Friends() {
     getUsers({ name });
   };
 
-
-  const newuserslist = users.filter(person => person.username !== user.username);
+  const newuserslist = users.filter(
+    (person) => person.username !== user.username
+  );
 
   if (users && users.length > 0) {
     let usersEntries;

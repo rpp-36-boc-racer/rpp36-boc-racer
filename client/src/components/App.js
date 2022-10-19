@@ -3,14 +3,15 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Login from "./login/Login";
 import Signup from "./login/Signup";
+import ChatsHistory from "./InstantMessaging/ChatsHistory.jsx";
 import useAuthContext from "../hooks/useAuthContext";
 import PrivateRoutes from "./PrivateRoutes";
-import Temporary from "./Temporary";
-import Chat from "./Chat";
+// import Temporary from "./Temporary";
+import Chat from "./MessageList/Chat";
+// import ChatTest from "./ChatTest";
 import Friends from "./Friends";
-import SendImage from "./SendImage";
+import SendImage from "./InstantMessaging/SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
-import Messaging from "./Messaging";
 
 function App() {
   const { user } = useAuthContext();
@@ -22,26 +23,24 @@ function App() {
       return;
     }
     if (user) {
-      navigate("/dashboard");
+      navigate("/chat");
     }
   }, [user]);
 
   return (
-    <div>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<LandingPage />} />
-        <Route element={<PrivateRoutes />}>
-          <Route path="/profilePic" element={<ProfileImageSelect />} />
-          <Route path="/dashboard" element={<Temporary />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/messaging" element={<Messaging />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/upload-image" element={<SendImage />} />
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="profilePic" element={<ProfileImageSelect />} />
+        {/* <Route path="dashboard" element={<Temporary />} /> */}
+        <Route path="chat" element={<Chat />} />
+        <Route path="friends" element={<Friends />} />
+        <Route path="messaging" element={<ChatsHistory />} />
+        <Route path="send-image" element={<SendImage />} />
+      </Route>
+    </Routes>
   );
 }
 

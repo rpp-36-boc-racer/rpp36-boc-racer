@@ -13,17 +13,17 @@ const userSchema = new mongoose.Schema({
   friends: [{ type: String, default:null }]
 });
 
-const messageSchema = new mongoose.Schema(
-  {
-    userId: String,
-    friendId: String,
-    message: String,
-    photoUrl: String,
-    expireAt: { type: Date, index: true, expireAfterSeconds: 0 },
-  },
-  { timestamps: true }
-);
+// const messageSchema = new mongoose.Schema({
+//   message: String,
+//   photoUrl: String,
+//   expireAt: { type: Date, index: true, expireAfterSeconds: 0 },
+// });
 
-
-exports.User = mongoose.model("users", userSchema);
-exports.Message = mongoose.model("messages", messageSchema);
+exports.User = mongoose.model("User", userSchema);
+// exports.Message = mongoose.model("Message", messageSchema);
+const friendSchema = new mongoose.Schema({
+  username: { type: String, required: true, index: true, unique: true },
+  friends: [{ type: String }],
+});
+// exports.Message = mongoose.model("messages", messageSchema);
+exports.Friend = mongoose.model("friends", friendSchema);

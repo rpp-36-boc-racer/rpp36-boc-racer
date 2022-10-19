@@ -3,6 +3,7 @@ const db = require("../db");
 exports.getUsers = async (req, res) => {
   try {
     const users = await db.getUsers(req.params.username);
+    console.log(users);
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ error: err.message });
