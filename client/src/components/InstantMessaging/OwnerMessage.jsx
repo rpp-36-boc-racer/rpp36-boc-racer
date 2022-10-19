@@ -40,14 +40,27 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
             <img
               src={photo}
               alt="test-img"
-              style={{ width: "80px", height: "80px" }}
+              style={{ width: "80px", height: "80px", pointerEvents: "none" }}
             />
           </Grid>
         ) : null}
         {popView ? (
           <Grid>
-            <Grid onClick={(e) => setPopView(!popView)}>
-              <img src={photo} alt="test-img-zoom" />
+            <Grid
+              onClick={(e) => setPopView(!popView)}
+              style={{
+                maxWidth: "300px",
+                maxHeight: "300px",
+                overflow: "auto",
+              }}
+            >
+              <img
+                src={photo}
+                alt="test-img-zoom"
+                style={{
+                  pointerEvents: "none",
+                }}
+              />
             </Grid>
           </Grid>
         ) : null}
