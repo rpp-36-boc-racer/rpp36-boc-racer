@@ -45,7 +45,7 @@ export default function Chat() {
 
   return (
     <WithNavBar>
-      <h4> Chat </h4>
+      <h3 style={{textAlign: 'center'}}> Chat </h3>
       {data && (
         <Conversations
           data={data}
