@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 import useAuthContext from "../../hooks/useAuthContext";
 import WithNavBar from "../withNavBar";
 import Conversations from "./Conversations";
@@ -8,10 +10,36 @@ const axios = require("axios").default;
 export default function Chat() {
   const { user } = useAuthContext();
   const { getConversations, data } = useConversations();
+  const [newArrivalMsg, setNewArrivalMsg] = useState(null);
+  const socket = useRef();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
   useEffect(() => {
     getConversations();
   }, []);
+  useEffect(() => {
+    socket.current = io("ws://localhost:4000");
+    socket.current.on("get-msg", (data) => {
+      console.log("get msg at client side:", data);
+      setNewArrivalMsg({
+        senderID: data.senderId,
+        text: data.message,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+  useEffect(() => {
+    getConversations();
+  }, [newArrivalMsg]);
+
+  useEffect(() => {
+    socket.current.emit("add-user", user?._id);
+  }, [user]);
 
   function deleteConvoFunc(convoId) {
     axios
