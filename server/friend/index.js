@@ -11,7 +11,7 @@ exports.getUsers = async (req, res) => {
 
 exports.addFriend = async (req, res) => {
   try {
-    const user = req.body.user.username;
+    const user = req.body.user;
     const newfriend = req.body.newfriend;
     console.log("USER", user);
     console.log("FRIEND", newfriend);

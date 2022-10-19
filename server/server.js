@@ -12,7 +12,7 @@ const friend = require("./friend");
 
 const { upload } = require("../s3");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3008;
 
 app.use(morgan("tiny"));
 app.use(express.json());
@@ -28,10 +28,6 @@ app.post("/photo", auth.requireAuth, upload.single("image"), routes.photo);
 app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
 app.post("/send-img", auth.requireAuth, routes.sendImage);
-
-app.post("/friend-search", auth.requireAuth, routes.friendSearch);
-app.post("/add-friend", auth.requireAuth, routes.addFriend);
-app.get("/get-friends", auth.requireAuth, routes.getFriends);
 
 app.get("/conversations", auth.requireAuth, routes.getConversations);
 

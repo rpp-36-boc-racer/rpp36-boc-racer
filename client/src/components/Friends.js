@@ -15,29 +15,53 @@ export default function Friends() {
     getUsers({ name });
   };
 
-  const handleAdd = (person) => {
-    // e.preventDefault();
-    const newfriend = person;
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const newfriend = e.target.id;
     addFriend({ user, newfriend });
+    getUsers({ name });
   };
 
+
+  const newuserslist = users.filter(person => person.username !== user.username);
+
   if (users && users.length > 0) {
-    {
-      console.log(users);
-    }
     let usersEntries;
-    usersEntries = users.map((person) => (
-      <div key={person[0]} data-testid="user-tobe-selected-list">
-        <li>
-          <button
-            data-testid="user-tobe-selected-button"
-            onClick={() => handleAdd(person[0])}
-          >
-            {person[0]}
-          </button>
-        </li>
-      </div>
-    ));
+    usersEntries = newuserslist.map((person) => {
+      if (person.friends && person.friends.includes(user.username)) {
+        return (
+          <div data-testid="user-tobe-selected-list">
+            <li>
+              {person.username}
+              <button
+                type="button"
+                data-testid="user-tobe-selected-button"
+                id={person.username}
+                onClick={handleAdd}
+              >
+                chat
+              </button>
+            </li>
+          </div>
+        );
+      }
+      return (
+        <div data-testid="user-tobe-selected-list">
+          <li>
+            {person.username}
+            <button
+              type="button"
+              data-testid="user-tobe-selected-button"
+              id={person.username}
+              onClick={handleAdd}
+            >
+              add
+            </button>
+          </li>
+        </div>
+      );
+    });
+
     return (
       <WithNavBar>
         <h4>Friends Page</h4>

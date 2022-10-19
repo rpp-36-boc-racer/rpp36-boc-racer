@@ -35,12 +35,16 @@ exports.getUsers = async (info) => {
   if (!usersinfo) {
     throw Error("Can't find any user");
   }
-  const users = usersinfo.map((user) => [user.username, user.profileImage]);
+  const users = usersinfo.map((user) => ({
+    username: user.username,
+    profileImage: user.profileImage,
+    friends: user.friends,
+  }));
   return users;
 };
 
 exports.addFriend = async (username, newfriend) => {
-  const friends = await db.Friend.findOneAndUpdate(
+  await db.User.findOneAndUpdate(
     { username },
     { $addToSet: { friends: newfriend } },
     { upsert: true }
@@ -53,43 +57,6 @@ exports.setProfileImage = async (_id, url) => {
   await user.save();
   user.password = undefined;
   return user;
-};
-
-exports.searchFriends = async (term) => {
-  const re = new RegExp(term);
-  const result = await db.User.find({ username: { $regex: re } }).select(
-    "username _id"
-  );
-  return result;
-};
-
-exports.addFriend = async (friendship) => {
-  if (
-    friendship.userId === friendship.friendId ||
-    !friendship.userId ||
-    !friendship.friendId
-  ) {
-    throw Error("Invalid friendship");
-  }
-  const result = await db.Friend.create(friendship);
-  const secondWay = {
-    userId: friendship.friendId,
-    friendId: friendship.userId,
-  };
-  await db.Friend.create(secondWay);
-  return result;
-};
-
-exports.getFriends = async (_id) => {
-  const friends = await db.Friend.find({ userId: _id }).select("friendId");
-  const result = await Promise.all(
-    friends.map((friend) =>
-      db.User.findOne({ _id: friend.friendId }).select(
-        "username _id profileImage"
-      )
-    )
-  );
-  return result;
 };
 
 exports.saveMessage = async (messageData) => {
