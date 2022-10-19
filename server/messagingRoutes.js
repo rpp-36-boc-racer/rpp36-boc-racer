@@ -58,6 +58,7 @@ exports.getConversationByUser = async (req, res) => {
           : "",
         time: lastMessage ? lastMessage.updatedAt : convo.updatedAt,
         epochTime: Date.parse(lastMessage && lastMessage.updatedAt),
+        hasBeenRead: lastMessage.hasBeenRead,
       };
     });
 
@@ -95,6 +96,7 @@ exports.addMessage = async (req, res) => {
     senderID: req.body.senderID,
     text: req.body.text,
     photoUrl: req.body.photoUrl,
+    hasBeenRead: false,
   });
 
   try {
@@ -146,3 +148,10 @@ exports.deleteConversationById = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+// exports.readMessageById = async (req, res) => {
+//   const { messageId } = req.params;
+//   try {
+//     await messagingModels.TextMessage.
+//   }
+// }

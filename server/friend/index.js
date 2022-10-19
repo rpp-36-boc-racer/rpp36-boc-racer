@@ -14,10 +14,13 @@ exports.addFriend = async (req, res) => {
   try {
     const user = req.body.user.username;
     const newfriend = req.body.newfriend;
+    console.log("USER", user);
+    console.log("FRIEND", newfriend);
     const friend = await db.addFriend(user, newfriend);
     const friend2 = await db.addFriend(newfriend, user);
     res.status(200);
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ error: err.message });
   }
 };

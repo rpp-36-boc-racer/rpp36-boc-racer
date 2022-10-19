@@ -37,16 +37,8 @@ function App() {
         {/* <Route path="dashboard" element={<Temporary />} /> */}
         <Route path="chat" element={<Chat />} />
         <Route path="friends" element={<Friends />} />
-        <Route
-          // path="instmsgchats/messages/:curConversation/:friendUserId"
-          path="messaging"
-          element={<ChatsHistory />}
-        />
-        <Route
-          // path="instmsgchats/messages/:conversationId/:friendUserId/send-image"
-          path="send-image"
-          element={<SendImage />}
-        />
+        <Route path="messaging" element={<ChatsHistory />} />
+        <Route path="send-image" element={<SendImage />} />
       </Route>
     </Routes>
   );

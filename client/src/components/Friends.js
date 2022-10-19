@@ -6,7 +6,7 @@ import useAuthContext from "../hooks/useAuthContext";
 
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
-  const [ name, setUsername] = useState("");
+  const [name, setUsername] = useState("");
   const { error, isLoading, users, getUsers } = useGetUsers(name);
   const { addFriend } = useAddFriends(user);
 
@@ -15,32 +15,44 @@ export default function Friends() {
     getUsers({ name });
   };
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    const newfriend = e.target.innerHTML;
-
+  const handleAdd = (person) => {
+    // e.preventDefault();
+    const newfriend = person;
     addFriend({ user, newfriend });
   };
 
-  if (users.length > 0) {
-    let usersEntries;
-    usersEntries = users.map((person) => (
-      <li>
-        <button onClick={handleAdd}>{person}</button>
-      </li>
+  if (users && users.length > 0) {
+    console.log(users);
+    const usersEntries = users.map((person) => (
+      <div key={person[0]} data-testid="user-tobe-selected-list">
+        <li>
+          <button
+            type="button"
+            data-testid="user-tobe-selected-button"
+            onClick={() => handleAdd(person[0])}
+          >
+            {person[0]}
+          </button>
+        </li>
+      </div>
     ));
     return (
       <WithNavBar>
         <h4>Friends Page</h4>
-        <div>Friend list of {user.username}</div>
         <input
           type="text"
-          id="myInput"
+          data-testid="myInput"
           placeholder="Search for new friends.."
           onChange={(e) => setUsername(e.target.value)}
         />
-        <button onClick={handleSubmit}>Submit</button>
-        <div>{usersEntries}</div>
+        <button
+          type="button"
+          data-testid="submit-search-btn"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        <div data-testid="userslist">{usersEntries}</div>
       </WithNavBar>
     );
   }
@@ -53,8 +65,13 @@ export default function Friends() {
         placeholder="Search for new friends.."
         onChange={(e) => setUsername(e.target.value)}
       />
-      <button onClick={handleSubmit}>Submit</button>
-      {/* <div>Friend list of {user.username}</div> */}
+      <button
+        type="button"
+        data-testid="submit-search-btn"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
     </WithNavBar>
   );
 }
