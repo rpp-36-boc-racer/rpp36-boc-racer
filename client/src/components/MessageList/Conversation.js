@@ -94,13 +94,16 @@ function Conversation(props) {
         <Grid item padding={1}>
           <Avatar alt={username} src={profileImage} />
         </Grid>
-        <Grid>
+        <Grid  onClick={() => {
+          props.hasBeenReadFunc(lastMessageId);
+          handleConversationClick();
+        }}>
           <span style={{justifyContent: 'space-between'}}>
             <span style={{fontWeight: 'bold'}}>{username}</span>
             <span style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{getConvoTime(time)}</span>
           </span>
           <br></br>
-          <span style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{text}</span>
+          <span style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{text.length > 100? text.substring(0, 99) + '...' : text}</span>
         </Grid>
 
         <Grid>
