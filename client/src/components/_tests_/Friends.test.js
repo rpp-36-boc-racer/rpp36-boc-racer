@@ -117,6 +117,41 @@ describe("add friends functionality", () => {
     const userinlistButton = screen.getByTestId("userslist");
     expect(userinlistButton).toBeInTheDocument();
 
+    const friend1 = screen.getByTestId("joe");
+    expect(friend1).toBeInTheDocument();
+    const friend2 = screen.getByTestId("joseph");
+    expect(friend2).toBeInTheDocument();
+
     fetch.mockClear();
   });
+});
+
+describe("Friend List", () => {
+  test("Renders friend list", async () => {
+    const user = {
+      user: "me",
+    };
+    const data = ["test1", "test2"];
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(data),
+      })
+    );
+
+    await act(() => {
+      render(
+        <BrowserRouter>
+          <AuthContext.Provider value={{ user }}>
+            <Friends />
+          </AuthContext.Provider>
+        </BrowserRouter>
+      );
+    });
+    expect(screen.getByText("test1")).toBeInTheDocument();
+    expect(screen.getByText("test2")).toBeInTheDocument();
+  });
+
+  it.todo("more test?");
 });
