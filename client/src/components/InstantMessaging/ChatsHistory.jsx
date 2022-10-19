@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
+import SocketContext from "../../contexts/SocketContext";
 
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
@@ -38,12 +38,10 @@ function ChatsHistory() {
     username: location.state.username,
   };
   const { user } = useAuthContext();
-  // const [socket, setSocket] = useState(null);
-  // const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [newArrivalMsg, setNewArrivalMsg] = useState(null);
-  const socket = useRef();
+  let socket = useContext(SocketContext);
 
   const navigate = useNavigate();
   const scrollRef = useRef();
@@ -55,8 +53,9 @@ function ChatsHistory() {
   }, [user]);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:4000");
-    socket.current.on("get-msg", (data) => {
+    socket.emit("add-user", user?._id);
+
+    socket.on("get-msg", (data) => {
       console.log("get msg at client side:", data);
       setNewArrivalMsg({
         senderID: data.senderId,
@@ -64,11 +63,15 @@ function ChatsHistory() {
         createdAt: Date.now(),
       });
     });
+
+    return () => {
+      socket.off("get-msg");
+    }
   }, []);
 
-  useEffect(() => {
-    socket.current.emit("add-user", user?._id);
-  }, [user]);
+  // useEffect(() => {
+  //   socket.emit("add-user", user?._id);
+  // }, [user]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -93,7 +96,7 @@ function ChatsHistory() {
       text: newMessageText,
     };
 
-    socket.current.emit("send-msg", {
+    socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
       message: newMessageText,
