@@ -7,6 +7,7 @@ function Conversations(props) {
       {props.data.map((convo) => {
         return <Conversation
         convo={convo}
+        user={props.user}
         deleteConvoFunc={props.deleteConvoFunc}
         key={convo.conversationId}
         hasBeenReadFunc={props.hasBeenReadFunc}

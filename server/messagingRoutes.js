@@ -44,7 +44,7 @@ exports.getConversationByUser = async (req, res) => {
           sort: { updatedAt: -1 },
         }
       );
-
+      console.log('lastmessage', lastMessage)
       return {
         conversationId,
         friendId,
@@ -59,6 +59,8 @@ exports.getConversationByUser = async (req, res) => {
         time: lastMessage ? lastMessage.updatedAt : convo.updatedAt,
         epochTime: Date.parse(lastMessage && lastMessage.updatedAt),
         hasBeenRead: lastMessage.hasBeenRead,
+        senderId: lastMessage.senderID,
+        lastMessageId: lastMessage._id
       };
     });
 
@@ -149,9 +151,16 @@ exports.deleteConversationById = async (req, res) => {
   }
 };
 
-// exports.readMessageById = async (req, res) => {
-//   const { messageId } = req.params;
-//   try {
-//     await messagingModels.TextMessage.
-//   }
-// }
+exports.readMessageById = async (req, res) => {
+  const { textMessageId } = req.params;
+  console.log('readmessage by id function', req.params)
+  try {
+    await messagingModels.TextMessage.findOneAndUpdate(
+      {_id: textMessageId},
+      {$set: {hasBeenRead: true}}
+    )
+    res.status(201).send('updated hasBeenRead status');
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};

@@ -42,7 +42,6 @@ describe('Conversations', () => {
     //   expect(renderedConvos.length).toEqual(convos.length);
     // });
 
-    it.todo('this is a mock test');
   });
 });
 

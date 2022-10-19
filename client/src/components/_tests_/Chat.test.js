@@ -44,5 +44,4 @@ describe("Message List", () => {
     expect(screen.getByText("hello test")).toBeInTheDocument();
   });
 
-  it.todo("more test?");
 });

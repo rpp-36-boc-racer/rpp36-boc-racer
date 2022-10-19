@@ -20,7 +20,7 @@ const sameLineStyle = {
 
 const boldFont = {
   fontWeight: 'bold'
-}
+};
 
 const getConvoTime = (convoTime) => {
   const timeElapsed = moment(convoTime).fromNow();
@@ -30,19 +30,20 @@ const getConvoTime = (convoTime) => {
 //
 function Conversation(props) {
   console.log('props in convo', props)
-  const { profileImage, friendId, username, text, time, conversationId, hasBeenRead } = props.convo;
+  const { profileImage, friendId, username, text, time, conversationId, hasBeenRead , senderId, lastMessageId} = props.convo;
 
   const navigate = useNavigate();
   const handleConversationClick = () => {
     navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
   };
-
+  console.log('props.user._id', props.user._id)
+  console.log('senderId', senderId)
   return (
     <div data-testid="convo" style={sameLineStyleAndSpace}>
       <div
         style={sameLineStyle}
         onClick={() => {
-          // props.hasBeenReadFunc(textMessageId);
+          props.hasBeenReadFunc(lastMessageId);
           handleConversationClick();
         }}
       >
@@ -52,9 +53,9 @@ function Conversation(props) {
         <div>
           <div style={sameLineStyleAndSpace}>
             <div style={boldFont}>{username}</div>
-            <div style={{fontWeight: hasBeenRead? 'none' : 'bold'}}>{getConvoTime(time)}</div>
+            <div style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{getConvoTime(time)}</div>
           </div>
-          <div style={{fontWeight: hasBeenRead? 'none' : 'bold'}}>{text}</div>
+          <div style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{text}</div>
         </div>
       </div>
       <button

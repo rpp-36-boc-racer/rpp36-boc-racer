@@ -8,7 +8,7 @@ const axios = require('axios').default;
 export default function Chat() {
   const { user } = useAuthContext();
   const { getConversations, data } = useConversations();
-
+  console.log('user', user)
   useEffect(() => {
     getConversations();
   }, []);
@@ -25,7 +25,15 @@ export default function Chat() {
   }
 
   function hasBeenReadFunc(textMessageId) {
-    // axios.put(`/instmsg-api/messages/${textMessageId}`)
+    console.log('in chat: textmessageid', textMessageId)
+    axios
+      .put(`/instmsg-api/messages/${textMessageId}`)
+      .then(result => {
+        console.log('success in update hasBeenRead');
+      })
+      .catch(error => {
+        console.log('failed in update hasBeenRead');
+      });
   }
 
   function confirmDeleteFunc(friendUsername) {
@@ -41,6 +49,7 @@ export default function Chat() {
       {data && (
         <Conversations
           data={data}
+          user={user}
           deleteConvoFunc={deleteConvoFunc.bind(this)}
           hasBeenReadFunc={hasBeenReadFunc.bind(this)}
           confirmDeleteFunc={confirmDeleteFunc.bind(this)}
