@@ -76,29 +76,24 @@ function ChatsHistory() {
 
   useEffect(() => {
     socket.emit("add-user", user?._id);
-
-    // emit read whenever user enters instant message page
     emitReadEvent();
 
     socket.on("get-msg", (data) => {
       console.log("get msg at client side:", data);
+      emitReadEvent();
 
-      if (data) {
-        setNewArrivalMsg({
-          senderID: data.senderId,
-          text: data.message,
-          createdAt: Date.now(),
-        });
+      // get updated message to remove expired image after 70s
+      setTimeout(getMessages, 70000);
 
-        // emite read if user stays in instant message page and received a new message from current friend
-        emitReadEvent();
-      } else {
-        console.log("detect event get-msg with force")
-        getMessages();
-      }
-
-
+      setNewArrivalMsg({
+        senderID: data.senderId,
+        text: data.message,
+        createdAt: Date.now(),
+      });
     });
+
+    // get updated message to remove expired image after 70s
+    setTimeout(getMessages, 70000);
 
     return () => {
       socket.off("get-msg");
