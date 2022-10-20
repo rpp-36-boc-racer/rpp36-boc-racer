@@ -21,17 +21,14 @@ import useAuthContext from "../hooks/useAuthContext";
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
-  const { error, isLoading, users, getUsers } = useGetUsers(name);
-  const { addFriend } = useAddFriends(user);
+  const { error, isLoading, users, usersJson, getUsers } = useGetUsers(name);
 
-  // useEffect(() => {
-  //   getUsers({ name });
-  // }, [users]);
+  const { addFriend } = useAddFriends(user);
 
   useEffect(() => {
     getUsers({ name });
-  }, [users]);
-  console.log(users)
+  }, [usersJson]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     getUsers({ name });
@@ -41,8 +38,11 @@ export default function Friends() {
     e.preventDefault();
     const newfriend = e.target.id;
     addFriend({ user, newfriend });
+    getUsers({ name });
   };
 
+  console.log(users, "users");
+  console.log(usersJson, ", usersJson");
   const newuserslist = users.filter(
     (person) => person.username !== user.username
   );
