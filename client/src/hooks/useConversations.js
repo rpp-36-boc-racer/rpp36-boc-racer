@@ -19,7 +19,7 @@ export default () => {
       } else {
         setError(true);
       }
-    }, 1000);
+    }, 2000);
     setRunning(true);
   }
   return { data, error };

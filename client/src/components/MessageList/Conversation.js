@@ -46,42 +46,16 @@ const getConvoTime = (convoTime) => {
 };
 //
 function Conversation(props) {
-  console.log('props in convo', props)
-  const { profileImage, friendId, username, text, time, conversationId, hasBeenRead , senderId, lastMessageId} = props.convo;
+  const { userID, profileImage, friendId, username, text, time, conversationId, hasBeenRead , senderId, lastMessageId} = props.convo;
 
   const navigate = useNavigate();
   const handleConversationClick = () => {
     navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
   };
-  console.log('props.user._id', props.user._id)
-  console.log('senderId', senderId)
+  console.log('userID in convo',userID)
   return (
-    // <div data-testid="convo" style={sameLineStyleAndSpace}>
-    //   <div
-    //     style={sameLineStyle}
-    //     onClick={() => {
-    //       props.hasBeenReadFunc(lastMessageId);
-    //       handleConversationClick();
-    //     }}
-    //   >
-    //     <div>
-    //       <img src={profileImage} style={profileImageStyle} />
-    //     </div>
-    //     <div>
-    //       <div style={sameLineStyleAndSpace}>
-    //         <div style={boldFont}>{username}</div>
-    //         <div style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{getConvoTime(time)}</div>
-    //       </div>
-    //       <div style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{text}</div>
-    //     </div>
-    //   </div>
 
-    //   <IconButton aria-label="delete" size="large" onClick={() => { props.confirmDeleteFunc(username); }}>
-    //     <DeleteIcon />
-    //   </IconButton>
-    // </div>
-
-    <StyledPaper
+    <StyledPaper data-testid="convo"
       sx={{
         my: 1,
         mx: "auto",
@@ -90,7 +64,7 @@ function Conversation(props) {
         backgroundColor: blue[100],
       }}
     >
-      <Grid container wrap="nowrap" spacing={2}>
+      <Grid container wrap="nowrap" spacing={2} >
         <Grid item padding={1}>
           <Avatar alt={username} src={profileImage} />
         </Grid>
@@ -100,19 +74,17 @@ function Conversation(props) {
         }}>
           <span style={{justifyContent: 'space-between'}}>
             <span style={{fontWeight: 'bold'}}>{username}</span>
-            <span style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{getConvoTime(time)}</span>
+            <span style={{fontWeight: !hasBeenRead && userID !== senderId? 'bold' : 'none'}}>{getConvoTime(time)}</span>
           </span>
           <br></br>
-          <span style={{fontWeight: !hasBeenRead && props.user._id !== senderId? 'bold' : 'none'}}>{text.length > 100? text.substring(0, 99) + '...' : text}</span>
+          <span style={{fontWeight: !hasBeenRead && userID !== senderId? 'bold' : 'none'}}>{text.length > 100? text.substring(0, 99) + '...' : text}</span>
         </Grid>
 
         <Grid>
-          <IconButton aria-label="delete" size="large" onClick={() => { props.confirmDeleteFunc(username); }}>
+          <IconButton aria-label="delete" data-testid="delete" size="large" onClick={() => { props.confirmDeleteFunc(username, conversationId); }}>
             <DeleteIcon />
           </IconButton>
         </Grid>
-
-
       </Grid>
     </StyledPaper>
   );

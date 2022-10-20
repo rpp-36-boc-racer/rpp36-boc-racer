@@ -3,7 +3,7 @@ import Conversation from './Conversation';
 
 function Conversations(props) {
   return (
-    <>
+    <div>
       {props.data.map((convo) => {
         return <Conversation
         convo={convo}
@@ -14,7 +14,7 @@ function Conversations(props) {
         confirmDeleteFunc={props.confirmDeleteFunc}
         />
       })}
-    </>
+    </div>
   );
 }
 

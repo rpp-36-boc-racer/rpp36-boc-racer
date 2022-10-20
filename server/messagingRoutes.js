@@ -20,13 +20,12 @@ exports.newConversation = async (req, res) => {
 // endpoint: "/instmsg-api/conversations/:userID"
 exports.getConversationByUser = async (req, res) => {
   const { userID } = req.params;
-
+  console.log('userID in server', userID)
   try {
     const conversation = await messagingModels.Conversation.find({
       members: { $in: [userID] },
     });
-    // console.log(`this is conversation involving ${userID}`, conversation);
-    console.log("conversations", conversation);
+
     const results = conversation.map(async (convo) => {
       const conversationId = convo.id;
 
@@ -44,9 +43,9 @@ exports.getConversationByUser = async (req, res) => {
           sort: { createdAt: -1 },
         }
       );
-      console.log('lastmessage', lastMessage)
       return {
         conversationId,
+        userID,
         friendId,
         username,
         profileImage,
@@ -58,9 +57,9 @@ exports.getConversationByUser = async (req, res) => {
           : "",
         time: lastMessage ? lastMessage.createdAt : convo.createdAt,
         epochTime: Date.parse(lastMessage && lastMessage.createdAt),
-        hasBeenRead: lastMessage.hasBeenRead,
-        senderId: lastMessage.senderID,
-        lastMessageId: lastMessage._id
+        hasBeenRead: lastMessage ? lastMessage.hasBeenRead : false,
+        senderId: lastMessage ? lastMessage.senderID : friendId,
+        lastMessageId: lastMessage ? lastMessage._id : null,
       };
     });
 
@@ -68,10 +67,9 @@ exports.getConversationByUser = async (req, res) => {
     const sortedConvos = unsortedConvos.sort((a, b) => {
       return b.epochTime - a.epochTime;
     });
-    console.log("sortedconvos", sortedConvos);
     res.status(200).send(sortedConvos);
   } catch (err) {
-    console.log("err", err);
+    console.error(err);
     res.status(500).send(err);
   }
 };
@@ -144,7 +142,7 @@ exports.deleteConversationById = async (req, res) => {
   const { convoId } = req.params;
   console.log("conversationid", convoId);
   try {
-    await messagingModels.Conversation.findOneAndDelete({ id: convoId });
+    await messagingModels.Conversation.findOneAndDelete({ _id: convoId });
     res.status(200).send("successfully deleted conversation");
   } catch (err) {
     res.status(500).send(err);
@@ -153,7 +151,6 @@ exports.deleteConversationById = async (req, res) => {
 
 exports.readMessageById = async (req, res) => {
   const { textMessageId } = req.params;
-  console.log('readmessage by id function', req.params)
   try {
     await messagingModels.TextMessage.findOneAndUpdate(
       {_id: textMessageId},

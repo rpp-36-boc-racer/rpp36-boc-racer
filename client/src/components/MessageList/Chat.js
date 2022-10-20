@@ -8,8 +8,6 @@ const axios = require('axios').default;
 export default function Chat() {
   const { user } = useAuthContext();
   const { data, error } = useConversations();
-  console.log('user', user)
-
   // useEffect(() => {
   //   getConversations();
   // }, []);
@@ -18,7 +16,8 @@ export default function Chat() {
     axios
       .delete(`/instmsg-api/conversations/${convoId}`)
       .then((result) => {
-        getConversations();
+        // getConversations();
+        console.log('deleted conversation');
       })
       .catch((error) => {
         console.log(`cannot delete conversation.\n ${error}`);
@@ -26,7 +25,6 @@ export default function Chat() {
   }
 
   function hasBeenReadFunc(textMessageId) {
-    console.log('in chat: textmessageid', textMessageId)
     axios
       .put(`/instmsg-api/messages/${textMessageId}`)
       .then(result => {
@@ -37,13 +35,13 @@ export default function Chat() {
       });
   }
 
-  function confirmDeleteFunc(friendUsername) {
-
+  function confirmDeleteFunc(friendUsername, convoId) {
+    console.log('friend username, convoId', friendUsername, convoId)
     if (confirm(`Delete conversation with ${friendUsername}?`)) {
-      deleteConvoFunc();
+      deleteConvoFunc(convoId);
     }
   }
-
+  // console.log('data', data)
   return (
     <WithNavBar>
       <h3 style={{textAlign: 'center'}}> Chat </h3>
