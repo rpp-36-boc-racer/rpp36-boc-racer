@@ -40,6 +40,7 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
             <img
               src={photo}
               alt="test-img"
+              data-testid="test-thumbnail"
               style={{ width: "80px", height: "80px", pointerEvents: "none" }}
             />
           </Grid>
@@ -57,6 +58,7 @@ function OwnerMessage({ message, ownername, avatarImg, photo }) {
               <img
                 src={photo}
                 alt="test-img-zoom"
+                data-testid="test-zoom"
                 style={{
                   pointerEvents: "none",
                 }}

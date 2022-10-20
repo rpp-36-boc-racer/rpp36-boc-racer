@@ -46,6 +46,7 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
             <img
               src={photo}
               alt="test-img"
+              data-testid="test-thumbnail"
               style={{ width: "80px", height: "80px", pointerEvents: "none" }}
             />
           </Grid>
@@ -54,6 +55,7 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
           <Grid>
             <IconButton onClick={(e) => handleDownloadClick(e, photo)}>
               <DownloadIcon
+                data-testid="test-download-btn"
                 sx={{
                   fontSize: 50,
                 }}
@@ -70,6 +72,7 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
               <img
                 src={photo}
                 alt="test-img-zoom"
+                data-testid="test-zoom"
                 style={{
                   pointerEvents: "none",
                 }}
