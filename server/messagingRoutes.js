@@ -41,7 +41,7 @@ exports.getConversationByUser = async (req, res) => {
         },
         [],
         {
-          sort: { updatedAt: -1 },
+          sort: { createdAt: -1 },
         }
       );
       console.log('lastmessage', lastMessage)
@@ -56,8 +56,8 @@ exports.getConversationByUser = async (req, res) => {
             ? "image"
             : lastMessage.text
           : "",
-        time: lastMessage ? lastMessage.updatedAt : convo.updatedAt,
-        epochTime: Date.parse(lastMessage && lastMessage.updatedAt),
+        time: lastMessage ? lastMessage.createdAt : convo.createdAt,
+        epochTime: Date.parse(lastMessage && lastMessage.createdAt),
         hasBeenRead: lastMessage.hasBeenRead,
         senderId: lastMessage.senderID,
         lastMessageId: lastMessage._id

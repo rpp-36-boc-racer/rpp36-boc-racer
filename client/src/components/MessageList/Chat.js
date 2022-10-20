@@ -7,11 +7,12 @@ const axios = require('axios').default;
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const { getConversations, data } = useConversations();
+  const { data, error } = useConversations();
   console.log('user', user)
-  useEffect(() => {
-    getConversations();
-  }, []);
+
+  // useEffect(() => {
+  //   getConversations();
+  // }, []);
 
   function deleteConvoFunc(convoId) {
     axios
