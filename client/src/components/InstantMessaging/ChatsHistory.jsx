@@ -61,7 +61,8 @@ function ChatsHistory() {
   const emitReadEvent = () => {
     const emitData = {
       conversationId: conversationID,
-      receiverId: user._id
+      receiverId: user._id,
+      readAt: new Date(),
     }
     socket.emit("read", emitData);
   }
@@ -75,34 +76,32 @@ function ChatsHistory() {
   useEffect(() => {
     socket.emit("add-user", user?._id);
 
-    // const emitReadEvent = () => {
-    //   const emitData = {
-    //     conversationId: conversationID,
-    //     receiverId: user._id
-    //   }
-    //   socket.emit("read", emitData);
-    // }
-
+    // emit read event whenever user enters instant message page
     emitReadEvent();
 
     socket.on("get-msg", (data) => {
       console.log("get msg at client side:", data);
 
-      if(data) {
+      if (data) {
         setNewArrivalMsg({
           senderID: data.senderId,
           text: data.message,
           createdAt: Date.now(),
         });
+
+        // emite read event if user stays in instant message page and got a new message from current friend
         emitReadEvent();
       } else {
+        console.log("detect event get-msg with force")
         getMessages();
       }
+
 
     });
 
     return () => {
       socket.off("get-msg");
+      socket.emit("remove-user", user._id);
     }
   }, []);
 
@@ -111,17 +110,6 @@ function ChatsHistory() {
   // }, [user]);
 
   useEffect(() => {
-    // const getMessages = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       "/instmsg-api/messages/" + conversationID
-    //     );
-    //     console.log("this is message data:", response.data);
-    //     setMessages(response.data);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
     getMessages();
   }, [conversationID, newArrivalMsg]);
 

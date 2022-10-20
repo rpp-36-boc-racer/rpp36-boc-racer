@@ -107,16 +107,32 @@ io.on("connection", (socket) => {
   });
 
   socket.on("read", async (data) => {
-    console.log("read event data", data);
-    const { conversationId, receiverId } = data;
-    await db.expireImage(conversationId, receiverId);
+    // console.log("read event data", data);
+    const dbResp = await db.expireImage(data);
+    console.log("db response from expireImage", dbResp);
+    // can also do the hasBeenRead => true for all message from receiver
 
-    // force refresh page for receiver if still in instant message page
+    // force refresh page of the receiver if read image AND receiver is still in instant message page
+    const receiverSocket = getUser(data.receiverId);
+    console.log("online users", global.onlineUsersObj);
+    if (dbResp.modifiedCount && receiverSocket) {
+      const delayRefresh = 60001;
+      setTimeout(() => {
+        console.log("emited force refresh to", receiverSocket);
+        socket.to(receiverSocket).emit("get-msg", {});
+      }, delayRefresh);
+    }
+  });
+
+  socket.on("remove-user", (userId) => {
+    const userSocket = getUser(userId);
+    removeUser(userSocket);
+    console.log("online users", global.onlineUsersObj);
   });
 
   socket.on("disconnect", () => {
     console.log("a user disconnected!", socket.id);
-    removeUser();
+    removeUser(socket.id);
   });
 });
 /******************************************************

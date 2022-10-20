@@ -26,7 +26,7 @@ exports.getConversationByUser = async (req, res) => {
       members: { $in: [userID] },
     });
     // console.log(`this is conversation involving ${userID}`, conversation);
-    console.log("conversations", conversation);
+    // console.log("conversations", conversation);
     const results = conversation.map(async (convo) => {
       const conversationId = convo.id;
 
@@ -66,7 +66,7 @@ exports.getConversationByUser = async (req, res) => {
     const sortedConvos = unsortedConvos.sort((a, b) => {
       return b.epochTime - a.epochTime;
     });
-    console.log("sortedconvos", sortedConvos);
+    // console.log("sortedconvos", sortedConvos);
     res.status(200).send(sortedConvos);
   } catch (err) {
     console.log("err", err);
@@ -101,7 +101,6 @@ exports.addMessage = async (req, res) => {
 
   try {
     const savedMessage = await newMessage.save();
-    console.log(savedMessage._id.toString());
     res.status(200).send(savedMessage);
   } catch (err) {
     res.status(500).send(err);
@@ -141,7 +140,7 @@ exports.getUser = async (req, res) => {
 
 exports.deleteConversationById = async (req, res) => {
   const { convoId } = req.params;
-  console.log("conversationid", convoId);
+  // console.log("conversationid", convoId);
   try {
     await messagingModels.Conversation.findOneAndDelete({ id: convoId });
     res.status(200).send("successfully deleted conversation");

@@ -50,7 +50,8 @@ exports.getUserInfo = async (_id) => {
 };
 
 // expires image db model
-exports.expireImage = async (conversationId, receiverId) => {
+exports.expireImage = async (queryParam) => {
+  const { conversationId, receiverId, readAt } = queryParam;
   const receiverIdRegex = new RegExp(`/${receiverId}/`);
   const filter = {
     senderID: { $not: receiverIdRegex },
@@ -59,7 +60,7 @@ exports.expireImage = async (conversationId, receiverId) => {
   };
   const update = {
     $set: {
-      imageReadAt: new Date(),
+      imageReadAt: readAt,
       hasBeenRead: true,
     },
   };

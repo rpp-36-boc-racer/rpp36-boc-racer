@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // temporarily using 10s for testing purposes
-const imageExpireIn = 10;
+const imageExpireIn = 3;
 
 const ConversationSchema = new mongoose.Schema(
   {
