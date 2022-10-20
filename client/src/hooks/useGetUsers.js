@@ -14,6 +14,7 @@ export default () => {
         "Content-Type": "application/json",
       },
     })
+
     const json = await response.json();
       // .then((res) => res.json())
       // .then((data) => console.log('here', data));
@@ -21,6 +22,7 @@ export default () => {
       setIsLoading(false);
       setError(json.error);
     }
+
     if (response.ok) {
       setUsers(json.users);
       setIsLoading(false);

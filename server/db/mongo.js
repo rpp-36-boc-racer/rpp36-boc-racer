@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   profileImage: { type: String, default: null },
   email: { type: String, required: true, index: true, unique: true },
   password: { type: String, require: true },
+  friends: [{ type: String, default:null }]
 });
 
 // const messageSchema = new mongoose.Schema({
@@ -24,7 +25,5 @@ const friendSchema = new mongoose.Schema({
   username: { type: String, required: true, index: true, unique: true },
   friends: [{ type: String }],
 });
-
-exports.User = mongoose.model("users", userSchema);
 // exports.Message = mongoose.model("messages", messageSchema);
 exports.Friend = mongoose.model("friends", friendSchema);
