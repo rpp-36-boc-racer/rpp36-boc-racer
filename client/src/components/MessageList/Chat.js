@@ -41,7 +41,7 @@ export default function Chat() {
       deleteConvoFunc(convoId);
     }
   }
-  // console.log('data', data)
+
   return (
     <WithNavBar>
       <h3 style={{textAlign: 'center'}}> Chat </h3>
