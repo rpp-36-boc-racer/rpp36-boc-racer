@@ -1,4 +1,16 @@
 import React, { useState, useEffect } from "react";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputAdornment from "@mui/material/InputAdornment";
+import Icon from "@mui/material/Icon";
+import { IconButton } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ListItem from "@mui/material/ListItem";
+import Typography from "@mui/material/Typography";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
@@ -37,8 +49,11 @@ export default function Friends() {
       if (person.friends && person.friends.includes(user.username)) {
         return (
           <div data-testid="user-tobe-selected-list">
-            <li>
-              {person.username}
+            <ListItem alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar alt="profilepic" src={person.profilepic} />
+              </ListItemAvatar>
+              <ListItemText primary={person.username} />
               <button
                 type="button"
                 data-testid="user-tobe-selected-button"
@@ -47,14 +62,18 @@ export default function Friends() {
               >
                 chat
               </button>
-            </li>
+            </ListItem>
           </div>
         );
       }
       return (
         <div data-testid="user-tobe-selected-list">
-          <li>
-            {person.username}
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="profilepic" src={person.profilepic} />
+            </ListItemAvatar>
+            <ListItemText primary={person.username} />
+
             <button
               type="button"
               data-testid="user-tobe-selected-button"
@@ -63,7 +82,7 @@ export default function Friends() {
             >
               add
             </button>
-          </li>
+          </ListItem>
         </div>
       );
     });
@@ -71,19 +90,44 @@ export default function Friends() {
     return (
       <WithNavBar>
         <h4>Friends Page</h4>
-        <input
-          type="text"
-          data-testid="myInput"
-          placeholder="Search for new friends.."
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button
-          type="button"
-          data-testid="submit-search-btn"
-          onClick={handleSubmit}
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "30ch" },
+          }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          noValidate
+          autoComplete="off"
         >
-          Submit
-        </button>
+          <TextField
+            type="text"
+            data-testid="myInput"
+            label="USERNAME"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            placeholder="Search for new friends.."
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <div style={{ width: "20%", display: "flex" }}>
+            <IconButton
+              aria-label="add friend"
+              size="large"
+              data-testid="submit-search-btn"
+              sx={{ display: "flex" }}
+              onClick={handleSubmit}
+            >
+              <AddCircleIcon fontSize="large" />
+            </IconButton>
+          </div>
+        </Box>
         <div data-testid="userslist">{usersEntries}</div>
       </WithNavBar>
     );
@@ -91,19 +135,44 @@ export default function Friends() {
   return (
     <WithNavBar>
       <h4>Friends Page</h4>
-      <input
-        type="text"
-        id="myInput"
-        placeholder="Search for new friends.."
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <button
-        type="button"
-        data-testid="submit-search-btn"
-        onClick={handleSubmit}
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "30ch" },
+        }}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        noValidate
+        autoComplete="off"
       >
-        Submit
-      </button>
+        <TextField
+          type="text"
+          data-testid="myInput"
+          label="USERNAME"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircle />
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+          placeholder="Search for new friends.."
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <div style={{ width: "20%", display: "flex" }}>
+          <IconButton
+            aria-label="add friend"
+            size="large"
+            data-testid="submit-search-btn"
+            sx={{ display: "flex" }}
+            onClick={handleSubmit}
+          >
+            <AddCircleIcon fontSize="large" />
+          </IconButton>
+        </div>
+      </Box>
     </WithNavBar>
   );
 }
