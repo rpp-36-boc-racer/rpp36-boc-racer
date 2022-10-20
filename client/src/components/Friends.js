@@ -10,6 +10,12 @@ export default function Friends() {
   const { error, isLoading, users, getUsers } = useGetUsers(name);
   const { addFriend } = useAddFriends(user);
 
+  useEffect(() => {
+    if (users) {
+      getUsers({ name });
+    }
+  }, [users]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     getUsers({ name });
@@ -19,7 +25,6 @@ export default function Friends() {
     e.preventDefault();
     const newfriend = e.target.id;
     addFriend({ user, newfriend });
-    getUsers({ name });
   };
 
   const newuserslist = users.filter(

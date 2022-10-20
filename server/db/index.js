@@ -143,3 +143,8 @@ exports.getMessages = async (userId, friendId) => {
     };
   });
 };
+
+exports.getUserInfo = async (_id) => {
+  const userInfo = await db.User.findOne({ _id });
+  return userInfo;
+};

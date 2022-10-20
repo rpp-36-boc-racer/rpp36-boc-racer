@@ -15,7 +15,7 @@ const friend = require("./friend");
 
 const { upload } = require("../s3");
 
-const PORT = process.env.PORT || 3008;
+const PORT = process.env.PORT || 3000;
 
 app.use(morgan("tiny"));
 app.use(cors());
