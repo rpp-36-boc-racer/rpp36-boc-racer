@@ -1,4 +1,7 @@
 /* eslint-disable no-undef */
+/*
+ * @jest-environment node
+ */
 import React from "react";
 import axios from "axios";
 import { render, screen, act, fireEvent } from "@testing-library/react";
