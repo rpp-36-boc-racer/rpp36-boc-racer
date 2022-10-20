@@ -33,12 +33,6 @@ export default function useSendImage() {
           photoUrl: s3Response.location,
         };
 
-        socket.emit("send-msg", {
-          senderId: user._id,
-          receiverId: friendId,
-          message: data.photoUrl,
-        });
-
         const response = await fetch("/instmsg-api/messages/addmsg", {
           method: "POST",
           headers: {
@@ -50,6 +44,12 @@ export default function useSendImage() {
 
         const json = await response.json();
         if (response.ok) {
+          // after post is completed, emit send-msg event, so that when read emit, the record is in DB
+          socket.emit("send-msg", {
+            senderId: user._id,
+            receiverId: friendId,
+            message: data.photoUrl,
+          });
           // navigate to previous page
           navigate(-1);
         } else {

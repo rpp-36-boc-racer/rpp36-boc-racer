@@ -64,6 +64,7 @@ function ChatsHistory() {
       receiverId: user._id,
       readAt: new Date(),
     }
+    console.log("emit read");
     socket.emit("read", emitData);
   }
 
@@ -76,7 +77,7 @@ function ChatsHistory() {
   useEffect(() => {
     socket.emit("add-user", user?._id);
 
-    // emit read event whenever user enters instant message page
+    // emit read whenever user enters instant message page
     emitReadEvent();
 
     socket.on("get-msg", (data) => {
@@ -89,7 +90,7 @@ function ChatsHistory() {
           createdAt: Date.now(),
         });
 
-        // emite read event if user stays in instant message page and got a new message from current friend
+        // emite read if user stays in instant message page and received a new message from current friend
         emitReadEvent();
       } else {
         console.log("detect event get-msg with force")
