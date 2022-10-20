@@ -24,7 +24,7 @@ exports.login = async (userData) => {
 };
 
 exports.checkUserId = async (_id) => {
-  const userId = await db.User.findOne({ _id }).select("_id");
+  const userId = await db.User.findOne({ _id }).select("_id username");
   return userId;
 };
 
@@ -68,15 +68,3 @@ exports.expireImage = async (queryParam) => {
   const response = await messageDb.TextMessage.updateMany(filter, update);
   return response;
 };
-
-  // exports.getUsers = async (info) => {
-  //   const usersinfo = await db.User.find({
-  //     username: { $regex: info },
-  //   });
-
-  //   if (!usersinfo) {
-  //     throw Error("Can't find any user");
-  //   }
-  //   const users = usersinfo.map((user) => [user.username, user.profileImage]);
-  //   return users;
-  // };

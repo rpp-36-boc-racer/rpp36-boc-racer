@@ -13,6 +13,7 @@ const auth = require("./auth");
 const routes = require("./routes");
 const instmsgRoutes = require("./messagingRoutes");
 const friend = require("./friend");
+const email = require("../emailer");
 // const socketHelper = require("./socketHelperFn");
 const { upload } = require("../s3");
 
@@ -26,6 +27,7 @@ app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.post("/login", auth.login);
 app.post("/signup", auth.signup);
 
+app.get("/friends", auth.requireAuth, friend.getFriends);
 app.get("/users/:username", friend.getUsers);
 app.post("/friends", friend.addFriend);
 
@@ -33,6 +35,14 @@ app.post("/photo", auth.requireAuth, upload.single("image"), routes.photo);
 app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
 app.post("/send-img", auth.requireAuth, instmsgRoutes.addMessage);
+
+//* *********EMAIL*/
+// const mailOptions = {
+//   to: 'pawprints.notification@gmail.com', //whoever should get an email
+//   subject: 'Sending Email using Node.js',
+//   text: 'That was easy!'
+// };
+// email.sendEmail(mailOptions);
 
 // app.get("/conversations", routes.getConversations);
 
@@ -44,8 +54,10 @@ app.get(
   "/instmsg-api/conversations/:userID",
   instmsgRoutes.getConversationByUser
 );
-app.delete("/instmsg-api/conversations/:convoId",
-instmsgRoutes.deleteConversationById);
+app.delete(
+  "/instmsg-api/conversations/:convoId",
+  instmsgRoutes.deleteConversationById
+);
 // app.put("/instmsg-api/messages/:textMessageId", instmsgRoutes.readMessageById);
 app.get("/instmsg-api/conversations/:userID/:friendID", instmsgRoutes.getChats);
 app.post("/instmsg-api/messages/addmsg", instmsgRoutes.addMessage);
