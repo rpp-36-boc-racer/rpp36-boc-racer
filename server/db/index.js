@@ -56,7 +56,7 @@ exports.getFriends = async (info) => {
     throw Error("Can't find any friends");
   }
 
-  return friendsinfo[0].friends;
+  return friendsinfo[0].friends.sort();
 };
 
 exports.addFriend = async (username, newfriend) => {
