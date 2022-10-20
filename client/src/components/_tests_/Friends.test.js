@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { act } from "react-dom/test-utils";
-import { AuthProvider } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import Friends from "../Friends";
 import "@testing-library/jest-dom";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -85,12 +85,21 @@ describe("add friends functionality", () => {
   test("search users functionality", async () => {
     const user = {
       username: "somebody",
+      token: "test",
     };
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(["joe", "joseph"]),
+      })
+    );
+
     render(
       <BrowserRouter>
-        <AuthProvider value={{ user }}>
+        <AuthContext.Provider value={{ user }}>
           <Friends />
-        </AuthProvider>
+        </AuthContext.Provider>
       </BrowserRouter>
     );
 
@@ -109,6 +118,7 @@ describe("add friends functionality", () => {
           }),
       })
     );
+
     const nameInput = screen.getByPlaceholderText("Search for new friends..");
     expect(nameInput).toBeInTheDocument();
     await act(() => fireEvent.change(nameInput, { target: { value: "joe" } }));
@@ -116,6 +126,9 @@ describe("add friends functionality", () => {
     await act(() => fireEvent.click(submitButton));
     const userinlistButton = screen.getByTestId("userslist");
     expect(userinlistButton).toBeInTheDocument();
+
+    expect(screen.getAllByText("joe")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("joseph")[0]).toBeInTheDocument();
 
     fetch.mockClear();
   });
