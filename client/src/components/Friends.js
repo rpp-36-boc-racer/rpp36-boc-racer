@@ -21,6 +21,7 @@ import AddFriends from "./AddFriends";
 
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
+  const [friendList, setFriendList] = useState(null);
   const navigate = useNavigate();
 
   const getFriends = async () => {

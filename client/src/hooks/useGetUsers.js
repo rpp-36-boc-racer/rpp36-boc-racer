@@ -16,6 +16,7 @@ export default () => {
     })
 
     const json = await response.json();
+    console.log(json)
       // .then((res) => res.json())
       // .then((data) => console.log('here', data));
     if (!response.ok) {

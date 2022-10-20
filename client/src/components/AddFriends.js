@@ -21,16 +21,17 @@ import useAuthContext from "../hooks/useAuthContext";
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
-  const [friendList, setFriendList] = useState(null);
   const { error, isLoading, users, getUsers } = useGetUsers(name);
   const { addFriend } = useAddFriends(user);
 
-  useEffect(() => {
-    if (users) {
-      getUsers({ name });
-    }
-  }, [users]);
+  // useEffect(() => {
+  //   getUsers({ name });
+  // }, [users]);
 
+  useEffect(() => {
+    getUsers({ name });
+  }, [users]);
+  console.log(users)
   const handleSubmit = (e) => {
     e.preventDefault();
     getUsers({ name });
@@ -40,7 +41,6 @@ export default function Friends() {
     e.preventDefault();
     const newfriend = e.target.id;
     addFriend({ user, newfriend });
-    getFriends();
   };
 
   const newuserslist = users.filter(
@@ -132,17 +132,6 @@ export default function Friends() {
           </div>
         </Box>
         <div data-testid="userslist">{usersEntries}</div>
-        <div>Friend list</div>
-        {friendList && (
-          <ul>
-            {friendList.map((friend) => (
-              <div key={friend}>
-                <li>{friend}</li>
-                <Button onClick={() => chat(friend)}>Chat</Button>
-              </div>
-            ))}
-          </ul>
-        )}
       </>
     );
   }
