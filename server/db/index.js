@@ -65,6 +65,6 @@ exports.expireImage = async (queryParam) => {
     },
   };
 
-  const response = await messageDb.TextMessage.updateMany(filter, update);
-  return response;
+  return messageDb.TextMessage.updateMany(filter, update);
+  // return response;
 };
