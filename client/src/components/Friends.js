@@ -11,6 +11,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
@@ -19,11 +21,36 @@ import useAuthContext from "../hooks/useAuthContext";
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
+  const [friendList, setFriendList] = useState(null);
   const { error, isLoading, users, getUsers } = useGetUsers(name);
   const { addFriend } = useAddFriends(user);
+  const navigate = useNavigate();
+
+  const getFriends = async () => {
+    const response = await fetch(`friends/`, {
+      method: "GET",
+      headers: {
+        Authorization: `bearer ${user.token}`,
+      },
+    });
+    if (response.ok) {
+      const json = await response.json();
+      setFriendList(json);
+    }
+  };
 
   useEffect(() => {
-    if (users) {
+    if (!friendList) {
+      getFriends();
+    }
+  }, [friendList]);
+
+  const chat = (friend) => {
+    navigate("/messaging", { state: { friend } });
+  };
+
+  useEffect(() => {
+    if (!users) {
       getUsers({ name });
     }
   }, [users]);
@@ -37,6 +64,7 @@ export default function Friends() {
     e.preventDefault();
     const newfriend = e.target.id;
     addFriend({ user, newfriend });
+    getFriends();
   };
 
   const newuserslist = users.filter(
@@ -129,6 +157,17 @@ export default function Friends() {
           </div>
         </Box>
         <div data-testid="userslist">{usersEntries}</div>
+        <div>Friend list</div>
+        {friendList && (
+          <ul>
+            {friendList.map((friend) => (
+              <div key={friend}>
+                <li>{friend}</li>
+                <Button onClick={() => chat(friend)}>Chat</Button>
+              </div>
+            ))}
+          </ul>
+        )}
       </WithNavBar>
     );
   }
@@ -173,6 +212,17 @@ export default function Friends() {
           </IconButton>
         </div>
       </Box>
+      <div>Friend list</div>
+      {friendList && (
+        <ul>
+          {friendList.map((friend) => (
+            <div key={friend}>
+              <li>{friend}</li>
+              <Button onClick={() => chat(friend)}>Chat</Button>
+            </div>
+          ))}
+        </ul>
+      )}
     </WithNavBar>
   );
 }

@@ -9,6 +9,15 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.getFriends = async (req, res) => {
+  try {
+    const friends = await db.getFriends(req.user.id);
+    res.status(200).json(friends);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.addFriend = async (req, res) => {
   try {
     const user = req.body.user;

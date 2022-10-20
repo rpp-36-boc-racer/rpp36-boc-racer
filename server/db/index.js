@@ -51,6 +51,17 @@ exports.getUsers = async (info) => {
   return users;
 };
 
+exports.getFriends = async (info) => {
+  const friendsinfo = await db.User.find({
+    _id: info,
+  });
+
+  if (!friendsinfo) {
+    throw Error("Can't find any friends");
+  }
+  return friendsinfo[0].friends.sort();
+};
+
 exports.addFriend = async (username, newfriend) => {
   await db.User.findOneAndUpdate(
     { username },
@@ -123,6 +134,7 @@ exports.getMessages = async (userId, friendId) => {
     }
     return 1;
   });
+
   const friend = await db.User.findOne({ _id: friendId });
   return messages.map((message) => {
     if (message.friendId !== userId) {

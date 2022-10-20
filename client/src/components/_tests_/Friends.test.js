@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { act } from "react-dom/test-utils";
-import { AuthProvider } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import Friends from "../Friends";
 import "@testing-library/jest-dom";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -42,6 +42,7 @@ describe("add friends functionality", () => {
   test("search users functionality", async () => {
     const user = {
       username: "somebody",
+      token: "test",
     };
 
     const users = {
@@ -80,7 +81,6 @@ describe("add friends functionality", () => {
     const userinlistButton = screen.getByTestId("userslist");
 
     expect(userinlistButton).toBeInTheDocument();
-
 
 
     fetch.mockClear();
