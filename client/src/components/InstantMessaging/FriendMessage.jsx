@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
+// import { saveAs } from "file-saver";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -16,8 +17,15 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-function FriendMessage({ message, friendname, avatarImg, photo }) {
+function FriendMessage({
+  message,
+  friendname,
+  avatarImg,
+  photo,
+  handleDownloadBtnClick,
+}) {
   const [popView, setPopView] = useState(false);
+
   return (
     <StyledPaper
       sx={{
@@ -44,21 +52,37 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
             <img
               src={photo}
               alt="test-img"
-              style={{ width: "80px", height: "80px" }}
+              data-testid="test-thumbnail"
+              style={{ width: "80px", height: "80px", pointerEvents: "none" }}
             />
           </Grid>
         ) : null}
         {popView ? (
           <Grid>
-            <IconButton>
+            <IconButton onClick={(e) => handleDownloadBtnClick(e, photo)}>
               <DownloadIcon
+                data-testid="test-download-btn"
                 sx={{
                   fontSize: 50,
                 }}
               />
             </IconButton>
-            <Grid onClick={(e) => setPopView(!popView)}>
-              <img src={photo} alt="test-img-zoom" />
+            <Grid
+              onClick={(e) => setPopView(!popView)}
+              style={{
+                maxWidth: "300px",
+                maxHeight: "300px",
+                overflow: "auto",
+              }}
+            >
+              <img
+                src={photo}
+                alt="test-img-zoom"
+                data-testid="test-zoom"
+                style={{
+                  pointerEvents: "none",
+                }}
+              />
             </Grid>
           </Grid>
         ) : null}

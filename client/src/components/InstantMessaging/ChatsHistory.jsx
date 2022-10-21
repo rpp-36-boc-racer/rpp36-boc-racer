@@ -18,6 +18,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import FriendMessage from "./FriendMessage.jsx";
 import OwnerMessage from "./OwnerMessage.jsx";
+import { saveAs } from "file-saver";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -144,6 +145,33 @@ function ChatsHistory() {
     navigate("/send-image", { state: { conversationId: conversationID, friendId: friend._id } });
   };
 
+  /************* download photo btn***************/
+
+  const downloadAndSendNotification = async (e, photoUrl) => {
+    e.preventDefault();
+    saveAs(photoUrl, "download.jpg");
+    const textMessage = {
+      conversationID,
+      senderID: user?._id,
+      text: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+    };
+    socket.current.emit("send-msg", {
+      senderId: user?._id,
+      receiverId: friend?._id,
+      message: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+    });
+    try {
+      const response = await axios.post(
+        "/instmsg-api/messages/addmsg",
+        textMessage
+      );
+      console.log("Success notify!");
+      setMessages([...messages, response.data]);
+    } catch (err) {
+      console.log("can not trigger notification!", err);
+    }
+  };
+
   return (
     <div className="chats">
       <Box
@@ -203,6 +231,7 @@ function ChatsHistory() {
                 avatarImg={friend?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
+                handleDownloadBtnClick={downloadAndSendNotification}
               />
             )}
           </div>

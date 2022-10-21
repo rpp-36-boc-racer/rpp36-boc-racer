@@ -3,7 +3,7 @@ import useAuthContext from "../../hooks/useAuthContext";
 import WithNavBar from "../withNavBar";
 import Conversations from "./Conversations";
 import useConversations from "../../hooks/useConversations";
-const axios = require('axios').default;
+const axios = require("axios").default;
 
 export default function Chat() {
   const { user } = useAuthContext();
@@ -35,7 +35,7 @@ export default function Chat() {
       });
   }
 
-  function confirmDeleteFunc(friendUsername, convoId) {
+  function confirmDeleteFunc(friendUsername) {
     if (confirm(`Delete conversation with ${friendUsername}?`)) {
       deleteConvoFunc(convoId);
     }
