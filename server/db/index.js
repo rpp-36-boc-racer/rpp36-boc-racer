@@ -36,6 +36,33 @@ exports.setProfileImage = async (_id, url) => {
   return user;
 };
 
+exports.getUsers = async (info) => {
+  const usersinfo = await db.User.find({
+    username: { $regex: info },
+  });
+
+  if (!usersinfo) {
+    throw Error("Can't find any user");
+  }
+  const users = usersinfo.map((user) => ({
+    username: user.username,
+    profileImage: user.profileImage,
+    friends: user.friends,
+  }));
+  return users;
+};
+
+exports.getFriends = async (info) => {
+  const friendsinfo = await db.User.find({
+    _id: info,
+  });
+
+  if (!friendsinfo) {
+    throw Error("Can't find any friends");
+  }
+  return friendsinfo[0].friends.sort();
+};
+
 exports.addFriend = async (username, newfriend) => {
   await db.User.findOneAndUpdate(
     { username },
