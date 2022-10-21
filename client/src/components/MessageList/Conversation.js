@@ -1,6 +1,6 @@
-import moment from 'moment';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import moment from "moment";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const profileImageStyle = {
   borderRadius: "50%",
@@ -19,8 +19,8 @@ const sameLineStyle = {
 };
 
 const boldFont = {
-  fontWeight: 'bold'
-}
+  fontWeight: "bold",
+};
 
 const getConvoTime = (convoTime) => {
   const timeElapsed = moment(convoTime).fromNow();
@@ -29,12 +29,22 @@ const getConvoTime = (convoTime) => {
 };
 //
 function Conversation(props) {
-  console.log('props in convo', props)
-  const { profileImage, friendId, username, text, time, conversationId, hasBeenRead } = props.convo;
+  console.log("props in convo", props);
+  const {
+    profileImage,
+    friendId,
+    username,
+    text,
+    time,
+    conversationId,
+    hasBeenRead,
+  } = props.convo;
 
   const navigate = useNavigate();
   const handleConversationClick = () => {
-    navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
+    navigate("/messaging", {
+      state: { conversationId, friendId, username, profileImage },
+    });
   };
 
   return (
@@ -52,14 +62,20 @@ function Conversation(props) {
         <div>
           <div style={sameLineStyleAndSpace}>
             <div style={boldFont}>{username}</div>
-            <div style={{fontWeight: hasBeenRead? 'none' : 'bold'}}>{getConvoTime(time)}</div>
+            <div style={{ fontWeight: hasBeenRead ? "none" : "bold" }}>
+              {getConvoTime(time)}
+            </div>
           </div>
-          <div style={{fontWeight: hasBeenRead? 'none' : 'bold'}}>{text}</div>
+          <div style={{ fontWeight: hasBeenRead ? "none" : "bold" }}>
+            {text}
+          </div>
         </div>
       </div>
       <button
         data-testid="delete"
-        onClick={() => { props.confirmDeleteFunc(username); }}
+        onClick={() => {
+          props.confirmDeleteFunc(username);
+        }}
       >
         Delete
       </button>
