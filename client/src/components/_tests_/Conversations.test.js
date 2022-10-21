@@ -36,7 +36,11 @@ describe('Conversations', () => {
       },
     ]
     it('should render the correct number of conversations', async () => {
-      render(<Conversations data={convos} />);
+      render(
+        <BrowserRouter>
+          <Conversations data={convos} />
+        </BrowserRouter>
+      );
       const renderedConvos = screen.getByTestId('convo');
       console.log('renderedconvos', renderedConvos)
       expect(renderedConvos.length).toEqual(convos.length);
