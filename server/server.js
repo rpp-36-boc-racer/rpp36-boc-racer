@@ -29,7 +29,7 @@ app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.post("/login", auth.login);
 app.post("/signup", auth.signup);
 
-app.get("/friends", auth.requireAuth, friend.getFriends);
+app.get("/friends/", auth.requireAuth, friend.getFriends);
 app.get("/users/:username", friend.getUsers);
 app.post("/friends", friend.addFriend);
 
@@ -60,7 +60,7 @@ app.delete(
   "/instmsg-api/conversations/:convoId",
   instmsgRoutes.deleteConversationById
 );
-// app.put("/instmsg-api/messages/:textMessageId", instmsgRoutes.readMessageById);
+app.put("/instmsg-api/messages/:textMessageId", instmsgRoutes.readMessageById);
 app.get("/instmsg-api/conversations/:userID/:friendID", instmsgRoutes.getChats);
 app.post("/instmsg-api/messages/addmsg", instmsgRoutes.addMessage);
 app.get("/instmsg-api/messages/:conversationId", instmsgRoutes.getMessages);

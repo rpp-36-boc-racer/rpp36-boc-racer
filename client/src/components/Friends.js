@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputAdornment from "@mui/material/InputAdornment";
+import Icon from "@mui/material/Icon";
+import { IconButton } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ListItem from "@mui/material/ListItem";
+import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
 import useAuthContext from "../hooks/useAuthContext";
+import AddFriends from "./AddFriends";
 
 export default function Friends() {
   const { user, dispatch } = useAuthContext();
-  const [name, setUsername] = useState("");
   const [friendList, setFriendList] = useState(null);
-  const { error, isLoading, users, getUsers } = useGetUsers(name);
-  const { addFriend } = useAddFriends(user);
   const navigate = useNavigate();
 
   const getFriends = async () => {
-    const response = await fetch("friends", {
+    const response = await fetch(`friends/`, {
       method: "GET",
       headers: {
         Authorization: `bearer ${user.token}`,
@@ -37,79 +47,10 @@ export default function Friends() {
     navigate("/messaging", { state: { friend } });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    getUsers({ name });
-  };
-
-  const handleAdd = (person) => {
-    // e.preventDefault();
-    const newfriend = person;
-    addFriend({ user, newfriend });
-    getFriends();
-  };
-
-  if (users && users.length > 0) {
-    const usersEntries = users.map((person) => (
-      <div key={person[0]} data-testid="user-tobe-selected-list">
-        <li>
-          <button
-            type="button"
-            data-testid="user-tobe-selected-button"
-            onClick={() => handleAdd(person[0])}
-          >
-            {person[0]}
-          </button>
-        </li>
-      </div>
-    ));
-    return (
-      <WithNavBar>
-        <h4>Friends Page</h4>
-        <input
-          type="text"
-          data-testid="myInput"
-          placeholder="Search for new friends.."
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button
-          type="button"
-          data-testid="submit-search-btn"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-        <div data-testid="userslist">{usersEntries}</div>
-        <div>Friend list</div>
-        {friendList && (
-          <ul>
-            {friendList.map((friend) => (
-              <div key={friend}>
-                <li>{friend}</li>
-                <Button onClick={() => chat(friend)}>Chat</Button>
-              </div>
-            ))}
-          </ul>
-        )}
-      </WithNavBar>
-    );
-  }
   return (
     <WithNavBar>
       <h4>Friends Page</h4>
-      <input
-        type="text"
-        id="myInput"
-        placeholder="Search for new friends.."
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <button
-        type="button"
-        data-testid="submit-search-btn"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+      <AddFriends />
       <div>Friend list</div>
       {friendList && (
         <ul>
