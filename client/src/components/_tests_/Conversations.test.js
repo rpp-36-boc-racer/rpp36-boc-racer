@@ -20,16 +20,19 @@ describe('Conversations', () => {
   describe('Conversations Component', ()=>{
     const convos = [
       {
+        "id": "0a01",
         "senderId": "001",
         "time": "1665725713",
         "text": "this is a sample message"
       },
       {
+        "id": "0a02",
         "senderId": "002",
         "time": "1665722315",
         "text": "this is another sample message"
       },
       {
+        "id": "0a03",
         "senderId": "003",
         "time": "1665725758",
         "text": "this is just another message"
@@ -41,8 +44,7 @@ describe('Conversations', () => {
           <Conversations data={convos} />
         </BrowserRouter>
       );
-      const renderedConvos = screen.getByTestId('convo');
-      console.log('renderedconvos', renderedConvos)
+      const renderedConvos = screen.getAllByTestId('convo');
       expect(renderedConvos.length).toEqual(convos.length);
     });
 
