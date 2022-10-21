@@ -6,7 +6,6 @@ const path = require("path");
 require("dotenv").config();
 const app = require("express")();
 const server = require("http").createServer(app);
-// const io = require("socket.io")(server);
 const socket = require("socket.io");
 const db = require("./db");
 const auth = require("./auth");
@@ -14,9 +13,6 @@ const routes = require("./routes");
 const instmsgRoutes = require("./messagingRoutes");
 const friend = require("./friend");
 const email = require("../emailer");
-// const socketHelper = require("./socketHelperFn");
-// const server = require("http").createServer(app);
-// const io = require("socket.io")(server);
 
 const { upload } = require("../s3");
 
@@ -124,7 +120,6 @@ io.on("connection", (socket) => {
   socket.on("read", async (data) => {
     const dbResp = await db.expireImage(data);
     // can also do the hasBeenRead => true for all message from receiver
-
 
     // emit get-msg to receiver in case receiver stays in instant message page
     // const receiverSocket = getUser(data.receiverId);
