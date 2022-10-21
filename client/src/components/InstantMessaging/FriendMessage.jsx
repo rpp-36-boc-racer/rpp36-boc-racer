@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -17,9 +17,15 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-function FriendMessage({ message, friendname, avatarImg, photo }) {
+function FriendMessage({
+  message,
+  friendname,
+  avatarImg,
+  photo,
+  handleDownloadBtnClick,
+}) {
   const [popView, setPopView] = useState(false);
-  const handleDownloadClick = (e, photoUrl) => saveAs(photoUrl, "download.jpg");
+
   return (
     <StyledPaper
       sx={{
@@ -53,7 +59,7 @@ function FriendMessage({ message, friendname, avatarImg, photo }) {
         ) : null}
         {popView ? (
           <Grid>
-            <IconButton onClick={(e) => handleDownloadClick(e, photo)}>
+            <IconButton onClick={(e) => handleDownloadBtnClick(e, photo)}>
               <DownloadIcon
                 data-testid="test-download-btn"
                 sx={{
