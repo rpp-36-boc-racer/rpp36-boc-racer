@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   profileImage: { type: String, default: null },
   email: { type: String, required: true, index: true, unique: true },
   password: { type: String, require: true },
-  friends: [{ type: String, default:null }]
+  friends: [{ type: String, default: null }],
 });
 
 // const messageSchema = new mongoose.Schema({
