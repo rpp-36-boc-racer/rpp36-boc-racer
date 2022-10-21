@@ -9,13 +9,14 @@ const auth = require("./auth");
 const routes = require("./routes");
 const instmsgRoutes = require("./messagingRoutes");
 const friend = require("./friend");
+const email = require("../emailer");
 // const socketHelper = require("./socketHelperFn");
 // const server = require("http").createServer(app);
 // const io = require("socket.io")(server);
 
 const { upload } = require("../s3");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3008;
 
 app.use(morgan("tiny"));
 app.use(cors());
@@ -25,7 +26,7 @@ app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.post("/login", auth.login);
 app.post("/signup", auth.signup);
 
-app.get("/friends", auth.requireAuth, friend.getFriends);
+app.get("/friends/", auth.requireAuth, friend.getFriends);
 app.get("/users/:username", friend.getUsers);
 app.post("/friends", friend.addFriend);
 
@@ -33,6 +34,14 @@ app.post("/photo", auth.requireAuth, upload.single("image"), routes.photo);
 app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
 app.post("/send-img", auth.requireAuth, routes.sendImage);
+
+//* *********EMAIL*/
+// const mailOptions = {
+//   to: 'pawprints.notification@gmail.com', //whoever should get an email
+//   subject: 'Sending Email using Node.js',
+//   text: 'That was easy!'
+// };
+// email.sendEmail(mailOptions);
 
 // app.get("/conversations", routes.getConversations);
 

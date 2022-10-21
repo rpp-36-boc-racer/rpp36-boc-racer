@@ -4,6 +4,7 @@ export default () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [users, setUsers] = useState([]);
+  const [usersJson, setusersJson] = useState([]);
 
   const getUsers = async (user) => {
     setIsLoading(true);
@@ -24,11 +25,13 @@ export default () => {
     }
 
     if (response.ok) {
+      const usersJson = JSON.stringify(json.users);
       setUsers(json.users);
+      setusersJson(usersJson);
       setIsLoading(false);
     }
   };
 
 
-  return { error, isLoading, users, getUsers };
+  return { error, isLoading, users, usersJson, getUsers };
 };

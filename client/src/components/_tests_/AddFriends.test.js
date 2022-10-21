@@ -5,8 +5,9 @@ import React, { useEffect } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { act } from "react-dom/test-utils";
-import { AuthProvider } from "../../contexts/AuthContext";
+import { AuthContext, AuthProvider } from "../../contexts/AuthContext";
 import Friends from "../Friends";
+import AddFriends from "../AddFriends";
 import "@testing-library/jest-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import PropTypes from "prop-types";
@@ -19,6 +20,7 @@ describe("add friends functionality", () => {
         email: "somebody@email.com",
         profileImage: "img1.jpg",
         friends: ["f1", "f2"],
+        token: "sometoken1",
       },
       token: "sometoken",
     }),
@@ -39,34 +41,44 @@ describe("add friends functionality", () => {
   }))();
   Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
+  const users = {
+    users: [
+      {
+        username: "somebody1",
+        profileImage:
+          "https://boc-bucket-racer.s3.amazonaws.com/1666151123631.jpeg",
+        friends: ["somebody2"],
+      },
+    ],
+  };
+
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(users),
+    })
+  );
+
   test("search users functionality", async () => {
     const user = {
       username: "somebody",
+      email: "somebody@email.com",
+      profileImage: "someImage",
+      token: "sometoken",
     };
 
-    const users = {
-      users: [
-        {
-          username: "somebody1",
-          profileImage:
-            "https://boc-bucket-racer.s3.amazonaws.com/1666151123631.jpeg",
-          friends: ["somebody2"],
-        },
-      ],
-    };
-
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(users),
-      })
-    );
+    // global.fetch = jest.fn(() =>
+    //   Promise.resolve({
+    //     ok: true,
+    //     json: () => Promise.resolve(users),
+    //   })
+    // );
 
     await act(() => {
       render(
         <BrowserRouter>
           <AuthProvider value={{ user }}>
-            <Friends />
+            <AddFriends />
           </AuthProvider>
         </BrowserRouter>
       );
@@ -80,8 +92,6 @@ describe("add friends functionality", () => {
     const userinlistButton = screen.getByTestId("userslist");
 
     expect(userinlistButton).toBeInTheDocument();
-
-
 
     fetch.mockClear();
   });

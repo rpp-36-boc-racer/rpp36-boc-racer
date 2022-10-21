@@ -11,7 +11,7 @@ exports.getUsers = async (req, res) => {
 
 exports.getFriends = async (req, res) => {
   try {
-    const friends = await db.getFriends(req.user.username);
+    const friends = await db.getFriends(req.user.id);
     res.status(200).json(friends);
   } catch (err) {
     res.status(500).json({ error: err.message });
