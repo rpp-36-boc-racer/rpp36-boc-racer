@@ -3,7 +3,6 @@ const db = require("../db");
 exports.getUsers = async (req, res) => {
   try {
     const users = await db.getUsers(req.params.username);
-    console.log(users);
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -12,7 +11,7 @@ exports.getUsers = async (req, res) => {
 
 exports.getFriends = async (req, res) => {
   try {
-    const friends = await db.getFriends(req.user.username);
+    const friends = await db.getFriends(req.user.id);
     res.status(200).json(friends);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -21,7 +20,7 @@ exports.getFriends = async (req, res) => {
 
 exports.addFriend = async (req, res) => {
   try {
-    const user = req.body.user.username;
+    const user = req.body.user;
     const newfriend = req.body.newfriend;
     console.log("USER", user);
     console.log("FRIEND", newfriend);
