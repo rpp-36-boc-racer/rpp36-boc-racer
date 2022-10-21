@@ -36,15 +36,16 @@ export default function Chat() {
   }
 
   function confirmDeleteFunc(friendUsername, convoId) {
-    console.log('friend username, convoId', friendUsername, convoId)
     if (confirm(`Delete conversation with ${friendUsername}?`)) {
       deleteConvoFunc(convoId);
     }
   }
 
+  // console.log('user in chat', user);
+  // console.log('data in chat', data)
   return (
     <WithNavBar>
-      <h3 style={{textAlign: 'center'}}> Chat </h3>
+      <h3 style={{textAlign: 'center'}} data-testid="chatPanel">Chat</h3>
       {data && (
         <Conversations
           data={data}

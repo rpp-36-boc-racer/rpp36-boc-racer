@@ -68,7 +68,7 @@ function Conversation(props) {
         <Grid item padding={1}>
           <Avatar alt={username} src={profileImage} />
         </Grid>
-        <Grid  onClick={() => {
+        <Grid data-testid="innerConvo" onClick={() => {
           props.hasBeenReadFunc(lastMessageId);
           handleConversationClick();
         }}>
