@@ -46,10 +46,31 @@ const getConvoTime = (convoTime) => {
 };
 //
 function Conversation(props) {
+  const {
+    userID,
+    profileImage,
+    friendId,
+    username,
+    text,
+    time,
+    conversationId,
+    hasBeenRead,
+    senderId,
+    lastMessageId,
+  } = props.convo;
+
+  const navigate = useNavigate();
+  const handleConversationClick = () => {
+    navigate("/messaging", {
+      state: { conversationId, friendId, username, profileImage },
+    });
+  };
+  console.log("userID in convo", userID);
   return (
     <StyledPaper
       data-testid="convo"
       sx={{
+        my: 1,
         mx: "auto",
         p: 2,
         color: blue[800],
@@ -78,13 +99,13 @@ function Conversation(props) {
               {getConvoTime(time)}
             </span>
           </span>
-          <br />
+          <br></br>
           <span
             style={{
               fontWeight: !hasBeenRead && userID !== senderId ? "bold" : "none",
             }}
           >
-            {text.length > 100 ? `${text.substring(0, 99)}...` : text}
+            {text.length > 100 ? text.substring(0, 99) + "..." : text}
           </span>
         </Grid>
 
