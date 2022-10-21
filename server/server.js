@@ -57,8 +57,10 @@ app.get(
   "/instmsg-api/conversations/:userID",
   instmsgRoutes.getConversationByUser
 );
-app.delete("/instmsg-api/conversations/:convoId",
-instmsgRoutes.deleteConversationById);
+app.delete(
+  "/instmsg-api/conversations/:convoId",
+  instmsgRoutes.deleteConversationById
+);
 app.put("/instmsg-api/messages/:textMessageId", instmsgRoutes.readMessageById);
 app.get("/instmsg-api/conversations/:userID/:friendID", instmsgRoutes.getChats);
 app.post("/instmsg-api/messages/addmsg", instmsgRoutes.addMessage);

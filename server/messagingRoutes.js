@@ -20,7 +20,7 @@ exports.newConversation = async (req, res) => {
 // endpoint: "/instmsg-api/conversations/:userID"
 exports.getConversationByUser = async (req, res) => {
   const { userID } = req.params;
-  console.log('userID in server', userID)
+  console.log("userID in server", userID);
   try {
     const conversation = await messagingModels.Conversation.find({
       members: { $in: [userID] },
@@ -152,10 +152,10 @@ exports.readMessageById = async (req, res) => {
   const { textMessageId } = req.params;
   try {
     await messagingModels.TextMessage.findOneAndUpdate(
-      {_id: textMessageId},
-      {$set: {hasBeenRead: true}}
-    )
-    res.status(201).send('updated hasBeenRead status');
+      { _id: textMessageId },
+      { $set: { hasBeenRead: true } }
+    );
+    res.status(201).send("updated hasBeenRead status");
   } catch (err) {
     res.status(500).send(err);
   }
