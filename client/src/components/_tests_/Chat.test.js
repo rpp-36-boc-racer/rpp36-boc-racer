@@ -9,16 +9,25 @@ import Chat from "../MessageList/Chat";
 import "@testing-library/jest-dom";
 
 describe("Message List", () => {
-  test("Renders message list", async () => {
+  test('Renders chat panel as Message List', async () => {
     const user = {
-      user: "me",
+      email: "ai@gg.com",
+      profileImage: "https://boc-bucket-racer.s3.amazonaws.com/1666044271650.webp",
+      token: "blahblah",
+      username: "ai",
+      _id: "634dd1677bb4595d80403e08",
     };
     const data = [
       {
-        conversationId: "convo",
+        conversationId: "6351c9d4da21b68f3f06a438",
+        epochTime: 1666304475000,
         friendId: "123",
-        profileImage: "photo.jpeg",
+        hasBeenRead: false,
+        lastMessageId: "6351c9dbda21b68f3f06a476",
+        profileImage: "https://boc-bucket-racer.s3.amazonaws.com/1666044290259.jpeg",
+        senderId: "634dd1677bb4595d80403e08",
         text: "hello test",
+        userID: "634dd1677bb4595d80403e08",
         username: "somebody",
         time: "2022-10-18T05:14:24.077Z",
       },
@@ -40,9 +49,6 @@ describe("Message List", () => {
         </BrowserRouter>
       );
     });
-    expect(screen.getByText("somebody")).toBeInTheDocument();
-    expect(screen.getByText("hello test")).toBeInTheDocument();
+    expect(screen.getByTestId("chatPanel")).toBeInTheDocument();
   });
-
-  it.todo("more test?");
 });
