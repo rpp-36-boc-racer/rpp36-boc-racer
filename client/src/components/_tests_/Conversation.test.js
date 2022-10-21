@@ -22,7 +22,8 @@ describe("Conversation", () => {
     friendId: "123",
     hasBeenRead: false,
     lastMessageId: "6351c9dbda21b68f3f06a476",
-    profileImage: "https://boc-bucket-racer.s3.amazonaws.com/1666044290259.jpeg",
+    profileImage:
+      "https://boc-bucket-racer.s3.amazonaws.com/1666044290259.jpeg",
     senderId: "634dd1677bb4595d80403e08",
     text: "hello test",
     userID: "634dd1677bb4595d80403e08",
@@ -39,12 +40,11 @@ describe("Conversation", () => {
     expect(screen.getByTestId("delete")).toBeInTheDocument();
   });
 
-
-  it('should invoke "ConfirmDeleteFunc" when "Delete" button is clicked', async() => {
+  it('should invoke "ConfirmDeleteFunc" when "Delete" button is clicked', async () => {
     const mockFunc = jest.fn();
     render(
       <BrowserRouter>
-        <Conversation convo={convo} confirmDeleteFunc={mockFunc}/>
+        <Conversation convo={convo} confirmDeleteFunc={mockFunc} />
       </BrowserRouter>
     );
     const deleteButton = screen.getByTestId("delete");
@@ -52,11 +52,11 @@ describe("Conversation", () => {
     expect(mockFunc).toHaveBeenCalledTimes(1);
   });
 
-  it('should invoke "hasBeenReadFunc" when a conversation is clicked', async() => {
+  it('should invoke "hasBeenReadFunc" when a conversation is clicked', async () => {
     const mockFunc = jest.fn();
     render(
       <BrowserRouter>
-        <Conversation convo={convo} hasBeenReadFunc={mockFunc}/>
+        <Conversation convo={convo} hasBeenReadFunc={mockFunc} />
       </BrowserRouter>
     );
     const conversation = screen.getByTestId("innerConvo");

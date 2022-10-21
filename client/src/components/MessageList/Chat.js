@@ -3,7 +3,7 @@ import useAuthContext from "../../hooks/useAuthContext";
 import WithNavBar from "../withNavBar";
 import Conversations from "./Conversations";
 import useConversations from "../../hooks/useConversations";
-const axios = require('axios').default;
+const axios = require("axios").default;
 
 export default function Chat() {
   const { user } = useAuthContext();
@@ -17,7 +17,7 @@ export default function Chat() {
       .delete(`/instmsg-api/conversations/${convoId}`)
       .then((result) => {
         // getConversations();
-        console.log('deleted conversation');
+        console.log("deleted conversation");
       })
       .catch((error) => {
         console.log(`cannot delete conversation.\n ${error}`);
@@ -27,11 +27,11 @@ export default function Chat() {
   function hasBeenReadFunc(textMessageId) {
     axios
       .put(`/instmsg-api/messages/${textMessageId}`)
-      .then(result => {
-        console.log('success in update hasBeenRead');
+      .then((result) => {
+        console.log("success in update hasBeenRead");
       })
-      .catch(error => {
-        console.log('failed in update hasBeenRead');
+      .catch((error) => {
+        console.log("failed in update hasBeenRead");
       });
   }
 
@@ -45,7 +45,9 @@ export default function Chat() {
   // console.log('data in chat', data)
   return (
     <WithNavBar>
-      <h3 style={{textAlign: 'center'}} data-testid="chatPanel">Chat</h3>
+      <h3 style={{ textAlign: "center" }} data-testid="chatPanel">
+        Chat
+      </h3>
       {data && (
         <Conversations
           data={data}
