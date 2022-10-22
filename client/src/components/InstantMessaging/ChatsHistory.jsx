@@ -16,8 +16,6 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import FriendMessage from "./FriendMessage.jsx";
-import OwnerMessage from "./OwnerMessage.jsx";
 import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
 import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
 import { saveAs } from "file-saver";
