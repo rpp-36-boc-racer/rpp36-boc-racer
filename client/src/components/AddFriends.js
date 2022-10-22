@@ -22,6 +22,7 @@ export default function Friends() {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
   const { error, isLoading, users, usersJson, getUsers } = useGetUsers(name);
+  const navigate = useNavigate();
 
   const { addFriend } = useAddFriends(user);
 
@@ -41,11 +42,14 @@ export default function Friends() {
     getUsers({ name });
   };
 
-  console.log(users, "users");
-  console.log(usersJson, ", usersJson");
   const newuserslist = users.filter(
     (person) => person.username !== user.username
   );
+
+  const chat = (friend) => {
+    navigate("/messaging", { state: { friend } });
+  };
+
 
   if (users && users.length > 0) {
     let usersEntries;
@@ -62,7 +66,7 @@ export default function Friends() {
                 type="button"
                 data-testid="user-tobe-selected-button"
                 id={person.username}
-                onClick={handleAdd}
+                onClick={() => chat(person.username)}
               >
                 chat
               </button>
