@@ -3,21 +3,21 @@ import useAuthContext from "../../hooks/useAuthContext";
 import WithNavBar from "../withNavBar";
 import Conversations from "./Conversations";
 import useConversations from "../../hooks/useConversations";
-const axios = require('axios').default;
+const axios = require("axios").default;
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const { getConversations, data } = useConversations();
-
-  useEffect(() => {
-    getConversations();
-  }, []);
+  const { data, error } = useConversations();
+  // useEffect(() => {
+  //   getConversations();
+  // }, []);
 
   function deleteConvoFunc(convoId) {
     axios
       .delete(`/instmsg-api/conversations/${convoId}`)
       .then((result) => {
-        getConversations();
+        // getConversations();
+        console.log("deleted conversation");
       })
       .catch((error) => {
         console.log(`cannot delete conversation.\n ${error}`);
@@ -25,22 +25,33 @@ export default function Chat() {
   }
 
   function hasBeenReadFunc(textMessageId) {
-    // axios.put(`/instmsg-api/messages/${textMessageId}`)
+    axios
+      .put(`/instmsg-api/messages/${textMessageId}`)
+      .then((result) => {
+        console.log("success in update hasBeenRead");
+      })
+      .catch((error) => {
+        console.log("failed in update hasBeenRead");
+      });
   }
 
-  function confirmDeleteFunc(friendUsername) {
-
+  function confirmDeleteFunc(friendUsername, convoId) {
     if (confirm(`Delete conversation with ${friendUsername}?`)) {
-      deleteConvoFunc();
+      deleteConvoFunc(convoId);
     }
   }
 
+  // console.log('user in chat', user);
+  // console.log('data in chat', data)
   return (
     <WithNavBar>
-      <h4> Chat </h4>
+      <h3 style={{ textAlign: "center" }} data-testid="chatPanel">
+        Chat
+      </h3>
       {data && (
         <Conversations
           data={data}
+          user={user}
           deleteConvoFunc={deleteConvoFunc.bind(this)}
           hasBeenReadFunc={hasBeenReadFunc.bind(this)}
           confirmDeleteFunc={confirmDeleteFunc.bind(this)}

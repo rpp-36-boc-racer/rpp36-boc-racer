@@ -14,11 +14,11 @@ export default () => {
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    });
 
     const json = await response.json();
-      // .then((res) => res.json())
-      // .then((data) => console.log('here', data));
+    // .then((res) => res.json())
+    // .then((data) => console.log('here', data));
     if (!response.ok) {
       setIsLoading(false);
       setError(json.error);
@@ -31,7 +31,6 @@ export default () => {
       setIsLoading(false);
     }
   };
-
 
   return { error, isLoading, users, usersJson, getUsers };
 };
