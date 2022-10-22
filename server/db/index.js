@@ -101,3 +101,18 @@ exports.expireImage = async (queryParam) => {
 
   return messageDb.TextMessage.updateMany(filter, update);
 };
+
+exports.readMessage = async (queryParam) => {
+  const { conversationId, receiverId } = queryParam;
+  const receiverIdRegex = new RegExp(receiverId);
+  const filter = {
+    senderID: { $not: receiverIdRegex },
+    conversationID: conversationId,
+  };
+  const update = {
+    $set: {
+      hasBeenRead: true,
+    },
+  };
+  return messageDb.TextMessage.updateMany(filter, update);
+};
