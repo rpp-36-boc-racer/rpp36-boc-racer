@@ -98,7 +98,8 @@ export default function SendImage() {
           <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
         )}
       </Paper>
-      <Box>
+
+      <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
         <IconButton
           color="primary"
           aria-label="upload picture"
@@ -121,7 +122,7 @@ export default function SendImage() {
           disabled={!imageSrc}
           color="primary"
           component="label"
-          sx={{ position: "fixed", bottom: 0, left: "45%" }}
+          sx={{ left: "45%" }}
           onClick={(event) => {
             event.preventDefault();
             uploadAndSend(imageFile);
