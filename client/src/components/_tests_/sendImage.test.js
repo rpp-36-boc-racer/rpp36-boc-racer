@@ -76,8 +76,10 @@ describe("upload image component", () => {
       fireEvent.change(inputEl, { target: { files: [file] } });
     });
 
-    expect(screen.getAllByRole("button")[2]).toBeDisabled();
-    expect(screen.getByRole("img")).toBeInTheDocument();
+    // expect(screen.getAllByRole("button")[2]).toBeDisabled();
+    // await expect(screen.findAllByRole("button")[2]).toBeDisabled();
+    // expect(screen.getByRole("img")).toBeInTheDocument();
+    await expect(screen.findByRole("img")).toBeInTheDocument();
 
     const removeButton = screen.getAllByRole("button")[0];
     fireEvent.click(removeButton);
