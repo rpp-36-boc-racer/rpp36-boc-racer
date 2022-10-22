@@ -43,7 +43,7 @@ describe("upload image component", () => {
   }))();
 
   Object.defineProperty(window, "localStorage", { value: localStorageMock });
-  // const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
+  const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
 
   beforeEach(async () => {
     const mockUseLocationValue = {
@@ -69,9 +69,8 @@ describe("upload image component", () => {
   });
 
   test.only("image preview", async () => {
-    const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
     const inputEl = screen.getByTestId("select-img");
-    console.log(file);
+    console.log(Boolean(file));
 
     await act(() => {
       fireEvent.change(inputEl, { target: { files: [file] } });
@@ -86,7 +85,6 @@ describe("upload image component", () => {
   });
 
   test("upload and send image", async () => {
-    const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
     const inputEl = screen.getByTestId("select-img");
     await fireEvent.change(inputEl, { target: { files: [file] } });
     const sendButton = screen.getAllByRole("button")[3];

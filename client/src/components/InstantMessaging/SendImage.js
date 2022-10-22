@@ -41,7 +41,6 @@ export default function SendImage() {
     const objectUrl = URL.createObjectURL(selectedFile);
     setImageSrc(objectUrl);
     setImageFile(selectedFile);
-    console.log(objectUrl, imageSrc);
   };
 
   const handleBackButtonClick = () => {
