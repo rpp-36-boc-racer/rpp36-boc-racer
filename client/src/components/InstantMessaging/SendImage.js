@@ -36,10 +36,12 @@ export default function SendImage() {
   }, [webcamRef]);
 
   const handleFileInput = (e) => {
+    e.preventDefault();
     const selectedFile = e.target.files[0];
     const objectUrl = URL.createObjectURL(selectedFile);
     setImageSrc(objectUrl);
     setImageFile(selectedFile);
+    console.log(objectUrl, imageSrc);
   };
 
   const handleBackButtonClick = () => {
