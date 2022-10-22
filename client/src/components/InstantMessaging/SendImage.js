@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-// import { io } from "socket.io-client";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
+
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
@@ -11,26 +12,34 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import useSendImage from "../../hooks/useSendImage";
 
 export default function SendImage() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState();
   const { isLoading, error, uploadAndSend } = useSendImage();
+  const [imageFile, setImageFile] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+  const webcamRef = useRef();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(null);
-      return;
-    }
+  useEffect(() => () => URL.revokeObjectURL(imageSrc), [imageSrc]);
 
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
+  const handleCapture = useCallback(async () => {
+    const snapSrc = webcamRef.current.getScreenshot();
+    const randomFileName = Math.random().toString(36).slice(2);
 
-    // eslint-disable-next-line consistent-return
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
+    const snapFile = await fetch(snapSrc)
+      .then((res) => res.arrayBuffer())
+      .then(
+        (buffer) =>
+          new File([buffer], `${randomFileName}.jpeg`, { type: "image/jpeg" })
+      );
+
+    setImageSrc(snapSrc);
+    setImageFile(snapFile);
+  }, [webcamRef]);
 
   const handleFileInput = (e) => {
-    setSelectedFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setImageSrc(objectUrl);
+    setImageFile(selectedFile);
   };
 
   const handleBackButtonClick = () => {
@@ -39,13 +48,13 @@ export default function SendImage() {
 
   return (
     <>
-      {selectedFile ? (
+      {imageSrc ? (
         <IconButton
           color="primary"
           component="label"
           sx={{ position: "fixed", top: 0, left: 0 }}
           size="large"
-          onClick={() => setSelectedFile(null)}
+          onClick={() => setImageSrc(null)}
         >
           <CancelIcon fontSize="inherit" />
         </IconButton>
@@ -77,41 +86,45 @@ export default function SendImage() {
       >
         {error && <p>Error: {error}</p>}
         {isLoading && <p>loading...</p>}
-        {selectedFile ? (
+        {imageSrc ? (
           <div>
             <img
-              src={preview}
+              src={imageSrc}
               alt="preview"
               style={{ height: 400, width: 300, objectFit: "contain" }}
             />
           </div>
         ) : (
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="label"
-            size="large"
-          >
-            <input
-              hidden
-              data-testid="select-img"
-              accept="image/*"
-              type="file"
-              onChange={handleFileInput}
-            />
-            <CloudUploadIcon fontSize="large" />
-          </IconButton>
+          <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
         )}
       </Paper>
       <Box>
         <IconButton
-          disabled={!selectedFile}
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+          size="large"
+        >
+          <input
+            hidden
+            data-testid="select-img"
+            accept="image/*"
+            type="file"
+            onChange={handleFileInput}
+          />
+          <CloudUploadIcon fontSize="large" />
+        </IconButton>
+
+        <button onClick={handleCapture} disabled={imageSrc}>Capture</button>
+
+        <IconButton
+          disabled={!imageSrc}
           color="primary"
           component="label"
           sx={{ position: "fixed", bottom: 0, left: "45%" }}
           onClick={(event) => {
             event.preventDefault();
-            uploadAndSend(selectedFile);
+            uploadAndSend(imageFile);
           }}
         >
           <SendIcon fontSize="large" />
