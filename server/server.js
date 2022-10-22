@@ -118,7 +118,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("read", async (data) => {
-    const dbResp = await db.expireImage(data);
+    await db.expireImage(data);
+    await db.readMessage(data);
     // can also do the hasBeenRead => true for all message from receiver
 
     // emit get-msg to receiver in case receiver stays in instant message page
