@@ -1,17 +1,10 @@
 /* eslint-disable no-undef */
 import "@testing-library/jest-dom";
 import React from "react";
-import Webcam from "react-webcam";
-
-import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "../../contexts/AuthContext";
 import SendImage from "../InstantMessaging/SendImage";
-
-// jest.mock("react-webcam", () => ({
-//   Webcam: () => <div>Mock Camera</div>,
-// }));
-jest.mock("react-webcam", () => (() => <div>Mock Camera</div>));
 
 describe("upload image component", () => {
   window.URL.createObjectURL = jest.fn();
@@ -52,7 +45,7 @@ describe("upload image component", () => {
         conversationId: "123",
       },
     };
-    // await act(() => {
+    await act(() => {
       render(
         <AuthProvider>
           <MemoryRouter initialEntries={[mockUseLocationValue]}>
@@ -60,7 +53,7 @@ describe("upload image component", () => {
           </MemoryRouter>
         </AuthProvider>
       );
-    // });
+    });
   });
 
   afterEach(() => {
@@ -68,27 +61,27 @@ describe("upload image component", () => {
     window.URL.revokeObjectURL.mockReset();
   });
 
-  test.only("image preview", async () => {
+  test("image preview", async () => {
     const inputEl = screen.getByTestId("select-img");
-    console.log(Boolean(file));
 
     await act(() => {
       fireEvent.change(inputEl, { target: { files: [file] } });
     });
 
-    // expect(screen.getAllByRole("button")[2]).toBeDisabled();
-    // await expect(screen.findAllByRole("button")[2]).toBeDisabled();
-    // expect(screen.getByRole("img")).toBeInTheDocument();
-    await expect(screen.findByRole("img")).toBeInTheDocument();
+    expect(screen.getByRole("img")).toBeInTheDocument();
 
     const removeButton = screen.getAllByRole("button")[0];
-    fireEvent.click(removeButton);
+    await act(() => {
+      fireEvent.click(removeButton);
+    });
     expect(screen.queryByRole("img")).toBe(null);
   });
 
   test("upload and send image", async () => {
     const inputEl = screen.getByTestId("select-img");
-    await fireEvent.change(inputEl, { target: { files: [file] } });
+    await act(() => {
+      fireEvent.change(inputEl, { target: { files: [file] } });
+    });
     const sendButton = screen.getAllByRole("button")[3];
 
     global.fetch = jest.fn(() =>

@@ -14,11 +14,22 @@ import useSendImage from "../../hooks/useSendImage";
 export default function SendImage() {
   const { isLoading, error, uploadAndSend } = useSendImage();
   const [imageFile, setImageFile] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
+  const [preview, setPreview] = useState(null);
   const webcamRef = useRef();
   const navigate = useNavigate();
 
-  useEffect(() => () => URL.revokeObjectURL(imageSrc), [imageSrc]);
+  useEffect(() => {
+    if (!imageFile) {
+      setPreview(null);
+      return;
+    }
+
+    const imageSrc = URL.createObjectURL(imageFile);
+    setPreview(imageSrc);
+
+    // eslint-disable-next-line consistent-return
+    return () => URL.revokeObjectURL(imageSrc);
+  }, [imageFile]);
 
   const handleCapture = useCallback(async () => {
     const snapSrc = webcamRef.current.getScreenshot();
@@ -31,15 +42,12 @@ export default function SendImage() {
           new File([buffer], `${randomFileName}.jpeg`, { type: "image/jpeg" })
       );
 
-    setImageSrc(snapSrc);
     setImageFile(snapFile);
   }, [webcamRef]);
 
   const handleFileInput = (e) => {
     e.preventDefault();
     const selectedFile = e.target.files[0];
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setImageSrc(objectUrl);
     setImageFile(selectedFile);
   };
 
@@ -49,13 +57,13 @@ export default function SendImage() {
 
   return (
     <>
-      {imageSrc ? (
+      {imageFile ? (
         <IconButton
           color="primary"
           component="label"
           sx={{ position: "fixed", top: 0, left: 0 }}
           size="large"
-          onClick={() => setImageSrc(null)}
+          onClick={() => setImageFile(null)}
         >
           <CancelIcon fontSize="inherit" />
         </IconButton>
@@ -87,10 +95,10 @@ export default function SendImage() {
       >
         {error && <p>Error: {error}</p>}
         {isLoading && <p>loading...</p>}
-        {imageSrc ? (
+        {imageFile ? (
           <div>
             <img
-              src={imageSrc}
+              src={preview}
               alt="preview"
               style={{ height: 400, width: 300, objectFit: "contain" }}
             />
@@ -117,10 +125,12 @@ export default function SendImage() {
           <CloudUploadIcon fontSize="large" />
         </IconButton>
 
-        <button onClick={handleCapture} disabled={imageSrc}>Capture</button>
+        <button type="button" onClick={handleCapture} disabled={imageFile}>
+          Capture
+        </button>
 
         <IconButton
-          disabled={!imageSrc}
+          disabled={!imageFile}
           color="primary"
           component="label"
           sx={{ left: "45%" }}
