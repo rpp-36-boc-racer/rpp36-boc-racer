@@ -6,16 +6,13 @@ const path = require("path");
 require("dotenv").config();
 const app = require("express")();
 const server = require("http").createServer(app);
-// const io = require("socket.io")(server);
 const socket = require("socket.io");
+const db = require("./db");
 const auth = require("./auth");
 const routes = require("./routes");
 const instmsgRoutes = require("./messagingRoutes");
 const friend = require("./friend");
 const email = require("../emailer");
-// const socketHelper = require("./socketHelperFn");
-// const server = require("http").createServer(app);
-// const io = require("socket.io")(server);
 
 const { upload } = require("../s3");
 
@@ -36,7 +33,7 @@ app.post("/friends", friend.addFriend);
 app.post("/photo", auth.requireAuth, upload.single("image"), routes.photo);
 app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
-app.post("/send-img", auth.requireAuth, routes.sendImage);
+app.post("/send-img", auth.requireAuth, instmsgRoutes.addMessage);
 
 //* *********EMAIL*/
 // const mailOptions = {
@@ -119,9 +116,33 @@ io.on("connection", (socket) => {
       message: data.message,
     });
   });
+
+  socket.on("read", async (data) => {
+    await db.expireImage(data);
+    await db.readMessage(data);
+    // can also do the hasBeenRead => true for all message from receiver
+
+    // emit get-msg to receiver in case receiver stays in instant message page
+    // const receiverSocket = getUser(data.receiverId);
+    // if (dbResp.modifiedCount && receiverSocket) {
+    //   const delayRefresh = 50000;
+    //   setTimeout(() => {
+    //     socket.to(receiverSocket).emit("get-msg", {
+    //       message: "123",
+    //     });
+    //   }, delayRefresh);
+    // }
+  });
+
+  socket.on("remove-user", (userId) => {
+    const userSocket = getUser(userId);
+    removeUser(userSocket);
+    console.log("online users", global.onlineUsersObj);
+  });
+
   socket.on("disconnect", () => {
     console.log("a user disconnected!", socket.id);
-    removeUser();
+    removeUser(socket.id);
   });
 });
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
+import SocketContext from "../../contexts/SocketContext";
 
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
@@ -39,15 +39,35 @@ function ChatsHistory() {
     username: location.state.username,
   };
   const { user } = useAuthContext();
-  // const [socket, setSocket] = useState(null);
-  // const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [newArrivalMsg, setNewArrivalMsg] = useState(null);
-  const socket = useRef();
+  let socket = useContext(SocketContext);
 
   const navigate = useNavigate();
   const scrollRef = useRef();
+
+  const getMessages = async () => {
+    try {
+      const response = await axios.get(
+        "/instmsg-api/messages/" + conversationID
+      );
+      console.log("this is message data:", response.data);
+      setMessages(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const emitReadEvent = () => {
+    const emitData = {
+      conversationId: conversationID,
+      receiverId: user._id,
+      readAt: new Date(),
+    }
+    console.log("emit read");
+    socket.emit("read", emitData);
+  }
 
   useEffect(() => {
     if (!user) {
@@ -56,50 +76,39 @@ function ChatsHistory() {
   }, [user]);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:4000");
-    socket.current.on("get-msg", (data) => {
+    socket.emit("add-user", user?._id);
+    emitReadEvent();
+
+    socket.on("get-msg", (data) => {
       console.log("get msg at client side:", data);
+      emitReadEvent();
+
+      // get updated message to remove expired image after 70s
+      setTimeout(getMessages, 70000);
+
       setNewArrivalMsg({
         senderID: data.senderId,
         text: data.message,
         createdAt: Date.now(),
       });
     });
+
+    // get updated message to remove expired image after 70s
+    setTimeout(getMessages, 70000);
+
+    return () => {
+      socket.off("get-msg");
+      socket.emit("remove-user", user._id);
+    }
   }, []);
 
-  useEffect(() => {
-    socket.current.emit("add-user", user?._id);
-  }, [user]);
+  // useEffect(() => {
+  //   socket.emit("add-user", user?._id);
+  // }, [user]);
 
   useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await axios.get(
-          "/instmsg-api/messages/" + conversationID
-        );
-        console.log("this is message data:", response.data);
-        setMessages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getMessages();
-  }, [conversationID]);
-
-  useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await axios.get(
-          "/instmsg-api/messages/" + conversationID
-        );
-        console.log("this is message data:", response.data);
-        setMessages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getMessages();
-  }, [newArrivalMsg]);
+  }, [conversationID, newArrivalMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +118,7 @@ function ChatsHistory() {
       text: newMessageText,
     };
 
-    socket.current.emit("send-msg", {
+    socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
       message: newMessageText,
@@ -133,7 +142,7 @@ function ChatsHistory() {
 
   const handleSendImageButtonClick = (event) => {
     event.preventDefault();
-    navigate("/send-image", { state: { conversationId: conversationID } });
+    navigate("/send-image", { state: { conversationId: conversationID, friendId: friend._id } });
   };
 
   /************* download photo btn***************/

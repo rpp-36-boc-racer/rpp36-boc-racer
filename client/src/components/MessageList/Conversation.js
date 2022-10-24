@@ -61,9 +61,7 @@ function Conversation(props) {
 
   const navigate = useNavigate();
   const handleConversationClick = () => {
-    navigate("/messaging", {
-      state: { conversationId, friendId, username, profileImage },
-    });
+    navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
   };
   console.log("userID in convo", userID);
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
+import { Button, Box, OutlinedInput } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -23,30 +23,45 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <Box
+      display="flex"
+      flexDirection="column"
+      width="100vw"
+      height="100vh"
+      gap={10}
+      style={{}}
+    >
       <Link to="/">
         <Button variant="contained">Back</Button>
       </Link>
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <input
-          data-testid="login-username"
-          type="text"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          data-testid="login-password"
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button variant="contained" type="submit" data-testid="login-submit">
-          Login
-        </Button>
-        {isLoading && <h2>Loading...</h2>}
-        {error && <h2>{error}</h2>}
+      <form onSubmit={handleSubmit} size="medium">
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap={4}
+          style={{}}
+        >
+          <h2>Login</h2>
+          <OutlinedInput
+            data-testid="login-username"
+            type="text"
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <OutlinedInput
+            data-testid="login-password"
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button variant="contained" type="submit" data-testid="login-submit">
+            Login
+          </Button>
+          {isLoading && <h2>Loading...</h2>}
+          {error && <h2>{error}</h2>}
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 }
