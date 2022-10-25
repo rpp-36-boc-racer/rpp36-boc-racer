@@ -6,9 +6,7 @@ import Signup from "./login/Signup";
 import ChatsHistory from "./InstantMessaging/ChatsHistory.jsx";
 import useAuthContext from "../hooks/useAuthContext";
 import PrivateRoutes from "./PrivateRoutes";
-// import Temporary from "./Temporary";
 import Chat from "./MessageList/Chat";
-// import ChatTest from "./ChatTest";
 import Friends from "./Friends";
 import SendImage from "./InstantMessaging/SendImage";
 import ProfileImageSelect from "./ProfileImageSelect";
@@ -18,7 +16,6 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(user);
     if (user && !user.profileImage) {
       navigate("/profilePic");
       return;
@@ -35,7 +32,6 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route element={<PrivateRoutes />}>
         <Route path="profilePic" element={<ProfileImageSelect />} />
-        {/* <Route path="dashboard" element={<Temporary />} /> */}
         <Route path="chat" element={<Chat />} />
         <Route path="myfriends" element={<Friends />} />
         <Route path="messaging" element={<ChatsHistory />} />
