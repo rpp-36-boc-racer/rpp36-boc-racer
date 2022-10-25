@@ -58,21 +58,20 @@ function Conversation(props) {
     senderId,
     lastMessageId,
   } = props.convo;
-
+  console.log('props in conversation', props,
+  'userID', userID,
+  'senderId', senderId,
+  'userID !== senderID', userID !== senderId);
   const navigate = useNavigate();
   const handleConversationClick = () => {
     navigate("/messaging", {
       state: { conversationId, friendId, username, profileImage },
     });
   };
-<<<<<<< HEAD
-
-=======
-  console.log("userID in convo", userID);
->>>>>>> b31fe81293862894e703302118eff8fbd3a5f618
   return (
     <StyledPaper
       data-testid="convo"
+      style={{paddingTop: '26px'}}
       sx={{
         my: 1,
         mx: "auto",
@@ -81,39 +80,41 @@ function Conversation(props) {
         backgroundColor: blue[100],
       }}
     >
-      <Grid container wrap="nowrap" spacing={2}>
-        <Grid item padding={1}>
-          <Avatar alt={username} src={profileImage} />
-        </Grid>
-        <Grid
-          data-testid="innerConvo"
-          onClick={() => {
-            props.hasBeenReadFunc(lastMessageId);
-            handleConversationClick();
-          }}
-        >
-          <span style={{ justifyContent: "space-between" }}>
-            <span style={{ fontWeight: "bold" }}>{username}</span>
-            <span
-              style={{
-                fontWeight:
-                  !hasBeenRead && userID !== senderId ? "bold" : "none",
-              }}
-            >
-              {getConvoTime(time)}
-            </span>
-          </span>
-          <br></br>
-          <span
-            style={{
-              fontWeight: !hasBeenRead && userID !== senderId ? "bold" : "none",
+      <Grid container wrap="nowrap" spacing={2} style={{ display: 'flex', width: '100%', marginLeft: '0' }}>
+        <Grid style={{display: 'flex', alignItems: 'center', width: '100%'}}>
+          <Grid item padding={1}>
+            <Avatar alt={username} src={profileImage} />
+          </Grid>
+          <Grid
+            data-testid="innerConvo"
+            style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+            onClick={() => {
+              props.hasBeenReadFunc(lastMessageId);
+              handleConversationClick();
             }}
           >
-            {text.length > 100 ? text.substring(0, 99) + "..." : text}
-          </span>
+            <span style={{ display: 'flex', justifyContent: "space-between" }}>
+              <span style={{ fontWeight: "bold" }}>{username}</span>
+              <span
+                style={{
+                  fontWeight:
+                    !hasBeenRead && (userID !== senderId) ? "bold" : "normal",
+                }}
+              >
+                {getConvoTime(time)}
+              </span>
+            </span>
+            <span
+              style={{
+                fontWeight: !hasBeenRead && (userID !== senderId) ? "bold" : "normal",
+              }}
+            >
+              {text.length > 100 ? text.substring(0, 99) + "..." : text}
+            </span>
+          </Grid>
         </Grid>
 
-        <Grid>
+        <Grid style={{display: 'flex', alignItem: 'center'}}>
           <IconButton
             aria-label="delete"
             data-testid="delete"
