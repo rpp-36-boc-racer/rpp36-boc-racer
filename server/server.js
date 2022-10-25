@@ -35,6 +35,7 @@ app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 
 app.post("/send-img", auth.requireAuth, instmsgRoutes.addMessage);
 
+app.get("/friendID/:username", friend.friendId);
 //* *********EMAIL*/
 // const mailOptions = {
 //   to: 'pawprints.notification@gmail.com', //whoever should get an email
