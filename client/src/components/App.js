@@ -18,6 +18,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(user);
     if (user && !user.profileImage) {
       navigate("/profilePic");
       return;
@@ -36,7 +37,7 @@ function App() {
         <Route path="profilePic" element={<ProfileImageSelect />} />
         {/* <Route path="dashboard" element={<Temporary />} /> */}
         <Route path="chat" element={<Chat />} />
-        <Route path="friends" element={<Friends />} />
+        <Route path="myfriends" element={<Friends />} />
         <Route path="messaging" element={<ChatsHistory />} />
         <Route path="send-image" element={<SendImage />} />
       </Route>
