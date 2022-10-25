@@ -2,7 +2,6 @@ import React from 'react';
 import Conversation from './Conversation';
 
 function Conversations(props) {
-  console.log('props in conversations', props)
   return (
     <div>
       {props.data.map((convo) => {

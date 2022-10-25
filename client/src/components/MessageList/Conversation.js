@@ -52,7 +52,7 @@ function Conversation(props) {
   const handleConversationClick = () => {
     navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
   };
-  console.log('userID in convo',userID)
+
   return (
 
     <StyledPaper data-testid="convo"
