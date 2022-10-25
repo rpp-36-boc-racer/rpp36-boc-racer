@@ -70,12 +70,6 @@ function ChatsHistory() {
   }
 
   useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user]);
-
-  useEffect(() => {
     socket.emit("add-user", user?._id);
     emitReadEvent();
 
