@@ -6,9 +6,12 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import SendIcon from "@mui/icons-material/Send";
 import CancelIcon from "@mui/icons-material/Cancel";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+
 import useSendImage from "../../hooks/useSendImage";
 
 export default function SendImage() {
@@ -80,6 +83,7 @@ export default function SendImage() {
       )}
       <Paper
         sx={{
+          backgroundColor: "black",
           minHeight: "80vh",
           width: "90%",
           display: "flex",
@@ -88,8 +92,6 @@ export default function SendImage() {
           position: "fixed",
           top: "7%",
           left: "5%",
-          border: "1px dashed grey",
-          borderRadius: "2%",
         }}
         elevation={2}
       >
@@ -104,7 +106,12 @@ export default function SendImage() {
             />
           </div>
         ) : (
-          <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width="100%"
+          />
         )}
       </Paper>
 
@@ -113,6 +120,7 @@ export default function SendImage() {
           color="primary"
           aria-label="upload picture"
           component="label"
+          sx={{ left: "22%" }}
           size="large"
         >
           <input
@@ -122,18 +130,24 @@ export default function SendImage() {
             type="file"
             onChange={handleFileInput}
           />
-          <CloudUploadIcon fontSize="large" />
+          <PhotoLibraryIcon fontSize="large" />
         </IconButton>
 
-        <button type="button" onClick={handleCapture} disabled={imageFile}>
-          Capture
-        </button>
+        <IconButton
+          color="primary"
+          component="label"
+          sx={{ left: "25%" }}
+          onClick={handleCapture}
+          disabled={imageFile}
+        >
+          <RadioButtonCheckedIcon sx={{ fontSize: 70 }} />
+        </IconButton>
 
         <IconButton
           disabled={!imageFile}
           color="primary"
           component="label"
-          sx={{ left: "45%" }}
+          sx={{ left: "28%" }}
           onClick={(event) => {
             event.preventDefault();
             uploadAndSend(imageFile);
