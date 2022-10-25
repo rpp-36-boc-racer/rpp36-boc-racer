@@ -16,8 +16,9 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import FriendMessage from "./FriendMessage.jsx";
-import OwnerMessage from "./OwnerMessage.jsx";
+import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
+import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
+import { saveAs } from "file-saver";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -32,13 +33,19 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 function ChatsHistory() {
   const location = useLocation();
   const conversationID = location.state.conversationId;
-  const friend = { _id: location.state.friendId, profileImage: location.state.profileImage, username: location.state.username };
-
+  const friend = {
+    _id: location.state.friendId,
+    profileImage: location.state.profileImage,
+    username: location.state.username,
+  };
+  const { user } = useAuthContext();
+  // const [socket, setSocket] = useState(null);
+  // const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [newArrivalMsg, setNewArrivalMsg] = useState(null);
   const socket = useRef();
-  const { user } = useAuthContext();
+
   const navigate = useNavigate();
   const scrollRef = useRef();
 
@@ -48,28 +55,21 @@ function ChatsHistory() {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   socket.current = io("ws://localhost:8080");
-  //   socket.current.on("get-msg", (data) => {
-  //     console.log("get msg at client side:", msg);
-  //     setNewArrivalMsg({
-  //       senderID: data.senderId,
-  //       text: data.message,
-  //       createdAt: Date.now(),
-  //     });
-  //   });
-  // }, [socket]);
+  useEffect(() => {
+    socket.current = io("ws://localhost:4000");
+    socket.current.on("get-msg", (data) => {
+      console.log("get msg at client side:", data);
+      setNewArrivalMsg({
+        senderID: data.senderId,
+        text: data.message,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
 
-  // useEffect(() => {
-  //   console.log("this is newArrival:", newArrivalMsg);
-  //   newArrivalMsg &&
-  //     friend?._id === newArrivalMsg.senderID &&
-  //     setMessages((prev) => [...prev, newArrivalMsg]);
-  // }, [newArrivalMsg, friend]);
-
-  // useEffect(() => {
-  //   socket.current.emit("add-user", user?._id);
-  // }, [user]);
+  useEffect(() => {
+    socket.current.emit("add-user", user?._id);
+  }, [user]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -86,6 +86,21 @@ function ChatsHistory() {
     getMessages();
   }, [conversationID]);
 
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const response = await axios.get(
+          "/instmsg-api/messages/" + conversationID
+        );
+        console.log("this is message data:", response.data);
+        setMessages(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessages();
+  }, [newArrivalMsg]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const textMessage = {
@@ -94,11 +109,11 @@ function ChatsHistory() {
       text: newMessageText,
     };
 
-    // socket.current.emit("send-msg", {
-    //   senderId: user?._id,
-    //   receiverId: friend?._id,
-    //   message: newMessageText,
-    // });
+    socket.current.emit("send-msg", {
+      senderId: user?._id,
+      receiverId: friend?._id,
+      message: newMessageText,
+    });
 
     try {
       const response = await axios.post(
@@ -119,6 +134,33 @@ function ChatsHistory() {
   const handleSendImageButtonClick = (event) => {
     event.preventDefault();
     navigate("/send-image", { state: { conversationId: conversationID } });
+  };
+
+  /************* download photo btn***************/
+
+  const downloadAndSendNotification = async (e, photoUrl) => {
+    e.preventDefault();
+    saveAs(photoUrl, "download.jpg");
+    const textMessage = {
+      conversationID,
+      senderID: user?._id,
+      text: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+    };
+    socket.current.emit("send-msg", {
+      senderId: user?._id,
+      receiverId: friend?._id,
+      message: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+    });
+    try {
+      const response = await axios.post(
+        "/instmsg-api/messages/addmsg",
+        textMessage
+      );
+      console.log("Success notify!");
+      setMessages([...messages, response.data]);
+    } catch (err) {
+      console.log("can not trigger notification!", err);
+    }
   };
 
   return (
@@ -168,18 +210,19 @@ function ChatsHistory() {
         {messages?.map((m, index) => (
           <div key={index}>
             {m.senderID === user?._id ? (
-              <OwnerMessage
+              <OwnerMessageBubble
                 ownername={user?.username}
                 avatarImg={user?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
               />
             ) : (
-              <FriendMessage
+              <FriendMessageBubble
                 friendname={friend?.username}
                 avatarImg={friend?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
+                handleDownloadBtnClick={downloadAndSendNotification}
               />
             )}
           </div>
@@ -196,19 +239,19 @@ function ChatsHistory() {
         bottom="0px"
         left="10px"
       >
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="label"
-            sx={{ "&:hover": { backgroundColor: blue[100] } }}
-            onClick={handleSendImageButtonClick}
-          >
-            <AddPhotoAlternateIcon
-              sx={{
-                fontSize: 60,
-              }}
-            />
-          </IconButton>
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+          sx={{ "&:hover": { backgroundColor: blue[100] } }}
+          onClick={handleSendImageButtonClick}
+        >
+          <AddPhotoAlternateIcon
+            sx={{
+              fontSize: 60,
+            }}
+          />
+        </IconButton>
 
         <TextField
           sx={{

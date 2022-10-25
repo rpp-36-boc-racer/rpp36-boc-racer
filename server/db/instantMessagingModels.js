@@ -15,7 +15,7 @@ const textMessageSchema = new mongoose.Schema(
     senderID: { type: String },
     text: { type: String },
     photoUrl: { type: String },
-    hasBeenRead: { type: Boolean },
+    hasBeenRead: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

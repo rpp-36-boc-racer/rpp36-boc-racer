@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import useAuthContext from './useAuthContext';
+import { useState } from "react";
+import useAuthContext from "./useAuthContext";
 
 export default () => {
   const { user } = useAuthContext();
@@ -10,8 +10,8 @@ export default () => {
     setInterval(async () => {
       setError(null);
       const response = await fetch(`instmsg-api/conversations/${user._id}`, {
-        method: 'GET',
-        headers: { Authentication: `Bearer ${user.token}`},
+        method: "GET",
+        headers: { Authentication: `Bearer ${user.token}` },
       });
       if (response.ok) {
         const json = await response.json();

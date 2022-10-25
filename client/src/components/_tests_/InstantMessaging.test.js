@@ -1,4 +1,7 @@
 /* eslint-disable no-undef */
+/*
+ * @jest-environment node
+ */
 import React from "react";
 import axios from "axios";
 import { render, screen, act, fireEvent } from "@testing-library/react";
@@ -6,8 +9,8 @@ import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 // eslint-disable-next-line import/no-unresolved
 import ChatsHistory from "../InstantMessaging/ChatsHistory.jsx";
-import FriendMessage from "../InstantMessaging/FriendMessage.jsx";
-import OwnerMessage from "../InstantMessaging/OwnerMessage.jsx";
+import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
+import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
 import "@testing-library/jest-dom";
 
 // Note: In order to mock properly, Jest needs jest.mock('moduleName') to be in the same scope as the require/import statement.
@@ -142,13 +145,13 @@ describe("Instant message page", () => {
     const { getByAltText } = await render(
       <BrowserRouter>
         <AuthContext.Provider value={{ user }}>
-          <OwnerMessage
+          <OwnerMessageBubble
             ownername={user.username}
             avatar={user.profileImage}
             message={messages[0].text}
             photo={null}
           />
-          <OwnerMessage
+          <OwnerMessageBubble
             ownername={user.username}
             avatar={user.profileImage}
             photo={messages[3].photoUrl}
@@ -165,13 +168,13 @@ describe("Instant message page", () => {
     const { getByAltText } = await render(
       <BrowserRouter>
         <AuthContext.Provider value={{ user }}>
-          <FriendMessage
+          <FriendMessageBubble
             friendname={friend.username}
             avatar={friend.profileImage}
             message={messages[1].text}
             photo={null}
           />
-          <FriendMessage
+          <FriendMessageBubble
             friendname={friend.username}
             avatar={friend.profileImage}
             photo={messages[2].photoUrl}
@@ -182,5 +185,40 @@ describe("Instant message page", () => {
     const image = getByAltText("test-img");
     expect(screen.getByText("hello from member2")).toBeInTheDocument();
     expect(image.src).toContain("photoMessage1.jpg");
+  });
+
+  test("click thumbnail of photo sent by user will pop zoomed view", async () => {
+    const { getByTestId } = await render(
+      <BrowserRouter>
+        <AuthContext.Provider value={{ user }}>
+          <OwnerMessageBubble
+            ownername={user.username}
+            avatar={user.profileImage}
+            photo={messages[3].photoUrl}
+          />
+        </AuthContext.Provider>
+      </BrowserRouter>
+    );
+    const imgThumbnail = getByTestId("test-thumbnail");
+    fireEvent.click(imgThumbnail);
+    expect(screen.getByTestId("test-zoom").src).toContain("photoMessage2.jpg");
+  });
+
+  test("click thumbnail of photo sent by friend will pop zoomed and download button", async () => {
+    const { getByTestId } = await render(
+      <BrowserRouter>
+        <AuthContext.Provider value={{ user }}>
+          <FriendMessageBubble
+            friendname={friend.username}
+            avatar={friend.profileImage}
+            photo={messages[2].photoUrl}
+          />
+        </AuthContext.Provider>
+      </BrowserRouter>
+    );
+    const imgThumbnail = getByTestId("test-thumbnail");
+    fireEvent.click(imgThumbnail);
+    expect(screen.getByTestId("test-zoom").src).toContain("photoMessage1.jpg");
+    expect(screen.getByTestId("test-download-btn")).toBeInTheDocument();
   });
 });
