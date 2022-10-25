@@ -63,6 +63,18 @@ exports.getFriends = async (info) => {
   return friendsinfo[0].friends.sort();
 };
 
+exports.getFriendId = async (info) => {
+  const friendInfo = await db.User.findOne({
+    username: { $regex: info },
+  });
+
+  if (!friendInfo) {
+    throw Error("Can't find any users");
+  }
+
+  return friendInfo;
+};
+
 exports.addFriend = async (username, newfriend) => {
   await db.User.findOneAndUpdate(
     { username },
