@@ -24,7 +24,6 @@ exports.getConversationByUser = async (req, res) => {
     const conversation = await messagingModels.Conversation.find({
       members: { $in: [userID] },
     });
-
     const results = conversation.map(async (convo) => {
       const conversationId = convo.id;
 
@@ -139,7 +138,7 @@ exports.getUser = async (req, res) => {
 
 exports.deleteConversationById = async (req, res) => {
   const { convoId } = req.params;
-  console.log("conversationid", convoId);
+  // console.log("conversationid", convoId);
   try {
     await messagingModels.Conversation.findOneAndDelete({ _id: convoId });
     res.status(200).send("successfully deleted conversation");

@@ -64,9 +64,7 @@ function Conversation(props) {
   'userID !== senderID', userID !== senderId);
   const navigate = useNavigate();
   const handleConversationClick = () => {
-    navigate("/messaging", {
-      state: { conversationId, friendId, username, profileImage },
-    });
+    navigate("/messaging", { state: { conversationId, friendId, username, profileImage } });
   };
   return (
     <StyledPaper
