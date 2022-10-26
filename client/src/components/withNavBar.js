@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
@@ -11,11 +11,20 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import LogoutIcon from "@mui/icons-material/Logout";
 
+import useAuthContext from "../hooks/useAuthContext";
 import useLogout from "../hooks/useLogout";
 
 export default function withNavBar({ children }) {
-  const { logout } = useLogout();
   const [value, setValue] = React.useState(0);
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const { logout } = useLogout();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <>
@@ -49,7 +58,7 @@ export default function withNavBar({ children }) {
           />
           <BottomNavigationAction
             component={Link}
-            to="/friends"
+            to="/myfriends"
             label="Friends"
             icon={<GroupsIcon />}
           />
