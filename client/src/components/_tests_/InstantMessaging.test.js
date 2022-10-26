@@ -124,9 +124,7 @@ describe("Instant message page", () => {
         </AuthContext.Provider>
       );
     });
-    expect(
-      screen.getByText("DM with someFriend as somebody")
-    ).toBeInTheDocument();
+    expect(screen.getByText("with someFriend as somebody")).toBeInTheDocument();
     expect(screen.getByText("hello from member1")).toBeInTheDocument();
     const image = screen.getByAltText("test-img");
     expect(image.src).toContain("photoMessage1.jpg");

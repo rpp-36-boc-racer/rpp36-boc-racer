@@ -194,7 +194,7 @@ function ChatsHistory() {
           </IconButton>
         </Link>
         <Grid
-          constainer
+          container
           direction="column"
           justifyContent="center"
           alignItems="center"
@@ -305,7 +305,7 @@ function ChatsHistory() {
             color="primary"
             aria-label="send message disabled"
             component="label"
-            disabled="true"
+            disabled
             sx={{ "&:hover": { backgroundColor: blue[100] } }}
             onClick={(e) => {
               handleSubmit(e);
