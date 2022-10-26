@@ -26,7 +26,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2),
-  maxWidth: 400,
+  maxWidth: 300,
   color: theme.palette.text.primary,
 }));
 
@@ -64,10 +64,10 @@ function ChatsHistory() {
       conversationId: conversationID,
       receiverId: user._id,
       readAt: new Date(),
-    }
+    };
     console.log("emit read");
     socket.emit("read", emitData);
-  }
+  };
 
   useEffect(() => {
     if (!user) {
@@ -99,7 +99,7 @@ function ChatsHistory() {
     return () => {
       socket.off("get-msg");
       socket.emit("remove-user", user._id);
-    }
+    };
   }, []);
 
   // useEffect(() => {
@@ -142,7 +142,9 @@ function ChatsHistory() {
 
   const handleSendImageButtonClick = (event) => {
     event.preventDefault();
-    navigate("/send-image", { state: { conversationId: conversationID, friendId: friend._id } });
+    navigate("/send-image", {
+      state: { conversationId: conversationID, friendId: friend._id },
+    });
   };
 
   /************* download photo btn***************/
@@ -155,7 +157,7 @@ function ChatsHistory() {
       senderID: user?._id,
       text: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
     };
-    socket.current.emit("send-msg", {
+    socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
       message: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
@@ -173,14 +175,15 @@ function ChatsHistory() {
   };
 
   return (
-    <div className="chats">
+    <div className="chats" style={{ marginTop: "15px", marginLeft: "15px" }}>
       <Box
         sx={{
-          width: 300,
+          maxWidth: 600,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
+        style={{ border: `1px solid ${blue[500]}` }}
       >
         <Link to="/chat">
           <IconButton
@@ -196,24 +199,40 @@ function ChatsHistory() {
             />
           </IconButton>
         </Link>
-
-        <div>
+        <Grid
+          constainer
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           {user && friend && (
-            <h3>
-              {" "}
-              DM with {friend.username} as {user.username}{" "}
-            </h3>
+            <>
+              <img
+                src="https://i.ibb.co/Bn5fg2Y/text-1666668354911.png"
+                alt="DM-img"
+                style={{
+                  maxWidth: "80%",
+                  height: "auto",
+                  pointerEvents: "none",
+                }}
+              ></img>
+
+              <Typography>
+                with {friend.username} as {user.username}{" "}
+              </Typography>
+            </>
           )}
-        </div>
+        </Grid>
       </Box>
 
       <Box
         sx={{
           flexGrow: 1,
           height: 500,
-          maxWidth: 500,
+          maxWidth: 550,
           overflowY: "scroll",
           px: 3,
+          // backgroundColor:"yellow"
         }}
       >
         {messages?.map((m, index) => (
@@ -224,6 +243,7 @@ function ChatsHistory() {
                 avatarImg={user?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
+                timeStamp={m.createdAt}
               />
             ) : (
               <FriendMessageBubble
@@ -231,6 +251,7 @@ function ChatsHistory() {
                 avatarImg={friend?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
+                timeStamp={m.createdAt}
                 handleDownloadBtnClick={downloadAndSendNotification}
               />
             )}
@@ -238,9 +259,9 @@ function ChatsHistory() {
         ))}
         <span ref={scrollRef}></span>
       </Box>
-
       <Box
         sx={{
+          maxWidth: 600,
           display: "flex",
           alignItems: "center",
         }}
@@ -264,26 +285,45 @@ function ChatsHistory() {
 
         <TextField
           sx={{
-            width: 400,
+            width: 550,
           }}
           onChange={(e) => setNewMessageText(e.target.value)}
           value={newMessageText}
         />
-        <IconButton
-          color="primary"
-          aria-label="send message"
-          component="label"
-          sx={{ "&:hover": { backgroundColor: blue[100] } }}
-          onClick={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <SendIcon
-            sx={{
-              fontSize: 60,
+        {newMessageText ? (
+          <IconButton
+            color="primary"
+            aria-label="send message"
+            component="label"
+            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            onClick={(e) => {
+              handleSubmit(e);
             }}
-          />
-        </IconButton>
+          >
+            <SendIcon
+              sx={{
+                fontSize: 60,
+              }}
+            />
+          </IconButton>
+        ) : (
+          <IconButton
+            color="primary"
+            aria-label="send message disabled"
+            component="label"
+            disabled="true"
+            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <SendIcon
+              sx={{
+                fontSize: 60,
+              }}
+            />
+          </IconButton>
+        )}
       </Box>
     </div>
   );
