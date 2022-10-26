@@ -20,7 +20,6 @@ exports.newConversation = async (req, res) => {
 // endpoint: "/instmsg-api/conversations/:userID"
 exports.getConversationByUser = async (req, res) => {
   const { userID } = req.params;
-  console.log("userID in server", userID);
   try {
     const conversation = await messagingModels.Conversation.find({
       members: { $in: [userID] },
