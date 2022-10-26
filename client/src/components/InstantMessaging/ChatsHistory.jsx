@@ -169,15 +169,20 @@ function ChatsHistory() {
   };
 
   return (
-    <div className="chats" style={{ marginTop: "15px", marginLeft: "15px" }}>
+    <div className="chats" style={{ marginTop: "15px" }}>
       <Box
         sx={{
           maxWidth: 600,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          boxShadow: 3,
         }}
-        style={{ border: `1px solid ${blue[500]}` }}
+        style={{
+          // border: `1px solid ${blue[500]}`,
+
+          backgroundColor: blue[100],
+        }}
       >
         <Link to="/chat">
           <IconButton
@@ -226,7 +231,6 @@ function ChatsHistory() {
           maxWidth: 550,
           overflowY: "scroll",
           px: 3,
-          // backgroundColor:"yellow"
         }}
       >
         {messages?.map((m, index) => (
@@ -258,10 +262,12 @@ function ChatsHistory() {
           maxWidth: 600,
           display: "flex",
           alignItems: "center",
+          backgroundColor: blue[100],
+          boxShadow: 3,
         }}
         position="relative"
         bottom="0px"
-        left="10px"
+        left="0px"
       >
         <IconButton
           color="primary"
@@ -280,7 +286,9 @@ function ChatsHistory() {
         <TextField
           sx={{
             width: 550,
+            backgroundColor: "white",
           }}
+          placeholder="Enter your message here..."
           onChange={(e) => setNewMessageText(e.target.value)}
           value={newMessageText}
         />

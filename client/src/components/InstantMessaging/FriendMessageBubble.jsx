@@ -7,6 +7,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import theme from "../../theme.jsx";
 
 // import { saveAs } from "file-saver";
@@ -26,17 +28,18 @@ function FriendMessageBubble({
     <Grid
       container
       wrap="nowrap"
-      spacing={2}
+      // spacing={2}
       justify="felx-start"
-      style={{ border: "1px solid grey" }}
+      // style={{ border: "1px solid grey" }}
       sx={{ marginTop: 0 }}
+      alignItems="center"
     >
       <Grid
         item
         padding={1}
         xs={2.5}
         justify="flex-start"
-        style={{ border: "1px solid grey", borderRadius: "10px" }}
+        // style={{ border: "1px solid grey", borderRadius: "10px" }}
         alignItems="center"
       >
         <Avatar alt={friendname} src={avatarImg} />
@@ -50,7 +53,7 @@ function FriendMessageBubble({
           <Grid
             container
             direction="column"
-            justifyContent="space-between"
+            justifyContent="flex-start"
             alignItems="flex-start"
           >
             <Grid
@@ -61,8 +64,8 @@ function FriendMessageBubble({
                 border: `1px solid ${grey[200]}`,
                 marginTop: "25px",
                 padding: "9px 9px 9px 9px",
-                maxWidth: "50%",
-                borderRadius: "50px 50px 50px 0",
+                maxWidth: "80%",
+                borderRadius: "0px 25px 25px 25px",
               }}
             >
               <ThemeProvider theme={theme}>
@@ -84,63 +87,89 @@ function FriendMessageBubble({
       ) : null}
 
       {photo && !popView ? (
-        <Grid
-          onClick={(e) => setPopView(!popView)}
-          style={{
-            backgroundColor: grey[200],
-            border: `1px solid ${grey[200]}`,
-            borderRadius: "50px 50px 50px 0",
-            marginTop: "25px",
-            padding: "9px 9px",
-            maxWidth: "50%",
-          }}
-        >
-          <img
-            src={photo}
-            alt="test-img"
-            data-testid="test-thumbnail"
-            style={{ width: "80px", height: "80px", pointerEvents: "none" }}
-          />
+        <Grid item>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
+            <Grid
+              item
+              onClick={(e) => setPopView(!popView)}
+              style={{
+                backgroundColor: grey[200],
+                border: `1px solid ${grey[200]}`,
+                borderRadius: "0px 25px 25px 25px",
+                marginTop: "25px",
+                padding: "9px 9px",
+                maxWidth: "100%",
+              }}
+            >
+              <img
+                src={photo}
+                alt="test-img"
+                data-testid="test-thumbnail"
+                style={{ width: "50px", height: "50px", pointerEvents: "none" }}
+              />
+            </Grid>
+            <Grid
+              item
+              style={{
+                fontFamily: "Arial",
+                fontSize: "10px",
+                color: grey[600],
+              }}
+            >
+              {date}
+            </Grid>
+          </Grid>
         </Grid>
       ) : null}
       {popView ? (
-        <Grid
-          style={{
-            backgroundColor: grey[100],
-            border: `1px solid ${grey[100]}`,
-            borderRadius: "50px 50px 50px 0",
-            marginTop: "25px",
-            padding: "9px 14px",
-            width: "70%",
-            height: "auto",
-          }}
+        <Modal
+          open={popView}
+          onClose={(e) => setPopView(!popView)}
+          aria-labelledby="modal-zoom-img"
         >
-          <IconButton onClick={(e) => handleDownloadBtnClick(e, photo)}>
-            <DownloadIcon
-              data-testid="test-download-btn"
-              sx={{
-                fontSize: 50,
-              }}
-            />
-          </IconButton>
-          <Grid
-            onClick={(e) => setPopView(!popView)}
+          <Box
             style={{
-              maxWidth: "80%",
-              maxHeight: "80%",
-              overflow: "auto",
+              backgroundColor: grey[100],
+              border: `1px solid ${grey[100]}`,
+              borderRadius: "0px 25px 25px 25px",
+              marginTop: "25px",
+              padding: "9px 14px",
+              width: "100%",
+              height: "auto",
             }}
           >
-            <img
-              src={photo}
-              alt="test-img-zoom"
-              data-testid="test-zoom"
+            <IconButton onClick={(e) => handleDownloadBtnClick(e, photo)}>
+              <DownloadIcon
+                data-testid="test-download-btn"
+                sx={{
+                  fontSize: 50,
+                }}
+              />
+            </IconButton>
+            <Grid
+              onClick={(e) => setPopView(!popView)}
               style={{
-                pointerEvents: "none",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                overflow: "auto",
               }}
-            />
-          </Grid>
-        </Grid>
+            >
+              <img
+                src={photo}
+                alt="test-img-zoom"
+                data-testid="test-zoom"
+                style={{
+                  pointerEvents: "none",
+                }}
+              />
+            </Grid>
+          </Box>
+        </Modal>
       ) : null}
     </Grid>
   );

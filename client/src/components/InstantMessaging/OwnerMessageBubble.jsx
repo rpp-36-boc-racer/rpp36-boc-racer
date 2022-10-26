@@ -5,6 +5,8 @@ import { blue, grey } from "@mui/material/colors";
 import { styled, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import theme from "../../theme.jsx";
 
 function OwnerMessageBubble({
@@ -28,19 +30,26 @@ function OwnerMessageBubble({
     >
       <Grid
         item
-        padding={2}
-        xs={2.5}
-        style={{ border: "1px solid grey", borderRadius: "10px" }}
-        alignItems="center"
+        container
+        xs={2}
+        padding={1}
+        justify="center"
+        // style={{ border: "1px solid grey", borderRadius: "10px" }}
+        alignItems="flex-end"
+        direction="column"
       >
-        <Avatar alt={ownername} src={avatarImg} />
-        <ThemeProvider theme={theme}>
-          <Typography variant="body2"> {ownername}</Typography>
-        </ThemeProvider>
+        <Grid item>
+          <Avatar alt={ownername} src={avatarImg} />
+        </Grid>
+        <Grid item>
+          <ThemeProvider theme={theme}>
+            <Typography variant="body2"> {ownername}</Typography>
+          </ThemeProvider>
+        </Grid>
       </Grid>
 
       {message ? (
-        <Grid item xs>
+        <Grid item>
           <Grid
             container
             direction="column"
@@ -56,8 +65,8 @@ function OwnerMessageBubble({
                 border: `1px solid ${blue[100]}`,
                 marginTop: "25px",
                 padding: "9px 14px",
-                maxWidth: "50%",
-                borderRadius: "50px 50px 0 50px",
+                maxWidth: "80%",
+                borderRadius: "25px 0 25px 25px",
               }}
             >
               <ThemeProvider theme={theme}>
@@ -78,54 +87,80 @@ function OwnerMessageBubble({
         </Grid>
       ) : null}
       {photo && !popView ? (
-        <Grid
-          onClick={(e) => setPopView(!popView)}
-          style={{
-            backgroundColor: blue[600],
-            border: `1px solid ${blue[100]}`,
-            borderRadius: "50px 50px 0 50px",
-            marginTop: "25px",
-            padding: "9px 14px",
-            maxWidth: "50%",
-          }}
-        >
-          <img
-            src={photo}
-            alt="test-img"
-            data-testid="test-thumbnail"
-            style={{ width: "80px", height: "80px", pointerEvents: "none" }}
-          />
+        <Grid item>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="flex-end"
+          >
+            <Grid
+              item
+              onClick={(e) => setPopView(!popView)}
+              style={{
+                backgroundColor: blue[600],
+                border: `1px solid ${blue[600]}`,
+                borderRadius: "25px 0 25px 25px",
+                marginTop: "25px",
+                padding: "9px 9px",
+                maxWidth: "80%",
+              }}
+            >
+              <img
+                src={photo}
+                alt="test-img"
+                data-testid="test-thumbnail"
+                style={{ width: "50px", height: "50px", pointerEvents: "none" }}
+              />
+            </Grid>
+            <Grid
+              item
+              style={{
+                fontFamily: "Arial",
+                fontSize: "10px",
+                color: grey[600],
+              }}
+            >
+              {date}
+            </Grid>
+          </Grid>
         </Grid>
       ) : null}
       {popView ? (
-        <Grid
-          style={{
-            backgroundColor: blue[700],
-            border: `1px solid ${blue[100]}`,
-            borderRadius: "50px 50px 0 50px",
-            marginTop: "25px",
-            padding: "9px 14px",
-            maxWidth: "50%",
-          }}
+        <Modal
+          open={popView}
+          onClose={(e) => setPopView(!popView)}
+          aria-labelledby="modal-zoom-img"
         >
-          <Grid
-            onClick={(e) => setPopView(!popView)}
+          <Box
             style={{
-              maxWidth: "300px",
-              maxHeight: "300px",
-              overflow: "auto",
+              backgroundColor: blue[100],
+              border: `1px solid ${blue[100]}`,
+              borderRadius: "25px 25px 25px 25px",
+              marginTop: "25px",
+              maxWidth: "100%",
+              maxHeight: "100%",
             }}
           >
-            <img
-              src={photo}
-              alt="test-img-zoom"
-              data-testid="test-zoom"
+            <Grid
+              onClick={(e) => setPopView(!popView)}
               style={{
-                pointerEvents: "none",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                overflow: "auto",
               }}
-            />
-          </Grid>
-        </Grid>
+            >
+              <img
+                src={photo}
+                alt="test-img-zoom"
+                data-testid="test-zoom"
+                style={{
+                  pointerEvents: "none",
+                }}
+              />
+            </Grid>
+          </Box>
+        </Modal>
       ) : null}
     </Grid>
   );

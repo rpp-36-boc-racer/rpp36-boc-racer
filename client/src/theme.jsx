@@ -15,14 +15,18 @@ theme.typography.body1 = {
 };
 
 theme.typography.body2 = {
-  fontSize: "0.75rem",
+  fontSize: "0.7rem",
   fontFamily: "Arial",
   "@media (min-width:600px)": {
-    fontSize: "1rem",
+    fontSize: "0.9rem",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "1.2rem",
+    fontSize: "1rem",
   },
 };
+
+// theme.typography.fontFamily = {
+
+// }
 
 export default theme;
