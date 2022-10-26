@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import { blue, grey } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
+import theme from "../../theme.jsx";
+
 // import { saveAs } from "file-saver";
 
 function FriendMessageBubble({
@@ -14,39 +16,70 @@ function FriendMessageBubble({
   friendname,
   avatarImg,
   photo,
+  timeStamp,
   handleDownloadBtnClick,
 }) {
   const [popView, setPopView] = useState(false);
+  const date = new Date(timeStamp).toLocaleString();
 
   return (
     <Grid
       container
       wrap="nowrap"
       spacing={2}
-      sx={{
-        // justifyContent: "flex-start",
-        alignItems: "baseline",
-      }}
+      justify="felx-start"
+      style={{ border: "1px solid grey" }}
+      sx={{ marginTop: 0 }}
     >
-      <Grid item padding={1}>
+      <Grid
+        item
+        padding={1}
+        xs={2.5}
+        justify="flex-start"
+        style={{ border: "1px solid grey", borderRadius: "10px" }}
+        alignItems="center"
+      >
         <Avatar alt={friendname} src={avatarImg} />
-        <span>{friendname}</span>
+
+        <ThemeProvider theme={theme}>
+          <Typography variant="body2"> {friendname}</Typography>
+        </ThemeProvider>
       </Grid>
       {message ? (
-        <Grid
-          item
-          xs
-          style={{
-            backgroundColor: grey[200],
-            color: blue[700],
-            border: `1px solid ${grey[200]}`,
-            marginTop: "25px",
-            padding: "9px 14px",
-            maxWidth: "50%",
-            borderRadius: "14px 14px 14px 0",
-          }}
-        >
-          <Typography>{message}</Typography>
+        <Grid item xs>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
+            <Grid
+              item
+              style={{
+                backgroundColor: grey[200],
+                color: blue[700],
+                border: `1px solid ${grey[200]}`,
+                marginTop: "25px",
+                padding: "9px 9px 9px 9px",
+                maxWidth: "50%",
+                borderRadius: "50px 50px 50px 0",
+              }}
+            >
+              <ThemeProvider theme={theme}>
+                <Typography variant="body1">{message}</Typography>
+              </ThemeProvider>
+            </Grid>
+            <Grid
+              item
+              style={{
+                fontFamily: "Arial",
+                fontSize: "10px",
+                color: grey[600],
+              }}
+            >
+              {date}
+            </Grid>
+          </Grid>
         </Grid>
       ) : null}
 
@@ -56,9 +89,9 @@ function FriendMessageBubble({
           style={{
             backgroundColor: grey[200],
             border: `1px solid ${grey[200]}`,
-            borderRadius: "14px 14px 14px 0",
+            borderRadius: "50px 50px 50px 0",
             marginTop: "25px",
-            padding: "9px 14px",
+            padding: "9px 9px",
             maxWidth: "50%",
           }}
         >
@@ -75,7 +108,7 @@ function FriendMessageBubble({
           style={{
             backgroundColor: grey[100],
             border: `1px solid ${grey[100]}`,
-            borderRadius: "14px 14px 14px 0",
+            borderRadius: "50px 50px 50px 0",
             marginTop: "25px",
             padding: "9px 14px",
             width: "70%",

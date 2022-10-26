@@ -1,53 +1,89 @@
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
-import { blue } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
+import { blue, grey } from "@mui/material/colors";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import theme from "../../theme.jsx";
 
-function OwnerMessageBubble({ message, ownername, avatarImg, photo }) {
+function OwnerMessageBubble({
+  message,
+  ownername,
+  avatarImg,
+  photo,
+  timeStamp,
+}) {
   const [popView, setPopView] = useState(false);
+  const date = new Date(timeStamp).toLocaleString();
   return (
     <Grid
       container
       wrap="nowrap"
-      spacing={2}
+      // spacing={2}
       direction="row-reverse"
-      sx={{
-        // justifyContent: "flex-end",
-        alignItems: "baseline",
-      }}
+      justify="flex-end"
+      alignItems="center"
+      sx={{ marginTop: 0 }}
     >
-      <Grid item>
+      <Grid
+        item
+        padding={2}
+        xs={2.5}
+        style={{ border: "1px solid grey", borderRadius: "10px" }}
+        alignItems="center"
+      >
         <Avatar alt={ownername} src={avatarImg} />
-        <span>{ownername}</span>
+        <ThemeProvider theme={theme}>
+          <Typography variant="body2"> {ownername}</Typography>
+        </ThemeProvider>
       </Grid>
 
       {message ? (
-        <Grid
-          item
-          xs
-          style={{
-            backgroundColor: blue[700],
-            color: "white",
-            border: `1px solid ${blue[100]}`,
-            marginTop: "25px",
-            padding: "9px 14px",
-            maxWidth: "50%",
-            borderRadius: "14px 14px 0 14px",
-          }}
-        >
-          <Typography>{message}</Typography>
+        <Grid item xs>
+          <Grid
+            container
+            direction="column"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+          >
+            <Grid
+              item
+              xs
+              style={{
+                backgroundColor: blue[600],
+                color: "white",
+                border: `1px solid ${blue[100]}`,
+                marginTop: "25px",
+                padding: "9px 14px",
+                maxWidth: "50%",
+                borderRadius: "50px 50px 0 50px",
+              }}
+            >
+              <ThemeProvider theme={theme}>
+                <Typography variant="body1">{message}</Typography>
+              </ThemeProvider>
+            </Grid>
+            <Grid
+              item
+              style={{
+                fontFamily: "Arial",
+                fontSize: "10px",
+                color: grey[600],
+              }}
+            >
+              {date}
+            </Grid>
+          </Grid>
         </Grid>
       ) : null}
       {photo && !popView ? (
         <Grid
           onClick={(e) => setPopView(!popView)}
           style={{
-            backgroundColor: blue[700],
+            backgroundColor: blue[600],
             border: `1px solid ${blue[100]}`,
-            borderRadius: "14px 14px 0 14px",
+            borderRadius: "50px 50px 0 50px",
             marginTop: "25px",
             padding: "9px 14px",
             maxWidth: "50%",
@@ -66,7 +102,7 @@ function OwnerMessageBubble({ message, ownername, avatarImg, photo }) {
           style={{
             backgroundColor: blue[700],
             border: `1px solid ${blue[100]}`,
-            borderRadius: "14px 14px 0 14px",
+            borderRadius: "50px 50px 0 50px",
             marginTop: "25px",
             padding: "9px 14px",
             maxWidth: "50%",
