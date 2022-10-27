@@ -34,8 +34,7 @@ This is a month long project where our team completed an MVP full stack applicat
 > A mobile first instant chat with friends to share funny moments of their pets. Upload or take a snap a photo to share. Photo will expire after 10 minutes of opening the message. System will notify sender when photo is saved by friends. User requires log in to use the app for security and privacy. Search and add friends to start a conversation.
 
 ## Tech Stack
-<a href="https://reactjs.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="60"/></a>
-![React](https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg)
+<a href="https://reactjs.org/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50"/></a>
 ![Node](https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg)
 ![Express](https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png)
 ![MongoDB](https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg)
