@@ -1,79 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
+
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import SendIcon from "@mui/icons-material/Send";
 import CancelIcon from "@mui/icons-material/Cancel";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
-import { uploadFile } from "react-s3";
-import useAuthContext from "../../hooks/useAuthContext";
-
-const config = {
-  bucketName: process.env.S3_BUCKET,
-  region: process.env.REGION,
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-};
+import useSendImage from "../../hooks/useSendImage";
 
 export default function SendImage() {
-  const { user } = useAuthContext();
-  const location = useLocation();
-  const { conversationId } = location.state;
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { isLoading, error, uploadAndSend } = useSendImage();
+  const [imageFile, setImageFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const webcamRef = useRef();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!selectedFile) {
+    if (!imageFile) {
       setPreview(null);
       return;
     }
 
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
+    const imageSrc = URL.createObjectURL(imageFile);
+    setPreview(imageSrc);
 
     // eslint-disable-next-line consistent-return
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
+    return () => URL.revokeObjectURL(imageSrc);
+  }, [imageFile]);
+
+  const handleCapture = useCallback(async () => {
+    const snapSrc = webcamRef.current.getScreenshot();
+    const randomFileName = Math.random().toString(36).slice(2);
+
+    const snapFile = await fetch(snapSrc)
+      .then((res) => res.arrayBuffer())
+      .then(
+        (buffer) =>
+          new File([buffer], `${randomFileName}.jpeg`, { type: "image/jpeg" })
+      );
+
+    setImageFile(snapFile);
+  }, [webcamRef]);
 
   const handleFileInput = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
-  const handleUpload = async (file) => {
-    setIsLoading(true);
-
-    uploadFile(file, config)
-      .then(async (data) => {
-        const response = await fetch("/send-img", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `bearer ${user.token}`,
-          },
-          body: JSON.stringify({
-            userId: user._id,
-            conversationId,
-            imageURL: data.location,
-          }),
-        });
-
-        const json = await response.json();
-        if (response.ok) {
-          // navigate to previous page
-          navigate(-1);
-        } else {
-          setError(json.error);
-        }
-
-        setIsLoading(false);
-      })
-      .catch((err) => console.error(err));
+    e.preventDefault();
+    const selectedFile = e.target.files[0];
+    setImageFile(selectedFile);
   };
 
   const handleBackButtonClick = () => {
@@ -82,13 +60,13 @@ export default function SendImage() {
 
   return (
     <>
-      {selectedFile ? (
+      {imageFile ? (
         <IconButton
           color="primary"
           component="label"
           sx={{ position: "fixed", top: 0, left: 0 }}
           size="large"
-          onClick={() => setSelectedFile(null)}
+          onClick={() => setImageFile(null)}
         >
           <CancelIcon fontSize="inherit" />
         </IconButton>
@@ -105,6 +83,7 @@ export default function SendImage() {
       )}
       <Paper
         sx={{
+          backgroundColor: "black",
           minHeight: "80vh",
           width: "90%",
           display: "flex",
@@ -113,14 +92,12 @@ export default function SendImage() {
           position: "fixed",
           top: "7%",
           left: "5%",
-          border: "1px dashed grey",
-          borderRadius: "2%",
         }}
         elevation={2}
       >
         {error && <p>Error: {error}</p>}
         {isLoading && <p>loading...</p>}
-        {selectedFile ? (
+        {imageFile ? (
           <div>
             <img
               src={preview}
@@ -129,30 +106,52 @@ export default function SendImage() {
             />
           </div>
         ) : (
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="label"
-            size="large"
-          >
-            <input
-              hidden
-              data-testid="select-img"
-              accept="image/*"
-              type="file"
-              onChange={handleFileInput}
-            />
-            <CloudUploadIcon fontSize="large" />
-          </IconButton>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width="100%"
+          />
         )}
       </Paper>
-      <Box>
+
+      <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
         <IconButton
-          disabled={!selectedFile}
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+          sx={{ left: "22%" }}
+          size="large"
+        >
+          <input
+            hidden
+            data-testid="select-img"
+            accept="image/*"
+            type="file"
+            onChange={handleFileInput}
+          />
+          <PhotoLibraryIcon fontSize="large" />
+        </IconButton>
+
+        <IconButton
           color="primary"
           component="label"
-          sx={{ position: "fixed", bottom: 0, left: "45%" }}
-          onClick={() => handleUpload(selectedFile)}
+          sx={{ left: "25%" }}
+          onClick={handleCapture}
+          disabled={imageFile}
+        >
+          <RadioButtonCheckedIcon sx={{ fontSize: 70 }} />
+        </IconButton>
+
+        <IconButton
+          disabled={!imageFile}
+          color="primary"
+          component="label"
+          sx={{ left: "28%" }}
+          onClick={(event) => {
+            event.preventDefault();
+            uploadAndSend(imageFile);
+          }}
         >
           <SendIcon fontSize="large" />
         </IconButton>

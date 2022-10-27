@@ -20,12 +20,10 @@ exports.newConversation = async (req, res) => {
 // endpoint: "/instmsg-api/conversations/:userID"
 exports.getConversationByUser = async (req, res) => {
   const { userID } = req.params;
-  console.log("userID in server", userID);
   try {
     const conversation = await messagingModels.Conversation.find({
       members: { $in: [userID] },
     });
-
     const results = conversation.map(async (convo) => {
       const conversationId = convo.id;
 
@@ -140,7 +138,7 @@ exports.getUser = async (req, res) => {
 
 exports.deleteConversationById = async (req, res) => {
   const { convoId } = req.params;
-  console.log("conversationid", convoId);
+  // console.log("conversationid", convoId);
   try {
     await messagingModels.Conversation.findOneAndDelete({ _id: convoId });
     res.status(200).send("successfully deleted conversation");

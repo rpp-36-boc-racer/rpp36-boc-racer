@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
 import WithNavBar from "../withNavBar";
 import Conversations from "./Conversations";
@@ -7,10 +7,13 @@ const axios = require("axios").default;
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const { data, error } = useConversations();
-  // useEffect(() => {
-  //   getConversations();
-  // }, []);
+  const { data, error, getConversations } = useConversations();
+
+  useEffect(() => {
+    getConversations();
+    const timerId = setInterval(getConversations, 2000);
+    return () => clearInterval(timerId);
+  }, []);
 
   function deleteConvoFunc(convoId) {
     axios
@@ -45,18 +48,20 @@ export default function Chat() {
   // console.log('data in chat', data)
   return (
     <WithNavBar>
-      <h3 style={{ textAlign: "center" }} data-testid="chatPanel">
-        Chat
-      </h3>
-      {data && (
-        <Conversations
-          data={data}
-          user={user}
-          deleteConvoFunc={deleteConvoFunc.bind(this)}
-          hasBeenReadFunc={hasBeenReadFunc.bind(this)}
-          confirmDeleteFunc={confirmDeleteFunc.bind(this)}
-        />
-      )}
+      <div>
+        <h3 style={{ textAlign: "center" }} data-testid="chatPanel">
+          Chat
+        </h3>
+        {data && (
+          <Conversations
+            data={data}
+            user={user}
+            deleteConvoFunc={deleteConvoFunc.bind(this)}
+            hasBeenReadFunc={hasBeenReadFunc.bind(this)}
+            confirmDeleteFunc={confirmDeleteFunc.bind(this)}
+          />
+        )}
+      </div>
     </WithNavBar>
   );
 }

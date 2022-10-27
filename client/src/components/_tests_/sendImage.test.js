@@ -38,20 +38,22 @@ describe("upload image component", () => {
   Object.defineProperty(window, "localStorage", { value: localStorageMock });
   const file = new File(["(⌐□_□)"], "somefile.png", { type: "image/png" });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const mockUseLocationValue = {
       pathname: "/send-image",
       state: {
         conversationId: "123",
       },
     };
-    render(
-      <AuthProvider>
-        <MemoryRouter initialEntries={[mockUseLocationValue]}>
-          <SendImage />
-        </MemoryRouter>
-      </AuthProvider>
-    );
+    await act(() => {
+      render(
+        <AuthProvider>
+          <MemoryRouter initialEntries={[mockUseLocationValue]}>
+            <SendImage />
+          </MemoryRouter>
+        </AuthProvider>
+      );
+    });
   });
 
   afterEach(() => {
@@ -62,18 +64,25 @@ describe("upload image component", () => {
   test("image preview", async () => {
     const inputEl = screen.getByTestId("select-img");
 
-    await fireEvent.change(inputEl, { target: { files: [file] } });
+    await act(() => {
+      fireEvent.change(inputEl, { target: { files: [file] } });
+    });
+
     expect(screen.getByRole("img")).toBeInTheDocument();
 
     const removeButton = screen.getAllByRole("button")[0];
-    await fireEvent.click(removeButton);
+    await act(() => {
+      fireEvent.click(removeButton);
+    });
     expect(screen.queryByRole("img")).toBe(null);
   });
 
   test("upload and send image", async () => {
     const inputEl = screen.getByTestId("select-img");
-    await fireEvent.change(inputEl, { target: { files: [file] } });
-    const sendButton = screen.getAllByRole("button")[1];
+    await act(() => {
+      fireEvent.change(inputEl, { target: { files: [file] } });
+    });
+    const sendButton = screen.getAllByRole("button")[3];
 
     global.fetch = jest.fn(() =>
       Promise.resolve({

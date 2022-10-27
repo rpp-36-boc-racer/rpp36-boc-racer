@@ -18,6 +18,15 @@ exports.getFriends = async (req, res) => {
   }
 };
 
+exports.friendId = async (req, res) => {
+  try {
+    const friend = await db.getFriendId(req.params.username);
+    res.status(200).json(friend);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.addFriend = async (req, res) => {
   try {
     const user = req.body.user;
