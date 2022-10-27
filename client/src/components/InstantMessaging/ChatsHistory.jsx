@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
+import SocketContext from "../../contexts/SocketContext";
 
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
@@ -16,8 +16,8 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import FriendMessage from "./FriendMessage.jsx";
-import OwnerMessage from "./OwnerMessage.jsx";
+import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
+import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
 import { saveAs } from "file-saver";
 
 import useAuthContext from "../../hooks/useAuthContext";
@@ -26,7 +26,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2),
-  maxWidth: 400,
+  maxWidth: 300,
   color: theme.palette.text.primary,
 }));
 
@@ -39,67 +39,70 @@ function ChatsHistory() {
     username: location.state.username,
   };
   const { user } = useAuthContext();
-  // const [socket, setSocket] = useState(null);
-  // const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [newArrivalMsg, setNewArrivalMsg] = useState(null);
-  const socket = useRef();
+  let socket = useContext(SocketContext);
 
   const navigate = useNavigate();
   const scrollRef = useRef();
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
+  const getMessages = async () => {
+    try {
+      const response = await axios.get(
+        "/instmsg-api/messages/" + conversationID
+      );
+      console.log("this is message data:", response.data);
+      setMessages(response.data);
+    } catch (err) {
+      console.log(err);
     }
-  }, [user]);
+  };
+
+  const emitReadEvent = () => {
+    const emitData = {
+      conversationId: conversationID,
+      receiverId: user._id,
+      readAt: new Date(),
+    };
+    console.log("emit read");
+    socket.emit("read", emitData);
+  };
 
   useEffect(() => {
-    socket.current = io("ws://localhost:4000");
-    socket.current.on("get-msg", (data) => {
+    socket.emit("add-user", user?._id);
+    emitReadEvent();
+
+    socket.on("get-msg", (data) => {
       console.log("get msg at client side:", data);
+      emitReadEvent();
+
+      // get updated message to remove expired image after 70s
+      setTimeout(getMessages, 70000);
+
       setNewArrivalMsg({
         senderID: data.senderId,
         text: data.message,
         createdAt: Date.now(),
       });
     });
+
+    // get updated message to remove expired image after 70s
+    setTimeout(getMessages, 70000);
+
+    return () => {
+      socket.off("get-msg");
+      socket.emit("remove-user", user._id);
+    };
   }, []);
 
-  useEffect(() => {
-    socket.current.emit("add-user", user?._id);
-  }, [user]);
+  // useEffect(() => {
+  //   socket.emit("add-user", user?._id);
+  // }, [user]);
 
   useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await axios.get(
-          "/instmsg-api/messages/" + conversationID
-        );
-        console.log("this is message data:", response.data);
-        setMessages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getMessages();
-  }, [conversationID]);
-
-  useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await axios.get(
-          "/instmsg-api/messages/" + conversationID
-        );
-        console.log("this is message data:", response.data);
-        setMessages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getMessages();
-  }, [newArrivalMsg]);
+  }, [conversationID, newArrivalMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +112,7 @@ function ChatsHistory() {
       text: newMessageText,
     };
 
-    socket.current.emit("send-msg", {
+    socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
       message: newMessageText,
@@ -133,7 +136,9 @@ function ChatsHistory() {
 
   const handleSendImageButtonClick = (event) => {
     event.preventDefault();
-    navigate("/send-image", { state: { conversationId: conversationID } });
+    navigate("/send-image", {
+      state: { conversationId: conversationID, friendId: friend._id },
+    });
   };
 
   /************* download photo btn***************/
@@ -144,12 +149,12 @@ function ChatsHistory() {
     const textMessage = {
       conversationID,
       senderID: user?._id,
-      text: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      text: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
     };
-    socket.current.emit("send-msg", {
+    socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
-      message: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      message: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
     });
     try {
       const response = await axios.post(
@@ -164,13 +169,19 @@ function ChatsHistory() {
   };
 
   return (
-    <div className="chats">
+    <div className="chats" style={{ marginTop: "15px" }}>
       <Box
         sx={{
-          width: 300,
+          maxWidth: 600,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          boxShadow: 3,
+        }}
+        style={{
+          // border: `1px solid ${blue[500]}`,
+
+          backgroundColor: blue[100],
         }}
       >
         <Link to="/chat">
@@ -187,22 +198,37 @@ function ChatsHistory() {
             />
           </IconButton>
         </Link>
-
-        <div>
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           {user && friend && (
-            <h3>
-              {" "}
-              DM with {friend.username} as {user.username}{" "}
-            </h3>
+            <>
+              <img
+                src="https://i.ibb.co/Bn5fg2Y/text-1666668354911.png"
+                alt="DM-img"
+                style={{
+                  maxWidth: "80%",
+                  height: "auto",
+                  pointerEvents: "none",
+                }}
+              ></img>
+
+              <Typography>
+                with {friend.username} as {user.username}{" "}
+              </Typography>
+            </>
           )}
-        </div>
+        </Grid>
       </Box>
 
       <Box
         sx={{
           flexGrow: 1,
           height: 500,
-          maxWidth: 500,
+          maxWidth: 550,
           overflowY: "scroll",
           px: 3,
         }}
@@ -210,18 +236,20 @@ function ChatsHistory() {
         {messages?.map((m, index) => (
           <div key={index}>
             {m.senderID === user?._id ? (
-              <OwnerMessage
+              <OwnerMessageBubble
                 ownername={user?.username}
                 avatarImg={user?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
+                timeStamp={m.createdAt}
               />
             ) : (
-              <FriendMessage
+              <FriendMessageBubble
                 friendname={friend?.username}
                 avatarImg={friend?.profileImage}
                 message={m.text}
                 photo={m.photoUrl}
+                timeStamp={m.createdAt}
                 handleDownloadBtnClick={downloadAndSendNotification}
               />
             )}
@@ -229,15 +257,17 @@ function ChatsHistory() {
         ))}
         <span ref={scrollRef}></span>
       </Box>
-
       <Box
         sx={{
+          maxWidth: 600,
           display: "flex",
           alignItems: "center",
+          backgroundColor: blue[100],
+          boxShadow: 3,
         }}
         position="relative"
         bottom="0px"
-        left="10px"
+        left="0px"
       >
         <IconButton
           color="primary"
@@ -255,26 +285,47 @@ function ChatsHistory() {
 
         <TextField
           sx={{
-            width: 400,
+            width: 550,
+            backgroundColor: "white",
           }}
+          placeholder="Enter your message here..."
           onChange={(e) => setNewMessageText(e.target.value)}
           value={newMessageText}
         />
-        <IconButton
-          color="primary"
-          aria-label="send message"
-          component="label"
-          sx={{ "&:hover": { backgroundColor: blue[100] } }}
-          onClick={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <SendIcon
-            sx={{
-              fontSize: 60,
+        {newMessageText ? (
+          <IconButton
+            color="primary"
+            aria-label="send message"
+            component="label"
+            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            onClick={(e) => {
+              handleSubmit(e);
             }}
-          />
-        </IconButton>
+          >
+            <SendIcon
+              sx={{
+                fontSize: 60,
+              }}
+            />
+          </IconButton>
+        ) : (
+          <IconButton
+            color="primary"
+            aria-label="send message disabled"
+            component="label"
+            disabled
+            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <SendIcon
+              sx={{
+                fontSize: 60,
+              }}
+            />
+          </IconButton>
+        )}
       </Box>
     </div>
   );

@@ -13,8 +13,11 @@ import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import AddTaskIcon from "@mui/icons-material/AddTask";
+import AddReactionIcon from "@mui/icons-material/AddReaction";
 import CommentIcon from "@mui/icons-material/Comment";
+import { blue } from "@mui/material/colors";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
@@ -35,6 +38,7 @@ export default function Friends({ getFriends }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     getUsers({ name });
+    document.getElementById("myInput").value = "";
   };
 
   const handleAdd = (friend) => {
@@ -107,16 +111,30 @@ export default function Friends({ getFriends }) {
     let usersEntries;
     usersEntries = newuserslist.map((person) => {
       if (person.friends && person.friends.includes(user.username)) {
-        console.log(person)
         return (
           <div data-testid="user-tobe-selected-list">
-            <ListItem alignItems="flex-start">
+            <ListItem
+              alignItems="flex-start"
+              sx={{
+                backgroundColor: blue[100],
+                my: 1,
+                mx: "auto",
+                p: 2,
+                boxShadow: 2,
+              }}
+            >
               <ListItemAvatar>
                 <Avatar alt="profilepic" src={person.profileImage} />
               </ListItemAvatar>
-              <ListItemText primary={person.username} />
+              <ListItemText
+                sx={{
+                  color: blue[800],
+                }}
+                primary={person.username}
+                secondary={person.email}
+              />
 
-              {/* <IconButton
+              <IconButton
                 aria-label="chat with a friend"
                 size="large"
                 type="button"
@@ -126,28 +144,36 @@ export default function Friends({ getFriends }) {
                 <CommentIcon
                   fontSize="large"
                   onClick={() => chat(person.username)}
+                  sx={{ color: blue[700] }}
                 />
-              </IconButton> */}
-
-<button
-                type="button"
-                data-testid="user-tobe-selected-button"
-                id={person.username}
-                onClick={() => chat(person.username)}
-              >
-                chat
-              </button>
+              </IconButton>
             </ListItem>
           </div>
         );
       }
       return (
         <div data-testid="user-tobe-selected-list">
-          <ListItem alignItems="flex-start">
+          <ListItem
+            alignItems="flex-start"
+            sx={{
+              backgroundColor: blue[100],
+              my: 1,
+              mx: "auto",
+              p: 2,
+              boxShadow: 2,
+            }}
+          >
             <ListItemAvatar>
               <Avatar alt="profilepic" src={person.profilepic} />
             </ListItemAvatar>
-            <ListItemText primary={person.username} />
+            <ListItemText
+              sx={{
+                color: blue[800],
+                fontWeight: "bold",
+              }}
+              primary={person.username}
+              secondary={person.email}
+            />
 
             <IconButton
               aria-label="add a new friend"
@@ -159,7 +185,7 @@ export default function Friends({ getFriends }) {
                 handleAdd(person.username);
               }}
             >
-              <AddTaskIcon fontSize="large" />
+              <AddReactionIcon fontSize="large" sx={{ color: blue[700] }} />
             </IconButton>
           </ListItem>
         </div>
@@ -183,6 +209,7 @@ export default function Friends({ getFriends }) {
             type="text"
             data-testid="myInput"
             label="USERNAME"
+            id='myInput'
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -202,7 +229,7 @@ export default function Friends({ getFriends }) {
               sx={{ display: "flex" }}
               onClick={handleSubmit}
             >
-              <AddCircleIcon fontSize="large" />
+              <AddCircleIcon fontSize="large" sx={{ color: blue[700] }} />
             </IconButton>
           </div>
         </Box>
@@ -226,6 +253,7 @@ export default function Friends({ getFriends }) {
         type="text"
         data-testid="myInput"
         label="USERNAME"
+        id="myInput"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -245,7 +273,7 @@ export default function Friends({ getFriends }) {
           sx={{ display: "flex" }}
           onClick={handleSubmit}
         >
-          <AddCircleIcon fontSize="large" />
+          <AddCircleIcon fontSize="large" sx={{ color: blue[700] }} />
         </IconButton>
       </div>
     </Box>
