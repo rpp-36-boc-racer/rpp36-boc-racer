@@ -17,7 +17,6 @@ import AddReactionIcon from "@mui/icons-material/AddReaction";
 import CommentIcon from "@mui/icons-material/Comment";
 import { blue } from "@mui/material/colors";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
