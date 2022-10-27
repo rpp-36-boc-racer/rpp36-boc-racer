@@ -13,12 +13,14 @@ import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import AddTaskIcon from "@mui/icons-material/AddTask";
+import CommentIcon from "@mui/icons-material/Comment";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
 import useAuthContext from "../hooks/useAuthContext";
 
-export default function Friends() {
+export default function Friends({ getFriends }) {
   const { user, dispatch } = useAuthContext();
   const [name, setUsername] = useState("");
   const { error, isLoading, users, usersJson, getUsers } = useGetUsers(name);
@@ -35,34 +37,99 @@ export default function Friends() {
     getUsers({ name });
   };
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    const newfriend = e.target.id;
+  const handleAdd = (friend) => {
+    const newfriend = friend;
     addFriend({ user, newfriend });
     getUsers({ name });
+    getFriends();
   };
 
   const newuserslist = users.filter(
     (person) => person.username !== user.username
   );
 
-  const chat = (friend) => {
-    navigate("/messaging", { state: { friend } });
+  const getChatHistory = async (friend) => {
+    const response2 = await fetch(`friendID/${friend}`, {
+      method: "GET",
+      headers: { Authentication: `Bearer ${user.token}` },
+    });
+    if (response2.ok) {
+      response2.json().then((result) => {
+        console.log("friendinfo", result);
+
+        fetch(`instmsg-api/conversations/${user._id}/${result._id}`, {
+          method: "GET",
+          headers: { Authentication: `Bearer ${user.token}` },
+        }).then((result2) => {
+          result2
+            .json()
+            .then((result3) => {
+              // const { friendId, username, profileImage } = result;
+              // const { conversationId } = result3;
+
+              const friendId = result._id;
+              const { username } = result;
+              const { profileImage } = result;
+              const conversationId = result3._id;
+
+              // console.log('result', result);
+              // console.log('result3', result3);
+              // console.log('friendId', friendId);
+              // console.log('conversationId', conversationId);
+              navigate("/messaging", {
+                state: { conversationId, friendId, username, profileImage },
+              });
+            })
+            .catch((error) => {
+              fetch(`/instmsg-api/conversations`, {
+                method: "POST",
+                headers: {
+                  Authentication: `Bearer ${user.token}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  senderID: user._id,
+                  receiverID: result._id,
+                }),
+              });
+              getChatHistory(friend);
+            });
+        });
+      });
+    }
   };
 
+  const chat = (friend) => {
+    getChatHistory(friend);
+  };
 
   if (users && users.length > 0) {
     let usersEntries;
     usersEntries = newuserslist.map((person) => {
       if (person.friends && person.friends.includes(user.username)) {
+        console.log(person)
         return (
           <div data-testid="user-tobe-selected-list">
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt="profilepic" src={person.profilepic} />
+                <Avatar alt="profilepic" src={person.profileImage} />
               </ListItemAvatar>
               <ListItemText primary={person.username} />
-              <button
+
+              {/* <IconButton
+                aria-label="chat with a friend"
+                size="large"
+                type="button"
+                data-testid="user-tobe-selected-button"
+                sx={{ display: "flex" }}
+              >
+                <CommentIcon
+                  fontSize="large"
+                  onClick={() => chat(person.username)}
+                />
+              </IconButton> */}
+
+<button
                 type="button"
                 data-testid="user-tobe-selected-button"
                 id={person.username}
@@ -82,14 +149,18 @@ export default function Friends() {
             </ListItemAvatar>
             <ListItemText primary={person.username} />
 
-            <button
+            <IconButton
+              aria-label="add a new friend"
+              size="large"
               type="button"
               data-testid="user-tobe-selected-button"
-              id={person.username}
-              onClick={handleAdd}
+              sx={{ display: "flex" }}
+              onClick={() => {
+                handleAdd(person.username);
+              }}
             >
-              add
-            </button>
+              <AddTaskIcon fontSize="large" />
+            </IconButton>
           </ListItem>
         </div>
       );
