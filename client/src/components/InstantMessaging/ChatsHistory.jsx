@@ -155,6 +155,7 @@ function ChatsHistory() {
       senderId: user?._id,
       receiverId: friend?._id,
       message: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      photoSaved: true,
     });
     try {
       const response = await axios.post(
