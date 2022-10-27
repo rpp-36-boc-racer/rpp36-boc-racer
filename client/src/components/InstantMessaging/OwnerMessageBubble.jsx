@@ -133,6 +133,8 @@ function OwnerMessageBubble({
           aria-labelledby="modal-zoom-img"
         >
           <Box
+            justifyContent="center"
+            alignItems="center"
             style={{
               backgroundColor: blue[100],
               border: `1px solid ${blue[100]}`,

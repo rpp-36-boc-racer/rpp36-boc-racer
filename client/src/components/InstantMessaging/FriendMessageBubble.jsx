@@ -11,8 +11,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import theme from "../../theme.jsx";
 
-// import { saveAs } from "file-saver";
-
 function FriendMessageBubble({
   message,
   friendname,
@@ -131,12 +129,15 @@ function FriendMessageBubble({
           open={popView}
           onClose={(e) => setPopView(!popView)}
           aria-labelledby="modal-zoom-img"
+          handleDownloadBtnClick={handleDownloadBtnClick}
         >
           <Box
+            justifyContent="center"
+            alignItems="center"
             style={{
               backgroundColor: grey[100],
               border: `1px solid ${grey[100]}`,
-              borderRadius: "0px 25px 25px 25px",
+              borderRadius: "25px 25px 25px 25px",
               marginTop: "25px",
               padding: "9px 14px",
               width: "100%",

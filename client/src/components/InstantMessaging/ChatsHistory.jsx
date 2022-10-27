@@ -149,12 +149,12 @@ function ChatsHistory() {
     const textMessage = {
       conversationID,
       senderID: user?._id,
-      text: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      text: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
     };
     socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
-      message: `SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      message: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
     });
     try {
       const response = await axios.post(
