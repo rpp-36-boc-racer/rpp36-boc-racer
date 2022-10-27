@@ -5,8 +5,10 @@ import Webcam from "react-webcam";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import SendIcon from "@mui/icons-material/Send";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -81,6 +83,22 @@ export default function SendImage() {
           <ArrowCircleLeftIcon fontSize="inherit" />
         </IconButton>
       )}
+
+      {error && (
+        <Stack sx={{ width: "70%", margin: "auto" }} spacking={2}>
+          <Alert severity="error" variant="filled">
+            Error: {error}
+          </Alert>
+        </Stack>
+      )}
+      {isLoading && (
+        <Stack sx={{ width: "70%", margin: "auto" }} spacking={2}>
+          <Alert severity="info" variant="filled">
+            Loading...
+          </Alert>
+        </Stack>
+      )}
+
       <Paper
         sx={{
           backgroundColor: "black",
@@ -95,16 +113,13 @@ export default function SendImage() {
         }}
         elevation={2}
       >
-        {error && <p>Error: {error}</p>}
-        {isLoading && <p>loading...</p>}
+
         {imageFile ? (
-          <div>
-            <img
-              src={preview}
-              alt="preview"
-              style={{ height: 400, width: 300, objectFit: "contain" }}
-            />
-          </div>
+          <img
+            src={preview}
+            alt="preview"
+            style={{ height: 400, width: 300, objectFit: "contain" }}
+          />
         ) : (
           <Webcam
             audio={false}
