@@ -113,7 +113,6 @@ export default function SendImage() {
         }}
         elevation={2}
       >
-
         {imageFile ? (
           <img
             src={preview}

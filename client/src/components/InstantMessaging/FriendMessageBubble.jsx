@@ -35,7 +35,7 @@ function FriendMessageBubble({
       <Grid
         item
         padding={1}
-        xs={2.5}
+        xs={2}
         justify="flex-start"
         // style={{ border: "1px solid grey", borderRadius: "10px" }}
         alignItems="center"

@@ -34,6 +34,7 @@ This is a month long project where our team completed an MVP full stack applicat
 > A mobile first instant chat with friends to share funny moments of their pets. Upload or take a snap a photo to share. Photo will expire after 10 minutes of opening the message. System will notify sender when photo is saved by friends. User requires log in to use the app for security and privacy. Search and add friends to start a conversation.
 
 ## Tech Stack
+
 <a href="https://reactjs.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50px"/></a>
 <a href="https://nodejs.org/en/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node" width="60px"/></a>
 <a href="https://expressjs.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" width="60px"/></a>
@@ -58,8 +59,9 @@ npm start
 > Quick and effectively style the app as a mobile-friendly web app. Research on Material UI.
 
 ## Challenges that were unexpected
-> * Why was it a challenge
-> * What did you learn?
+
+> - Why was it a challenge
+> - What did you learn?
 
 ## Video Demo
 
@@ -71,11 +73,12 @@ npm start
 > - How does the tech stack come together?
 
 ## Workflow and Key lessons from your team
-> * Your git workflow, style guides, commit guides, etc
-> * What did you learn from the process
-> * What were key takeaways from stand ups, code reviews, etc
-> * Writing tests
-> * Link to your project board, discuss completed tickets
+
+> - Your git workflow, style guides, commit guides, etc
+> - What did you learn from the process
+> - What were key takeaways from stand ups, code reviews, etc
+> - Writing tests
+> - Link to your project board, discuss completed tickets
 
 ## Notes from your Sprint Retro
 

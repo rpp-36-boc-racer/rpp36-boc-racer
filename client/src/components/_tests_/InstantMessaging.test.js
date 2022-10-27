@@ -11,6 +11,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import ChatsHistory from "../InstantMessaging/ChatsHistory.jsx";
 import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
 import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
+import MessageAlert from "../InstantMessaging/MessageAlert.jsx";
 import "@testing-library/jest-dom";
 
 // Note: In order to mock properly, Jest needs jest.mock('moduleName') to be in the same scope as the require/import statement.
@@ -202,7 +203,7 @@ describe("Instant message page", () => {
     expect(screen.getByTestId("test-zoom").src).toContain("photoMessage2.jpg");
   });
 
-  test("click thumbnail of photo sent by friend will pop zoomed and download button", async () => {
+  test("click thumbnail of photo sent by friend will pop zoomed view and download button", async () => {
     const { getByTestId } = await render(
       <BrowserRouter>
         <AuthContext.Provider value={{ user }}>
@@ -218,5 +219,21 @@ describe("Instant message page", () => {
     fireEvent.click(imgThumbnail);
     expect(screen.getByTestId("test-zoom").src).toContain("photoMessage1.jpg");
     expect(screen.getByTestId("test-download-btn")).toBeInTheDocument();
+  });
+
+  test("render message alert", async () => {
+    const alertMsg = `⚠️SYSTEM MESSAGE⚠️: ${user.username} has saved your photo!!!`;
+    const timeStamp = Date.now();
+
+    await render(
+      <BrowserRouter>
+        <AuthContext.Provider value={{ user }}>
+          <MessageAlert message={alertMsg} timeStamp={timeStamp} />
+        </AuthContext.Provider>
+      </BrowserRouter>
+    );
+    expect(
+      screen.getByText("somebody has saved your photo!!!")
+    ).toBeInTheDocument();
   });
 });
