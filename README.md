@@ -58,6 +58,8 @@ npm start
 > Quick and effectively style the app as a mobile-friendly web app. Research on Material UI.
 
 ## Challenges that were unexpected
+> * Why was it a challenge
+> * What did you learn?
 
 ## Video Demo
 
@@ -69,6 +71,11 @@ npm start
 > - How does the tech stack come together?
 
 ## Workflow and Key lessons from your team
+> * Your git workflow, style guides, commit guides, etc
+> * What did you learn from the process
+> * What were key takeaways from stand ups, code reviews, etc
+> * Writing tests
+> * Link to your project board, discuss completed tickets
 
 ## Notes from your Sprint Retro
 
