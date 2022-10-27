@@ -6,11 +6,12 @@ import SocketContext from "../../contexts/SocketContext";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import { blue, yellow } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+// import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -18,17 +19,11 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
 import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
+import MessageAlert from "../InstantMessaging/MessageAlert.jsx";
+import theme from "../../theme.jsx";
 import { saveAs } from "file-saver";
 
 import useAuthContext from "../../hooks/useAuthContext";
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  maxWidth: 300,
-  color: theme.palette.text.primary,
-}));
 
 function ChatsHistory() {
   const location = useLocation();
@@ -149,12 +144,12 @@ function ChatsHistory() {
     const textMessage = {
       conversationID,
       senderID: user?._id,
-      text: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      text: `⚠️SYSTEM MESSAGE⚠️: ${user?.username} has saved your photo!!! `,
     };
     socket.emit("send-msg", {
       senderId: user?._id,
       receiverId: friend?._id,
-      message: `⚠️SYSTEM MESSAGE: ${user?.username} has saved your photo!!! `,
+      message: `⚠️SYSTEM MESSAGE⚠️: ${user?.username} has saved your photo!!! `,
     });
     try {
       const response = await axios.post(
@@ -169,7 +164,7 @@ function ChatsHistory() {
   };
 
   return (
-    <div className="chats" style={{ marginTop: "15px" }}>
+    <div className="chats" style={{ marginTop: "0px" }}>
       <Box
         sx={{
           maxWidth: 600,
@@ -189,11 +184,11 @@ function ChatsHistory() {
             color="primary"
             aria-label="back-to-messagelist"
             component="label"
-            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            sx={{ "&:hover": { backgroundColor: blue[200] } }}
           >
-            <ArrowBackOutlinedIcon
+            <ArrowBackIosNewIcon
               sx={{
-                fontSize: 40,
+                fontSize: 50,
               }}
             />
           </IconButton>
@@ -203,11 +198,12 @@ function ChatsHistory() {
           direction="column"
           justifyContent="center"
           alignItems="center"
+          style={{ padding: "10px" }}
         >
           {user && friend && (
             <>
               <img
-                src="https://i.ibb.co/Bn5fg2Y/text-1666668354911.png"
+                src="https://i.ibb.co/ZK2D678/paw-messaging.png"
                 alt="DM-img"
                 style={{
                   maxWidth: "80%",
@@ -216,9 +212,11 @@ function ChatsHistory() {
                 }}
               ></img>
 
-              <Typography>
-                with {friend.username} as {user.username}{" "}
-              </Typography>
+              <ThemeProvider theme={theme}>
+                <Typography variant="title1">
+                  with {friend.username} as {user.username}{" "}
+                </Typography>
+              </ThemeProvider>
             </>
           )}
         </Grid>
@@ -235,7 +233,13 @@ function ChatsHistory() {
       >
         {messages?.map((m, index) => (
           <div key={index}>
-            {m.senderID === user?._id ? (
+            {m.text && m.text.includes("⚠️SYSTEM MESSAGE⚠️:") ? (
+              <MessageAlert
+                message={m.text}
+                timeStamp={m.createdAt}
+                friendname={friend?.username}
+              />
+            ) : m.senderID === user?._id ? (
               <OwnerMessageBubble
                 ownername={user?.username}
                 avatarImg={user?.profileImage}
@@ -273,7 +277,7 @@ function ChatsHistory() {
           color="primary"
           aria-label="upload picture"
           component="label"
-          sx={{ "&:hover": { backgroundColor: blue[100] } }}
+          sx={{ "&:hover": { backgroundColor: blue[200] } }}
           onClick={handleSendImageButtonClick}
         >
           <AddPhotoAlternateIcon
@@ -297,7 +301,7 @@ function ChatsHistory() {
             color="primary"
             aria-label="send message"
             component="label"
-            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            sx={{ "&:hover": { backgroundColor: blue[200] } }}
             onClick={(e) => {
               handleSubmit(e);
             }}
@@ -314,7 +318,7 @@ function ChatsHistory() {
             aria-label="send message disabled"
             component="label"
             disabled
-            sx={{ "&:hover": { backgroundColor: blue[100] } }}
+            sx={{ "&:hover": { backgroundColor: blue[200] } }}
             onClick={(e) => {
               handleSubmit(e);
             }}
