@@ -100,14 +100,17 @@ export default function Friends() {
 
   return (
     <WithNavBar>
+      <h3 style={{ textAlign: "center" }}>
+          Friends
+        </h3>
       <AddFriends getFriends={getFriends} />
-      <h4>Friends</h4>
+      <h4 style={{ textAlign: "center" }}>My Friends</h4>
       {friendList && (
         <table>
           {friendList.map((friend) => (
             <tr key={friend}>
               <td>
-                <Avatar alt="profilepic" src={friend.profilepic} />{" "}
+                <Avatar alt="profilepic" src={friend.profileImage} />{" "}
               </td>
               <td>
                 {" "}
