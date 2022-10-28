@@ -11,6 +11,7 @@ export default function Chat() {
 
   useEffect(() => {
     getConversations();
+    console.log('get chats')
     const timerId = setInterval(getConversations, 2000);
     return () => clearInterval(timerId);
   }, []);
