@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 app.post("/login", auth.login);
-app.post("/signup", auth.signup);
 
 app.get("/friends/", auth.requireAuth, friend.getFriends);
 app.get("/users/:username", friend.getUsers);
