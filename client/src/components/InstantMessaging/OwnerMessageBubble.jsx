@@ -134,7 +134,7 @@ function OwnerMessageBubble({
         >
           <Box
             justifyContent="center"
-            alignItems="center"
+            align="center"
             style={{
               backgroundColor: blue[100],
               border: `1px solid ${blue[100]}`,
@@ -144,19 +144,15 @@ function OwnerMessageBubble({
               maxHeight: "100%",
             }}
           >
-            <Grid
-              onClick={(e) => setPopView(!popView)}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "100%",
-                overflow: "auto",
-              }}
-            >
+            <Grid onClick={(e) => setPopView(!popView)}>
               <img
                 src={photo}
                 alt="test-img-zoom"
                 data-testid="test-zoom"
                 style={{
+                  maxWidth: "95%",
+                  maxHeight: "85vh",
+                  overflow: "auto",
                   pointerEvents: "none",
                 }}
               />
