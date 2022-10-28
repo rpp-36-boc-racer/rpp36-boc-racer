@@ -103,18 +103,41 @@ export default function Friends() {
       <AddFriends getFriends={getFriends} />
       <h4>Friends</h4>
       {friendList && (
-        <table>
+        <table
+          style={{
+            background: "linear-gradient(91.4deg, #2fb8ff 0%, #9eecd9 100%)",
+            color: "white",
+            borderRadius: "10px",
+            width: "100%",
+          }}
+        >
           {friendList.map((friend) => (
-            <tr key={friend}>
-              <td>
-                <Avatar alt="profilepic" src={friend.profilepic} />{" "}
+            <tr key={friend.username}>
+              <td
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Avatar alt="profilepic" src={friend.profileImage} />{" "}
               </td>
-              <td>
+              <td
+                style={{
+                  fontSize: "20px",
+                  width: "22.5%",
+                  textAlign: "left",
+                }}
+              >
                 {" "}
-                <div>{friend}</div>{" "}
+                {friend.username}{" "}
               </td>
-              <td>
-                <Button onClick={() => chat(friend)}>Chat</Button>
+              <td
+                style={{
+                  width: "60%",
+                  textAlign: "right",
+                }}
+              >
+                <Button onClick={() => chat(friend.username)}>Chat</Button>
               </td>
             </tr>
           ))}

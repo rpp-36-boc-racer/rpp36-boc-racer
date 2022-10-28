@@ -110,7 +110,7 @@ export default function Friends({ getFriends }) {
           <div data-testid="user-tobe-selected-list">
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt="profilepic" src={person.profilepic} />
+                <Avatar alt="profilepic" src={person.profileImage} />
               </ListItemAvatar>
               <ListItemText primary={person.username} />
               <button
@@ -129,7 +129,7 @@ export default function Friends({ getFriends }) {
         <div data-testid="user-tobe-selected-list">
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              <Avatar alt="profilepic" src={person.profilepic} />
+              <Avatar alt="profilepic" src={person.profileImage} />
             </ListItemAvatar>
             <ListItemText primary={person.username} />
 
