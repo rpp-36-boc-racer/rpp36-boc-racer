@@ -20,7 +20,7 @@ import axios from "axios";
 import OwnerMessageBubble from "../InstantMessaging/OwnerMessageBubble.jsx";
 import FriendMessageBubble from "../InstantMessaging/FriendMessageBubble.jsx";
 import MessageAlert from "../InstantMessaging/MessageAlert.jsx";
-import DM_img from "../../assets/paw-messaging.png";
+// import DM_img from "../../assets/paw-messaging.png";
 import theme from "../../theme.jsx";
 import { saveAs } from "file-saver";
 
@@ -206,7 +206,7 @@ function ChatsHistory() {
             {user && friend && (
               <>
                 <img
-                  src={DM_img}
+                  src={require("../../assets/paw-messaging.png").default}
                   alt="DM-img"
                   style={{
                     maxWidth: "80%",
