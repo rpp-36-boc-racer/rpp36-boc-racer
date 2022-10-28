@@ -163,7 +163,7 @@ export default function Friends({ getFriends }) {
             }}
           >
             <ListItemAvatar>
-              <Avatar alt="profilepic" src={person.profilepic} />
+              <Avatar alt="profilepic" src={person.profileImage} />
             </ListItemAvatar>
             <ListItemText
               sx={{
@@ -208,7 +208,7 @@ export default function Friends({ getFriends }) {
             type="text"
             data-testid="myInput"
             label="USERNAME"
-            id='myInput'
+            id="myInput"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
