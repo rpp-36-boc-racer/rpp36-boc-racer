@@ -25,7 +25,7 @@ theme.typography.body1 = {
 };
 
 theme.typography.body2 = {
-  fontSize: "0.7rem",
+  fontSize: "0.65rem",
   fontFamily: "Arial",
   "@media (min-width:500px)": {
     fontSize: "0.9rem",

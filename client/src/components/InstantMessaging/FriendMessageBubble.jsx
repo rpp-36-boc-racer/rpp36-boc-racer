@@ -129,19 +129,17 @@ function FriendMessageBubble({
           open={popView}
           onClose={(e) => setPopView(!popView)}
           aria-labelledby="modal-zoom-img"
-          handleDownloadBtnClick={handleDownloadBtnClick}
         >
           <Box
             justifyContent="center"
-            alignItems="center"
+            align="center"
             style={{
               backgroundColor: grey[100],
               border: `1px solid ${grey[100]}`,
               borderRadius: "25px 25px 25px 25px",
               marginTop: "25px",
-              padding: "9px 14px",
-              width: "100%",
-              height: "auto",
+              maxWidth: "100%",
+              maxHeight: "100%",
             }}
           >
             <IconButton onClick={(e) => handleDownloadBtnClick(e, photo)}>
@@ -152,19 +150,15 @@ function FriendMessageBubble({
                 }}
               />
             </IconButton>
-            <Grid
-              onClick={(e) => setPopView(!popView)}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "100%",
-                overflow: "auto",
-              }}
-            >
+            <Grid onClick={(e) => setPopView(!popView)}>
               <img
                 src={photo}
                 alt="test-img-zoom"
                 data-testid="test-zoom"
                 style={{
+                  maxWidth: "95%",
+                  maxHeight: "85vh",
+                  overflow: "auto",
                   pointerEvents: "none",
                 }}
               />
