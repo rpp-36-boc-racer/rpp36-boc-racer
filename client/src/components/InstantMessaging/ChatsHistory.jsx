@@ -226,7 +226,7 @@ function ChatsHistory() {
         <Box
           sx={{
             flexGrow: 1,
-            height: 500,
+            height: "75vh",
             maxWidth: 550,
             overflowY: "scroll",
             px: 3,
