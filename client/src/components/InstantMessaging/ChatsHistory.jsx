@@ -205,7 +205,7 @@ function ChatsHistory() {
             {user && friend && (
               <>
                 <img
-                  src="https://i.ibb.co/ZK2D678/paw-messaging.png"
+                  src="https://i.ibb.co/hL9J5yM/paw-messaging.png"
                   alt="DM-img"
                   style={{
                     maxWidth: "80%",
