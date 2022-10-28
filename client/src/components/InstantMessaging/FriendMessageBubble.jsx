@@ -129,7 +129,6 @@ function FriendMessageBubble({
           open={popView}
           onClose={(e) => setPopView(!popView)}
           aria-labelledby="modal-zoom-img"
-          handleDownloadBtnClick={handleDownloadBtnClick}
         >
           <Box
             justifyContent="center"
