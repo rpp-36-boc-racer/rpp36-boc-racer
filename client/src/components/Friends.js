@@ -101,7 +101,11 @@ export default function Friends() {
 
   return (
     <WithNavBar>
+      <h3 style={{ textAlign: "center" }}>
+          Friends
+        </h3>
       <AddFriends getFriends={getFriends} />
+
       <h4
         style={{
           fontFamily: "Arial",
@@ -121,6 +125,7 @@ export default function Friends() {
           }}
         >
           {friendList.map((friend) => (
+
             <tr key={friend.username}>
               <td
                 style={{

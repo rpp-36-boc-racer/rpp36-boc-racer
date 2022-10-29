@@ -25,7 +25,6 @@ app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 app.post("/login", auth.login);
 app.post("/signup", auth.signup);
-
 app.get("/friends/", auth.requireAuth, friend.getFriends);
 app.get("/users/:username", friend.getUsers);
 app.post("/friends", friend.addFriend);
@@ -36,13 +35,6 @@ app.post("/profileimage", auth.requireAuth, routes.setProfileImage);
 app.post("/send-img", auth.requireAuth, instmsgRoutes.addMessage);
 
 app.get("/friendID/:username", friend.friendId);
-//* *********EMAIL*/
-// const mailOptions = {
-//   to: 'pawprints.notification@gmail.com', //whoever should get an email
-//   subject: 'Sending Email using Node.js',
-//   text: 'That was easy!'
-// };
-// email.sendEmail(mailOptions);
 
 // app.get("/conversations", routes.getConversations);
 
@@ -63,6 +55,20 @@ app.get("/instmsg-api/conversations/:userID/:friendID", instmsgRoutes.getChats);
 app.post("/instmsg-api/messages/addmsg", instmsgRoutes.addMessage);
 app.get("/instmsg-api/messages/:conversationId", instmsgRoutes.getMessages);
 app.get("/users-api/:userID", instmsgRoutes.getUser);
+
+const emailUser = async (userId, message) => {
+  try {
+    const user = await db.getUserInfo({ _id: userId });
+    const mailOptions = {
+      to: user.email,
+      subject: "PawPrints alert",
+      text: message,
+    };
+    email.sendEmail(mailOptions);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 /** **** socket.io ******** */
 global.onlineUsersObj = {};
@@ -102,6 +108,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-msg", (data) => {
+    if (data.photoSaved) {
+      emailUser(data.receiverId, data.message);
+    }
     console.log(
       "send msg!",
       data,

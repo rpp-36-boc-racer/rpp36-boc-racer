@@ -13,6 +13,10 @@ import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import AddReactionIcon from "@mui/icons-material/AddReaction";
+import CommentIcon from "@mui/icons-material/Comment";
+import { blue } from "@mui/material/colors";
+import clsx from "clsx";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
@@ -33,11 +37,11 @@ export default function Friends({ getFriends }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     getUsers({ name });
+    document.getElementById("myInput").value = "";
   };
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    const newfriend = e.target.id;
+  const handleAdd = (friend) => {
+    const newfriend = friend;
     addFriend({ user, newfriend });
     getUsers({ name });
     getFriends();
@@ -50,7 +54,7 @@ export default function Friends({ getFriends }) {
   const getChatHistory = async (friend) => {
     const response2 = await fetch(`friendID/${friend}`, {
       method: "GET",
-      headers: { Authentication: "Bearer " + user.token },
+      headers: { Authentication: `Bearer ${user.token}` },
     });
     if (response2.ok) {
       response2.json().then((result) => {
@@ -58,7 +62,7 @@ export default function Friends({ getFriends }) {
 
         fetch(`instmsg-api/conversations/${user._id}/${result._id}`, {
           method: "GET",
-          headers: { Authentication: "Bearer " + user.token },
+          headers: { Authentication: `Bearer ${user.token}` },
         }).then((result2) => {
           result2
             .json()
@@ -67,8 +71,8 @@ export default function Friends({ getFriends }) {
               // const { conversationId } = result3;
 
               const friendId = result._id;
-              const username = result.username;
-              const profileImage = result.profileImage;
+              const { username } = result;
+              const { profileImage } = result;
               const conversationId = result3._id;
 
               // console.log('result', result);
@@ -83,7 +87,7 @@ export default function Friends({ getFriends }) {
               fetch(`/instmsg-api/conversations`, {
                 method: "POST",
                 headers: {
-                  Authentication: "Bearer " + user.token,
+                  Authentication: `Bearer ${user.token}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
@@ -108,39 +112,80 @@ export default function Friends({ getFriends }) {
       if (person.friends && person.friends.includes(user.username)) {
         return (
           <div data-testid="user-tobe-selected-list">
-            <ListItem alignItems="flex-start">
+            <ListItem
+              alignItems="flex-start"
+              sx={{
+                backgroundColor: blue[100],
+                my: 1,
+                mx: "auto",
+                p: 2,
+                boxShadow: 2,
+              }}
+            >
               <ListItemAvatar>
                 <Avatar alt="profilepic" src={person.profileImage} />
               </ListItemAvatar>
-              <ListItemText primary={person.username} />
-              <button
+              <ListItemText
+                sx={{
+                  color: blue[800],
+                }}
+                primary={person.username}
+                secondary={person.email}
+              />
+
+              <IconButton
+                aria-label="chat with a friend"
+                size="large"
                 type="button"
                 data-testid="user-tobe-selected-button"
-                id={person.username}
-                onClick={() => chat(person.username)}
+                sx={{ display: "flex" }}
               >
-                chat
-              </button>
+                <CommentIcon
+                  fontSize="large"
+                  onClick={() => chat(person.username)}
+                  sx={{ color: blue[700] }}
+                />
+              </IconButton>
             </ListItem>
           </div>
         );
       }
       return (
         <div data-testid="user-tobe-selected-list">
-          <ListItem alignItems="flex-start">
+          <ListItem
+            alignItems="flex-start"
+            sx={{
+              backgroundColor: blue[100],
+              my: 1,
+              mx: "auto",
+              p: 2,
+              boxShadow: 2,
+            }}
+          >
             <ListItemAvatar>
               <Avatar alt="profilepic" src={person.profileImage} />
             </ListItemAvatar>
-            <ListItemText primary={person.username} />
+            <ListItemText
+              sx={{
+                color: blue[800],
+                fontWeight: "bold",
+              }}
+              primary={person.username}
+              secondary={person.email}
+            />
 
-            <button
+            <IconButton
+              aria-label="add a new friend"
+              size="large"
               type="button"
               data-testid="user-tobe-selected-button"
-              id={person.username}
-              onClick={handleAdd}
+              sx={{ display: "flex" }}
+              onClick={() => {
+                handleAdd(person.username);
+              }}
             >
-              add
-            </button>
+              <AddReactionIcon fontSize="large" sx={{ color: blue[700] }} />
+            </IconButton>
           </ListItem>
         </div>
       );
@@ -163,6 +208,7 @@ export default function Friends({ getFriends }) {
             type="text"
             data-testid="myInput"
             label="USERNAME"
+            id='myInput'
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -182,7 +228,7 @@ export default function Friends({ getFriends }) {
               sx={{ display: "flex" }}
               onClick={handleSubmit}
             >
-              <AddCircleIcon fontSize="large" />
+              <AddCircleIcon fontSize="large" sx={{ color: blue[700] }} />
             </IconButton>
           </div>
         </Box>
@@ -206,6 +252,7 @@ export default function Friends({ getFriends }) {
         type="text"
         data-testid="myInput"
         label="USERNAME"
+        id="myInput"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -225,7 +272,7 @@ export default function Friends({ getFriends }) {
           sx={{ display: "flex" }}
           onClick={handleSubmit}
         >
-          <AddCircleIcon fontSize="large" />
+          <AddCircleIcon fontSize="large" sx={{ color: blue[700] }} />
         </IconButton>
       </div>
     </Box>

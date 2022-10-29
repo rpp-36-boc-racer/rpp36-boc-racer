@@ -10,7 +10,7 @@ export default () => {
     setError(null);
     const user = person.user.username;
     const { newfriend } = person;
-
+    console.log(person)
     const response = await fetch(`friends`, {
       method: "POST",
       headers: {
