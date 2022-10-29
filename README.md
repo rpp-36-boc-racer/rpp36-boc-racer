@@ -41,15 +41,6 @@ npm start
 
 #### Friends
 
-## Contributors
-
-- [Ai Lam](https://github.com/ai-lam)
-- [Amrinder Singh](https://github.com/amrinder1650)
-- [Danting Huang](https://github.com/sdhlyhb)
-- [Noelle Tian](https://github.com/nuot)
-- [Paul Watson](https://github.com/pewiii)
-- [Ziqian Li](https://github.com/zxl3269117)
-
 ## Project Description
 
 This is a month long project where our team completed an MVP full stack application for an external user.
@@ -65,3 +56,12 @@ This is a month long project where our team completed an MVP full stack applicat
   - Noelle Tian: Add Friends
   - Paul Watson: Architecture owner. Authentication feature
   - Ziqian Li: Product manager. Build routing and picture upload, image expiration features.
+
+## Contributors
+
+- [Ai Lam](https://github.com/ai-lam) (Software Engineer)
+- [Amrinder Singh](https://github.com/amrinder1650)
+- [Danting Huang](https://github.com/sdhlyhb) (UI Owner & Software Engineer)
+- [Noelle Tian](https://github.com/nuot) (Software Engineer)
+- [Paul Watson](https://github.com/pewiii) (Architecture Owner & Software Engineer)
+- [Ziqian Li](https://github.com/zxl3269117) (Product Manager & Software Engineer)
