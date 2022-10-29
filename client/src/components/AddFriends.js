@@ -236,6 +236,7 @@ export default function Friends({ getFriends }) {
       </>
     );
   }
+
   return (
     <Box
       component="form"

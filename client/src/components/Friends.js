@@ -126,8 +126,9 @@ export default function Friends() {
             <tr key={friend.username}>
               <td
                 style={{
-                  justifyContent: "center",
+                  // justifyContent: "center",
                   display: "flex",
+                  paddingLeft: "15%",
                 }}
               >
                 <Avatar alt="profilepic" src={friend.profileImage} />{" "}
@@ -146,7 +147,7 @@ export default function Friends() {
               <td
                 style={{
                   width: "50%",
-                  textAlign: "center",
+                  textAlign: "right",
                   paddingRight: "7%",
                 }}
               >
