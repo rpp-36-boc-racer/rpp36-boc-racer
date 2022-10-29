@@ -13,6 +13,7 @@ import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import ChatIcon from "@mui/icons-material/Chat";
 import useGetUsers from "../hooks/useGetUsers";
 import WithNavBar from "./withNavBar";
 import useAddFriends from "../hooks/useAddFriends";
@@ -100,24 +101,57 @@ export default function Friends() {
 
   return (
     <WithNavBar>
-      <h3 style={{ textAlign: "center" }}>
-          Friends
-        </h3>
+      <h3 style={{ textAlign: "center", fontFamily: "Arial" }}>My Friends</h3>
       <AddFriends getFriends={getFriends} />
-      <h4 style={{ textAlign: "center" }}>My Friends</h4>
+      <h4
+        style={{
+          fontFamily: "Arial",
+        }}
+      >
+        {" "}
+        Friends{"  "}
+      </h4>
+
       {friendList && (
-        <table>
+        <table
+          style={{
+            background: "#bbdefb",
+            color: "#1565c0",
+            borderRadius: "10px",
+            width: "100%",
+            fontWeight: "bold",
+          }}
+        >
           {friendList.map((friend) => (
-            <tr key={friend}>
-              <td>
+            <tr key={friend.username}>
+              <td
+                style={{
+                  // justifyContent: "center",
+                  display: "flex",
+                  paddingLeft: "15%",
+                }}
+              >
                 <Avatar alt="profilepic" src={friend.profileImage} />{" "}
               </td>
-              <td>
+              <td
+                style={{
+                  fontSize: "15px",
+                  width: "22.5%",
+                  textAlign: "left",
+                  fontFamily: "Arial",
+                }}
+              >
                 {" "}
-                <div>{friend}</div>{" "}
+                {friend.username}{" "}
               </td>
-              <td>
-                <Button onClick={() => chat(friend)}>Chat</Button>
+              <td
+                style={{
+                  width: "50%",
+                  textAlign: "right",
+                  paddingRight: "7%",
+                }}
+              >
+                <ChatIcon onClick={() => chat(friend.username)}>Chat</ChatIcon>
               </td>
             </tr>
           ))}

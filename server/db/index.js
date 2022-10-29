@@ -60,7 +60,22 @@ exports.getFriends = async (info) => {
   if (!friendsinfo) {
     throw Error("Can't find any friends");
   }
-  return friendsinfo[0].friends.sort();
+
+  const friendsArray = friendsinfo[0].friends.sort();
+  const friendsArray2 = [];
+
+  for (let username of friendsArray) {
+    const friends = {};
+    friends.username = username;
+
+    const user = await db.User.findOne({ username: username });
+
+    friends.profileImage = user.profileImage;
+    friendsArray2.push(friends);
+  }
+
+  // return friendsinfo[0].friends.sort();
+  return friendsArray2;
 };
 
 exports.getFriendId = async (info) => {

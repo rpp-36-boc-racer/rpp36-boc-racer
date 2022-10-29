@@ -9,6 +9,13 @@ export default () => {
   const getUsers = async (user) => {
     setIsLoading(true);
     setError(null);
+
+    console.log(user.name);
+    if (!user.name) {
+      setUsers([]);
+      setIsLoading(false);
+    }
+
     const response = await fetch(`users/${user.name}`, {
       method: "GET",
       headers: {
