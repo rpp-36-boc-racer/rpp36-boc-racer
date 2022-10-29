@@ -63,31 +63,14 @@ npm start
 > - Why was it a challenge
 > - What did you learn?
 
-## Video Demo
+## Feature Demos
 
-## How does the app work?
+### Authentication
 
-> - What happens behind the scenes when the user interacts with it?
-> - OR What are all the places the data travels? What happens to that data?
-> - Optionally include a diagram
-> - How does the tech stack come together?
+### Chat List
 
-## Workflow and Key lessons from your team
+### Instant Message
 
-> - Your git workflow, style guides, commit guides, etc
-> - What did you learn from the process
-> - What were key takeaways from stand ups, code reviews, etc
-> - Writing tests
-> - Link to your project board, discuss completed tickets
+### Send Snaps
 
-## Notes from your Sprint Retro
-
-## What additional features do you plan to add, how do you plan to implement those features?
-
-## Others
-
-### For development
-
-```sh
-npx husky install
-```
+### Friends
