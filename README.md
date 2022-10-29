@@ -31,14 +31,14 @@ This is a month long project where our team completed an MVP full stack applicat
 
 ## What does the app do
 
-> A mobile first instant chat with friends to share funny moments of their pets. Upload or take a snap a photo to share. Photo will expire after 10 minutes of opening the message. System will notify sender when photo is saved by friends. User requires log in to use the app for security and privacy. Search and add friends to start a conversation.
+> A mobile first instant chat app that you can safely share awkward pet photos with friends. Upload or take a snap to share. Photo will expire after 10 minutes of reading. Got a friend who saved the awkward photo? Don't worry, the system will notify you when that happens both in the app and through email. To start using the app, sign up with a valid email address. To start a chat, search and add friends from the friend page and start the conversation!
 
 ## Tech Stack
 
-<a href="https://reactjs.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50px"/></a>
-<a href="https://nodejs.org/en/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node" width="60px"/></a>
-<a href="https://expressjs.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" width="60px"/></a>
-<a href="https://www.mongodb.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB" width="60px"/></a>
+<a href="https://reactjs.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50px"/>React</a>
+<a href="https://nodejs.org/en/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node" width="60px"/>NodeJS</a>
+<a href="https://expressjs.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" width="60px"/>ExpressJS</a>
+<a href="https://www.mongodb.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB" width="60px"/>MongoDB</a>
 
 ## Install
 
