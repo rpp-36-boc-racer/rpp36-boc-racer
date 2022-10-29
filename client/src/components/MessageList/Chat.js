@@ -48,7 +48,7 @@ export default function Chat() {
   // console.log('data in chat', data)
   return (
     <WithNavBar>
-      <div>
+      <div style={{ fontFamily: "arial" }}>
         <h3 style={{ textAlign: "center" }} data-testid="chatPanel">
           Chat
         </h3>

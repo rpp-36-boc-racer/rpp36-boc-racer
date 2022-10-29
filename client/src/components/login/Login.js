@@ -30,6 +30,7 @@ export default function Login() {
       height="100vh"
       gap={10}
       style={{}}
+      fontFamily="arial"
     >
       <Link to="/">
         <Button variant="contained">Back</Button>
