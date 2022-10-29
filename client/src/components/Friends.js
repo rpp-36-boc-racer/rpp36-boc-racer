@@ -109,7 +109,7 @@ export default function Friends() {
         }}
       >
         {" "}
-        Friends{" "}
+        Friends{"  "}
       </h4>
 
       {friendList && (
