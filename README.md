@@ -1,15 +1,14 @@
-run npm install
-
 # PawPrints
 
 > A mobile web app that you can safely share pet photos with friends. Sending awkward photos? Don't worry, they will disappear.
 
 ## Tech Stack
 
-<a href="https://reactjs.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50px"/>React</a>
-<a href="https://nodejs.org/en/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node" width="60px"/>NodeJS</a>
-<a href="https://expressjs.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" width="60px"/>ExpressJS</a>
-<a href="https://www.mongodb.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB" width="60px"/>MongoDB</a>
+<a href="https://reactjs.org/" target="blank">React</a>
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+<a href="https://nodejs.org/en/" target="blank">NodeJS</a>
+<a href="https://expressjs.com/" target="blank">ExpressJS</a>
+<a href="https://www.mongodb.com/" target="blank">MongoDB</a>
 
 ## Feature Demos
 
