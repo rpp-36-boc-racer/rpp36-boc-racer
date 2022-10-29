@@ -6,6 +6,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Icon from "@mui/material/Icon";
 import { IconButton } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CheckIcon from "@mui/icons-material/Check";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
@@ -32,7 +33,7 @@ export default function Friends({ getFriends }) {
 
   useEffect(() => {
     getUsers({ name });
-  }, [name]);
+  }, [usersJson, name]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -231,7 +232,7 @@ export default function Friends({ getFriends }) {
               sx={{ display: "flex" }}
               onClick={handleSubmit}
             >
-              <AddCircleIcon fontSize="large" sx={{ color: blue[700] }} />
+              <CheckIcon fontSize="large" sx={{ color: blue[700] }} />
             </IconButton>
           </div>
         </Box>
@@ -277,7 +278,7 @@ export default function Friends({ getFriends }) {
           sx={{ display: "flex" }}
           onClick={handleSubmit}
         >
-          <AddCircleIcon fontSize="large" sx={{ color: blue[700] }} />
+          <CheckIcon fontSize="large" sx={{ color: blue[700] }} />
         </IconButton>
       </div>
     </Box>
