@@ -32,12 +32,14 @@ export default function Friends({ getFriends }) {
 
   useEffect(() => {
     getUsers({ name });
-  }, [usersJson]);
+  }, [name]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log('name', name);
     getUsers({ name });
-    document.getElementById("myInput").value = "";
+    // document.getElementById("myInput").value = "";
+    setUsername("");
   };
 
   const handleAdd = (friend) => {
@@ -218,6 +220,7 @@ export default function Friends({ getFriends }) {
             }}
             variant="outlined"
             placeholder="Search for new friends.."
+            value={name}
             onChange={(e) => setUsername(e.target.value)}
           />
           <div style={{ width: "20%", display: "flex" }}>
@@ -263,6 +266,7 @@ export default function Friends({ getFriends }) {
         }}
         variant="outlined"
         placeholder="Search for new friends.."
+        value={name}
         onChange={(e) => setUsername(e.target.value)}
       />
       <div style={{ width: "20%", display: "flex" }}>
