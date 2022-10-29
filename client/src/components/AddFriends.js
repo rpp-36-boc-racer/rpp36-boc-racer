@@ -115,10 +115,10 @@ export default function Friends({ getFriends }) {
             <ListItem
               alignItems="flex-start"
               sx={{
-                backgroundColor: blue[100],
-                my: 1,
+                // backgroundColor: blue[100],
+                // my: 1,
                 mx: "auto",
-                p: 2,
+                // p: 2,
                 boxShadow: 2,
               }}
             >
@@ -135,13 +135,13 @@ export default function Friends({ getFriends }) {
 
               <IconButton
                 aria-label="chat with a friend"
-                size="large"
+                // size="large"
                 type="button"
                 data-testid="user-tobe-selected-button"
                 sx={{ display: "flex" }}
               >
                 <CommentIcon
-                  fontSize="large"
+                  // fontSize="large"
                   onClick={() => chat(person.username)}
                   sx={{ color: blue[700] }}
                 />
@@ -155,10 +155,10 @@ export default function Friends({ getFriends }) {
           <ListItem
             alignItems="flex-start"
             sx={{
-              backgroundColor: blue[100],
-              my: 1,
+              // backgroundColor: blue[100],
+              // my: 1,
               mx: "auto",
-              p: 2,
+              // p: 2,
               boxShadow: 2,
             }}
           >
@@ -176,7 +176,7 @@ export default function Friends({ getFriends }) {
 
             <IconButton
               aria-label="add a new friend"
-              size="large"
+              // size="large"
               type="button"
               data-testid="user-tobe-selected-button"
               sx={{ display: "flex" }}
@@ -184,7 +184,7 @@ export default function Friends({ getFriends }) {
                 handleAdd(person.username);
               }}
             >
-              <AddReactionIcon fontSize="large" sx={{ color: blue[700] }} />
+              <AddReactionIcon sx={{ color: blue[700] }} />
             </IconButton>
           </ListItem>
         </div>
