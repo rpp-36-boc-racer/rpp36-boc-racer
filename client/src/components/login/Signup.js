@@ -61,6 +61,7 @@ export default function Signup() {
       height="100vh"
       gap={10}
       style={{}}
+      fontFamily="arial"
     >
       <Link to="/">
         <Button variant="contained">Back</Button>
