@@ -11,24 +11,6 @@ run npm install
 <a href="https://expressjs.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express" width="60px"/>ExpressJS</a>
 <a href="https://www.mongodb.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB" width="60px"/>MongoDB</a>
 
-## Install
-
-```sh
-npm install
-npm run build
-npm start
-```
-
-## Technical Challenges and research you anticipated
-
-### instant messaging
-
-> Without refreshing page to send instant messages between 2 users. Research on socket.io.
-
-### Consistent Styling
-
-> Quick and effectively style the app as a mobile-friendly web app. Research on Material UI.
-
 ## Feature Demos
 
 #### Authentication
@@ -40,6 +22,14 @@ npm start
 #### Send Snaps
 
 #### Friends
+
+## Install
+
+```sh
+npm install
+npm run build
+npm start
+```
 
 ## Project Description
 
@@ -57,10 +47,20 @@ This is a month long project where our team completed an MVP full stack applicat
   - Paul Watson: Architecture owner. Authentication feature
   - Ziqian Li: Product manager. Build routing and picture upload, image expiration features.
 
+## Technical Challenges and research you anticipated
+
+#### instant messaging
+
+> Without refreshing page to send instant messages between 2 users. Research on socket.io.
+
+#### Consistent Styling
+
+> Quick and effectively style the app as a mobile-friendly web app. Research on Material UI.
+
 ## Contributors
 
 - [Ai Lam](https://github.com/ai-lam) (Software Engineer)
-- [Amrinder Singh](https://github.com/amrinder1650)
+- [Amrinder Singh](https://github.com/amrinder1650) (Software Engineer)
 - [Danting Huang](https://github.com/sdhlyhb) (UI Owner & Software Engineer)
 - [Noelle Tian](https://github.com/nuot) (Software Engineer)
 - [Paul Watson](https://github.com/pewiii) (Architecture Owner & Software Engineer)
