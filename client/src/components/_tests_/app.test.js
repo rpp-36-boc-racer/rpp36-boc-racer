@@ -144,6 +144,7 @@ describe("Auth test", () => {
     expect(screen.queryByTestId("signup-username")).toBeInTheDocument();
     expect(screen.queryByTestId("signup-email")).toBeInTheDocument();
     expect(screen.queryByTestId("signup-password")).toBeInTheDocument();
+    expect(screen.queryByTestId("signup-password2")).toBeInTheDocument();
     const submitButton = screen.getByTestId("signup-submit");
     await act(() => fireEvent.click(submitButton));
     expect(testUser.username).toBe("somebody");
