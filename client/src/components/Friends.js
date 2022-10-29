@@ -101,7 +101,7 @@ export default function Friends() {
 
   return (
     <WithNavBar>
-      <h3 style={{ textAlign: "center" }}>Friends</h3>
+      <h3 style={{ textAlign: "center", fontFamily: "Arial" }}>My Friends</h3>
       <AddFriends getFriends={getFriends} />
       <h4
         style={{
@@ -147,6 +147,7 @@ export default function Friends() {
                 style={{
                   width: "50%",
                   textAlign: "center",
+                  paddingRight: "7%",
                 }}
               >
                 <ChatIcon onClick={() => chat(friend.username)}>Chat</ChatIcon>

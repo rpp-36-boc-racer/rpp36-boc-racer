@@ -119,7 +119,7 @@ export default function Friends({ getFriends }) {
                 // my: 1,
                 mx: "auto",
                 // p: 2,
-                boxShadow: 2,
+                boxShadow: 1,
               }}
             >
               <ListItemAvatar>
@@ -159,7 +159,7 @@ export default function Friends({ getFriends }) {
               // my: 1,
               mx: "auto",
               // p: 2,
-              boxShadow: 2,
+              boxShadow: 1,
             }}
           >
             <ListItemAvatar>
