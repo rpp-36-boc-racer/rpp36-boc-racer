@@ -2,7 +2,7 @@ run npm install
 
 # PawPrints
 
-> A mobile web app that you can safely share with pet photos with friends. Sending awkward photos? Don't worry, it will disappear.
+> A mobile web app that you can safely share pet photos with friends. Sending awkward photos? Don't worry, they will disappear.
 
 ## Tech Stack
 
