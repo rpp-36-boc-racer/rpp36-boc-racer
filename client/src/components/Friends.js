@@ -101,6 +101,7 @@ export default function Friends() {
 
   return (
     <WithNavBar>
+      <h3 style={{ textAlign: "center" }}>Friends</h3>
       <AddFriends getFriends={getFriends} />
       <h4
         style={{
@@ -110,6 +111,7 @@ export default function Friends() {
         {" "}
         Friends{" "}
       </h4>
+
       {friendList && (
         <table
           style={{

@@ -65,6 +65,13 @@ exports.getConversationByUser = async (req, res) => {
     const sortedConvos = unsortedConvos.sort((a, b) => {
       return b.epochTime - a.epochTime;
     });
+
+    for (var i = sortedConvos.length - 1; i > -1; i--) {
+      if (!sortedConvos[i].text) {
+        sortedConvos.splice(i, 1);
+      }
+    }
+
     res.status(200).send(sortedConvos);
   } catch (err) {
     console.error(err);
