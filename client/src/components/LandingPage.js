@@ -13,6 +13,7 @@ export default function LandingPage() {
       height="100vh"
       width="100vw"
       gap={5}
+      fontFamily="arial"
     >
       <SvgIcon component={PawPrintIcon} />
       <h2>Welcome to PawPrints</h2>
