@@ -10,7 +10,6 @@ export default () => {
     setIsLoading(true);
     setError(null);
 
-    console.log(user.name);
     if (!user.name) {
       setUsers([]);
       setIsLoading(false);

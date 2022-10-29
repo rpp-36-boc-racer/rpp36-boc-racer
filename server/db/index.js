@@ -48,6 +48,7 @@ exports.getUsers = async (info) => {
     username: user.username,
     profileImage: user.profileImage,
     friends: user.friends,
+    email: user.email,
   }));
   return users;
 };
