@@ -32,11 +32,6 @@
 - Snap button is disabled when there is an image selected
 - After sent, image will disappear after 10 minutes since receiver opens the message
 
-<p float="left">
-  <img src="https://media.giphy.com/media/ovnEGJHbQ9qR56Y3cy/giphy.gif" />
-  <img src="https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif" />
-</p>
-
 Send photos | Photo expiration
 --- | ---
 ![send-photos](https://media.giphy.com/media/ovnEGJHbQ9qR56Y3cy/giphy.gif "Send photos") | ![photo-expiration](https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif "Photo expiration")
