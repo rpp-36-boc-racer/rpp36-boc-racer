@@ -24,7 +24,17 @@
 
 #### Instant Message
 
-#### Send Snaps
+#### Sending photos and photo expiration
+
+- Users can take a photo using camera or upload a picture from local device
+- Send is disabled when no image is selected
+- A preview allows user to confirm image that is to be sent
+- Snap button is disabled when there is an image selected
+- After sent, image will disappear after 10 minutes since receiver opens the message
+
+Send photos | Photo expiration
+--- | ---
+![send-photos](https://media.giphy.com/media/ovnEGJHbQ9qR56Y3cy/giphy.gif "Send photos") | ![photo-expiration](https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif "Photo expiration")
 
 #### Friends
 
