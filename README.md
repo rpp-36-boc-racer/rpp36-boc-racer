@@ -23,8 +23,11 @@
 ## Feature Demos
 
 #### Authentication
+built by [Paul Watson](https://github.com/pewiii)
 
 #### Chat List
+built by [Ai Lam](https://github.com/ai-lam)
+
 
 #### Instant Message 
 built by [Danting Huang](https://github.com/sdhlyhb)
@@ -49,7 +52,11 @@ Send photos | Photo expiration
 --- | ---
 ![send-photos](https://media.giphy.com/media/ovnEGJHbQ9qR56Y3cy/giphy.gif "Send photos") | ![photo-expiration](https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif "Photo expiration")
 
-#### Friends
+#### Search and add friends
+built by [Noelle Tian](https://github.com/nuot)
+
+#### Friends List
+built by [Amrinder Singh](https://github.com/amrinder1650)
 
 ## Install
 
@@ -98,11 +105,11 @@ This is a month long project where our team completed an MVP full stack applicat
 - Last week is app polish including bug fixes and UI finalization
 - Personal goals as following:
   - Ai Lam: Message List
-  - Amrinder Singh: Friends list and work on chat feature
+  - Amrinder Singh: Friends list
   - Danting Huang: Instant messaging
   - Noelle Tian: Add Friends
-  - Paul Watson: Architecture owner. Authentication feature
-  - Ziqian Li: Product manager. Build routing and picture upload, image expiration features.
+  - Paul Watson: Authentication feature
+  - Ziqian Li: Build routing and picture upload, image expiration features.
 
 ## Technical Challenges and research you anticipated
 
