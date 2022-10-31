@@ -13,7 +13,7 @@
 ![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![JWT](https://img.shields.io/badge/JSON%20Web%20Tokens-000000?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=white)
-![Github-Actions](https://img.shields.io/badge/Github%20Actions-000000?style=for-the-badge&logo=Github-Actions&logoColor=2088FF)
+![Github-Actions](https://img.shields.io/badge/Github%20Actions-2088FF?style=for-the-badge&logo=Github-Actions&logoColor=white)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Testing-Library](https://img.shields.io/badge/-Testing%20Library-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
 ![Socket.io](https://img.shields.io/badge/Socket.io-fff.svg?style=for-the-badge&logo=Socket.io&logoColor=black)
