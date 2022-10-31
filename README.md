@@ -32,7 +32,7 @@
 - Snap button is disabled when there is an image selected
 - After sent, image will disappear after 10 minutes since receiver opens the message
 
-<img src="https://media.giphy.com/media/1LNfZAEHjvyCz4bo8F/giphy.gif" />
+<img src="https://media.giphy.com/media/1LNfZAEHjvyCz4bo8F/giphy.gif" width="30%" />
 
 #### Friends
 
