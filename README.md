@@ -26,9 +26,18 @@
 
 #### Chat List
 
-#### Instant Message
+#### Instant Message 
+built by [Danting Huang](https://github.com/sdhlyhb)
+
+- Users can start real-time chat with friends with text messages and photos
+- Send is disable if no message is entered
+- Both receiver and sender can view the photo in a modal for a zoomed version
+- A download button allows the receiver to download the photo shared by friends (right click "save image as..." option is disabled)
+- Upon clicking the download button, the photo will be download to local and a alert message will appear showing that the receiver has saved the photo
+- Click download button will also trigger email notification showing the photo has been saved by receiver (implemented by [Paul Watson](https://github.com/pewiii))  
 
 #### Sending photos and photo expiration
+built by [Ziqian Li](https://github.com/zxl3269117)
 
 - Users can take a photo using camera or upload a picture from local device
 - Send is disabled when no image is selected
@@ -44,11 +53,40 @@ Send photos | Photo expiration
 
 ## Install
 
-```sh
+1. Fork the project and clone to your local repository
+2. Install all the packages and dependencies by running:
+
+```jsx
 npm install
+```
+
+3. Run webpack at local development mode:
+
+```jsx
 npm run build
+```
+
+4. Start server:
+
+```jsx
 npm start
 ```
+
+5. create `.env` file and add the following varialbles:
+```jsx
+SECRET="abc"
+AWS_BUCKET_NAME=YOUR_BUCKET_NAME
+AWS_BUCKET_REGION=YOUR_BUCKET_REGION
+AWS_ACCESS_KEY=YOUR_ACCESS_KEY
+AWS_SECRET_KEY=YOUR_SECRET_KEY
+EMAIL="pawprints.notification@gmail.com"
+EMAIL_PASSWORD="lpenritakquzjohk"
+S3_BUCKET=YOUR_S3_BUCKET
+REGION=YOUR_REGION
+ACCESS_KEY=YOUR_ACCESS_KEY
+SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+```
+6. Visit [http://localhost:3000](http://localhost:3000) to start the page
 
 ## Project Description
 
