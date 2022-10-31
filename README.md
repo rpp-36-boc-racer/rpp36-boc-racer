@@ -37,6 +37,8 @@
   <img src="https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif" />
 </p>
 
+![send-photos](https://media.giphy.com/media/ovnEGJHbQ9qR56Y3cy/giphy.gif "Send photos") ![photo-expiration](https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif "Photo expiration")
+
 #### Friends
 
 ## Install
