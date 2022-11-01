@@ -34,9 +34,15 @@ built by [Danting Huang](https://github.com/sdhlyhb)
 
 - Users can start real-time chat with friends with text messages and photos
 - Send is disable if no message is entered
+
+![real-time-chat](https://media.giphy.com/media/0nhZu8giRi85fWtgyu/giphy-downsized-large.gif "real-time-chat")
 - Both receiver and sender can view the photo in a modal for a zoomed version
 - A download button allows the receiver to download the photo shared by friends (right click "save image as..." option is disabled)
+
+![photo-zoom-modal](https://media.giphy.com/media/UgzIF9HgOsB049S9OO/giphy.gif "photo-zoom-modal")
 - Upon clicking the download button, the photo will be download to local and a alert message will appear showing that the receiver has saved the photo
+
+![download-click](https://media.giphy.com/media/2bWziGFUaFiSP288Ab/giphy.gif "download-click")
 - Click download button will also trigger email notification showing the photo has been saved by receiver (implemented by [Paul Watson](https://github.com/pewiii))  
 
 #### Sending photos and photo expiration
