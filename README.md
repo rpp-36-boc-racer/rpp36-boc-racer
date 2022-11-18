@@ -34,6 +34,11 @@ Sign up | Log in
 
 #### Chat List
 built by [Ai Lam](https://github.com/ai-lam)
+- Message is shown in reverse chronological order
+- Unread message is bold
+- Chat friend's username, last message and time from last message is shown
+
+![message-list](https://media.giphy.com/media/wWmXWF6rmKnFcrJIuu/giphy.gif)
 
 
 #### Instant Message 
@@ -65,11 +70,11 @@ Send photos | Photo expiration
 --- | ---
 ![send-photos](https://media.giphy.com/media/ovnEGJHbQ9qR56Y3cy/giphy.gif "Send photos") | ![photo-expiration](https://media.giphy.com/media/CTXZt7JE8CoPpvRT4c/giphy.gif "Photo expiration")
 
-#### Search and add friends
-built by [Noelle Tian](https://github.com/nuot)
+#### My Friends Page
+- Search and add friends built by [Noelle Tian](https://github.com/nuot)
+- Friend list built by [Amrinder Singh](https://github.com/amrinder1650)
 
-#### Friends List
-built by [Amrinder Singh](https://github.com/amrinder1650)
+![my-friends-page](https://media.giphy.com/media/3ebHmX8BLIEEswus11/giphy.gif)
 
 ## Install
 
