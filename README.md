@@ -24,6 +24,13 @@
 
 #### Authentication
 built by [Paul Watson](https://github.com/pewiii)
+- Users have to sign up to use the app
+- Sign-up requires an unique username, an unique email address, a strong password and a profile image
+- The profile image can be selected from pre-existing stocks or can upload by user
+
+Sign up | Log in
+--- | ---
+![sign-up](https://media.giphy.com/media/0fJyQUXHr5aGoLYNOs/giphy.gif) | ![log-in](https://media.giphy.com/media/FVAakof3JFgvR3tAXO/giphy.gif)
 
 #### Chat List
 built by [Ai Lam](https://github.com/ai-lam)
